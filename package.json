@@ -1,0 +1,27 @@
+{
+  "name": "fittrack_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "npm run dev --prefix client",
+    "server": "npm run devStart --prefix server",
+    "devSet": "concurrently \"npm run client\" \"npm run server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DarrylAdigwu/fittrack_app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/DarrylAdigwu/fittrack_app/issues"
+  },
+  "homepage": "https://github.com/DarrylAdigwu/fittrack_app#readme",
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
