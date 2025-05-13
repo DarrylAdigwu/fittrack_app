@@ -3,9 +3,7 @@ services:
     name: client
     runtime: docker
     dockerfilePath: ./client/Dockerfile
-    port: 80
   - type: web
     name: server
     runtime: docker
     dockerfilePath: ./server/Dockerfile
-    port: 3000
