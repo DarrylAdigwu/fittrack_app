@@ -1,11 +1,11 @@
 services:
   - type: web
     name: client
-    env: docker
+    runtime: docker
     dockerfilePath: ./client/Dockerfile
     port: 80
   - type: web
     name: server
-    env: docker
+    runtime: docker
     dockerfilePath: ./server/Dockerfile
     port: 3000
