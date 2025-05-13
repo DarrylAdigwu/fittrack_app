@@ -6,6 +6,7 @@ import cors from "cors";
 import helmet from "helmet";
 import session from "express-session";
 import MySQLStore from "express-mysql-session";
+import apiRouter from "./routes/api.js"
 
 // Create Web App
 const server = express();
@@ -13,6 +14,18 @@ const server = express();
 // Configure .env
 dotenv.config();
 
+// Middleware for web security
+server.use(helmet());
+
+// Middleware for cross-origin
+server.use(cors({
+  origin: `http://localhost`,
+  credentials: true,
+}));
+
+
+//API routes
+server.use("/api", apiRouter)
 
 // Global Error Handling
 server.use((err, req, res, next) => {
