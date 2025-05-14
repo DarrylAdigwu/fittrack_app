@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router";
 
 export async function loader({ request }) {
   try{
-    const response = await fetch(`https://fittrack-server-api.onrender.com`, {
+    const response = await fetch(`https://fittrack-server-api.onrender.com/api`, {
       method: "GET",
       credentials: "include",
       headers: {
