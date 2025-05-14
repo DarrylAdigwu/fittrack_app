@@ -19,7 +19,7 @@ server.use(helmet());
 
 // Middleware for cross-origin
 server.use(cors({
-  origin: `http://localhost`,
+  origin: `https://fittrack-stage.onrender.com`,
   credentials: true,
 }));
 
