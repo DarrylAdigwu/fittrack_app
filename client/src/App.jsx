@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } 
 import Layout from "./components/Layout";
 import Home from './pages/Home';
 import About from './pages/About';
+import Error from './pages/Error'; 
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />}>
@@ -14,6 +15,12 @@ const router = createBrowserRouter(createRoutesFromElements(
       path="about"
       element={<About />}
     />
+
+    {/* Error page */} 
+    {/* <Route 
+      path="*"
+      element={<Error />}
+    /> */}
   </Route>
 ));
 
