@@ -25,7 +25,7 @@ server.use(cors({
 
 
 //API routes
-server.use("/api", apiRouter)
+server.use("/api", apiRouter);
 
 // Global Error Handling
 server.use((err, req, res, next) => {
