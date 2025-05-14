@@ -19,7 +19,7 @@ server.use(helmet());
 
 // Middleware for cross-origin
 server.use(cors({
-  origin: `${process.env.DOMAIN}`,
+  origin: process.env.DOMAIN,
   credentials: true,
 }));
 
