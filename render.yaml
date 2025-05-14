@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: client
-    runtime: docker
-    dockerfilePath: ./client/Dockerfile
-  - type: web
-    name: server
-    runtime: docker
-    dockerfilePath: ./server/Dockerfile
