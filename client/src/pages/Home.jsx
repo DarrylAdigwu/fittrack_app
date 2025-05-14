@@ -1,15 +1,6 @@
 import React from "react";
-import { NavLink, useLoaderData } from "react-router";
+import { NavLink } from "react-router";
 import "../assets/css/home.css";
-
-/*export async function loader() {
-  const response = await fetch("http://localhost:8080/");
-  if(!response.ok) {
-    throw new Error(`Error status:${response.status}`);
-  }
-  const data = await response.json();
-  return data.fruits;
-}*/
 
 export default function Home() {
   return(
