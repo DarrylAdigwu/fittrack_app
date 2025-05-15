@@ -6,8 +6,6 @@ export async function sendData(route, allData, prevUrl = null) {
     const params = new URL(prevUrl.href);
     redirectParam = params.searchParams.get("redirect");
   }
-
-  console.log(`https://fittrack-server-api.onrender.com/api/${route}`)
   
   try {
     const response = await fetch(`https://fittrack-server-api.onrender.com/api/${route}`, {
