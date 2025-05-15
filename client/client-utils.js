@@ -7,10 +7,10 @@ export async function sendData(route, allData, prevUrl = null) {
     redirectParam = params.searchParams.get("redirect");
   }
 
-  console.log(process.env.VITE_EXPRESS_API`/${route}`)
+  console.log(`"https://fittrack-server-api.onrender.com/api/${route}`)
   
   try {
-    const response = await fetch(`${process.env.VITE_EXPRESS_API}/${route}`, {
+    const response = await fetch(`"https://fittrack-server-api.onrender.com/api/${route}`, {
     method: "POST",
     credentials: "include",
     headers: {
