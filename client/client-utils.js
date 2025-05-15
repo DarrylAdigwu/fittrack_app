@@ -7,10 +7,10 @@ export async function sendData(route, allData, prevUrl = null) {
     redirectParam = params.searchParams.get("redirect");
   }
 
-  console.log(`${import.meta.env.VITE_EXPRESS_API}/${route}`)
+  console.log(`${process.env.VITE_EXPRESS_API}/${route}`)
   
   try {
-    const response = await fetch(`${import.meta.env.VITE_EXPRESS_API}/${route}`, {
+    const response = await fetch(`${process.env.VITE_EXPRESS_API}/${route}`, {
     method: "POST",
     credentials: "include",
     headers: {
