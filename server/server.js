@@ -26,7 +26,7 @@ server.set("trust proxy", 1);
 
 // Middleware for cross-origin
 server.use(cors({
-  origin: "https://fittrack-stage.onrender.com",
+  origin: process.env.DOMAIN,
   credentials: true,
 }));
 
