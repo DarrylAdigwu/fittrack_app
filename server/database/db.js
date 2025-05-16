@@ -7,11 +7,11 @@ dotenv.config();
 
 /* Configure Database */
 export const db = mysql.createPool({
-  host: "database-fittrack.cvsqgq8aamla.us-west-2.rds.amazonaws.com",
+  host: "fittrack.cvsqgq8aamla.us-west-2.rds.amazonaws.com",
   port: 3306,
   user: "admin",
   password: "fitTrackdb",
-  database: "fittrackDB",
+  database: "fittrackdb",
   connectionLimit: 10,
   waitForConnections: true,
   maxIdle: 10,
