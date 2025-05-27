@@ -1,5 +1,6 @@
 import express from "express";
-import { registerUser } from "../database/db.js";
+import { registerUser, getUserByUsername } from "../database/db.js";
+import { checkString } from "../server-utils.js";
 
 // Create Router
 const router = express.Router();
@@ -13,6 +14,38 @@ router.route("/register")
   const confirmPass = allRegisterData["confirm-password"];
  
   if(req.method === "POST") {
+
+    // Validate register form
+    if(!username) {
+      return res.json({
+        serverError: {"invalidUsername": "Username is required"}
+      });
+    }
+    
+    if(checkString(username) === null) {
+      return res.json({
+        serverError: {"invalidChar": "Username cannot not contain special characters"}
+      });
+    }
+    
+    if(!password) {
+      return res.json({
+        serverError: {"invalidPassword": "Password is required"}
+      });
+    }
+    
+    if(password !== confirmPass) {
+      return res.json({
+        serverError: {"invalidConfirmPass": "Passwords must match"}
+      });
+    }
+
+    if(await getUserByUsername(username, "username") !== false) {
+      return res.json({
+        serverError: {"invalidUsername": "Username already exists"}
+      })
+    }
+
     // If registration is valid
     try {
       await registerUser(username, password);

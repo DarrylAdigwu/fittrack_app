@@ -36,3 +36,38 @@ export async function registerUser(username, password) {
     connection.release();
   }
 }
+
+
+// Get user by username
+export async function getUserByUsername(username, info = "id") {
+  const connection = await db.getConnection();
+  
+  try {
+    // SQL query statement
+    let getUserQuery = `SELECT id, username 
+            FROM users 
+            WHERE username = ?`;
+    
+    // Parameters to be added to query
+    let getUserInsert = [username];
+    
+    // Format escaped query
+    getUserQuery = mysql.format(getUserQuery, getUserInsert);
+    
+    const [userQuery] = await db.query(getUserQuery);
+    
+    console.log(userQuery)
+    if(!userQuery[0]) {
+      return false
+    } 
+    if(info === "username") {
+      return userQuery[0].username
+    } else {
+      return userQuery[0].id
+    }
+  } catch(err) {
+    console.error("Get user by username error:", err);
+  } finally {
+    connection.release();
+  }
+}
