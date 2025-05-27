@@ -4,7 +4,8 @@ import Layout from "./components/Layout";
 import Home from './pages/Home';
 import About from './pages/About';
 import Error from './pages/Error';
-import Register, { action as registerAction} from './pages/Register'; 
+import Register, { action as registerAction} from './pages/Register';
+import Login, { action as loginAction} from "./pages/Login";
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />}>
@@ -20,6 +21,11 @@ const router = createBrowserRouter(createRoutesFromElements(
       path="register"
       element={<Register />}
       action={registerAction}
+    />
+    <Route 
+      path="login"
+      element={<Login />}
+      action={loginAction}
     />
 
     {/* Error page */} 
