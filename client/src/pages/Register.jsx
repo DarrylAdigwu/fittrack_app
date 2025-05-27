@@ -12,15 +12,24 @@ export async function action({ request }) {
   // Send Form data to server
   const sendFormData = await sendData("register", allData);
 
+  // All server side error validation responses
+  if(sendFormData.serverError) {
+    return sendFormData.serverError;
+  }
+
   // If all valid, return valid object for page redirect
   if(sendFormData.serverCheck.valid) {
-    return "sucess";
+    return redirect("/login");
   }
 }
 
 /** React Component **/
 export default function Register () {
   const actionData = useActionData();
+  const navigate = useNavigate();
+  const isSubmitting = navigate.state === 'submitting'; 
+
+  const actionKey = actionData ? Object.keys(actionData) : null;
  
   return(
     <div className="container register-container">
@@ -37,14 +46,17 @@ export default function Register () {
           */}
           <label htmlFor="username">Username:</label>
           <input name="username" type="text" id="username" placeholder="Username" autoComplete="on" autoFocus  />
+          {actionData && actionKey == "invalidUsername" || actionKey == "invalidChar" ? <span className="invalid">{actionData[actionKey]}</span> : null}
           
           <label htmlFor="reg-password">Password:</label>
           <input name="password" type="password" id="reg-password" placeholder="Password" autoComplete="off" />
+          {actionData && actionKey == "invalidPassword" ? <span className="invalid">{actionData[actionKey]}</span> : null}
           
           <label htmlFor="confirm-password">Confirm Password:</label>
           <input name="confirm-password" type="password" id="confirm-password" placeholder="Password" autoComplete="off" />
+          {actionData && actionKey == "invalidConfirmPass" ? <span className="invalid">{actionData[actionKey]}</span> : null}
           
-          <button type="submit">Create account</button>
+          <button type="submit">{isSubmitting ? "Submitting..." : "Create account"}</button>
         </Form>
         <aside>Already have an account? <NavLink to="/login">Log in</NavLink></aside>
       </section>
