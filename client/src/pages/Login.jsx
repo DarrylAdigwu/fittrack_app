@@ -2,6 +2,13 @@ import React from "react";
 import { useActionData, Form, NavLink } from "react-router";
 
 export async function action({ request }) {
+  // Form data
+  const formData = await request.formData();
+  const allData = Object.fromEntries(formData);
+  const url = new URL(request.url);
+  
+  // Send form data to server
+  const sendFormData = await sendData("login", allData);
 
 }
 
