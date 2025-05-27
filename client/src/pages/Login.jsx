@@ -27,7 +27,7 @@ export default function Login() {
           <label htmlFor="login-password"/>
           <input name="password" type="password" id="login-password" placeholder="Password" autoComplete="off" required/>
 
-          <button>"Log in"</button>
+          <button>Log in</button>
         </Form>
         <aside>Don't have an account? <NavLink to="/register">Register here</NavLink></aside>
       </section>
