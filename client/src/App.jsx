@@ -4,7 +4,7 @@ import Layout from "./components/Layout";
 import Home from './pages/Home';
 import About from './pages/About';
 import Error from './pages/Error';
-import Register, { action as registerAction} from './pages/Register';
+import Register, { action as registerAction} from './pages/Register'; 
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />}>
