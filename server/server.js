@@ -48,8 +48,8 @@ server.use(session({
   saveUninitialized: false,
   store: sessionStore,
   cookie: {
-    httpOnly: false,
-    secure: false,
+    httpOnly: true,
+    secure: true,
     maxAge: 1000 * 60 * 60,
   },
 }));
