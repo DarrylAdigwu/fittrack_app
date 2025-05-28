@@ -47,12 +47,13 @@ server.use(session({
   resave: false,
   saveUninitialized: false,
   store: sessionStore,
+  rolling: true,
   cookie: {
     httpOnly: true,
     secure: true,
     sameSite: "none",
     maxAge: 1000 * 60 * 60,
-    domain: "fittrack*.onrender.com"
+    domain: ".onrender.com"
   },
 }));
 
