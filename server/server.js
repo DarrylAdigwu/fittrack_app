@@ -35,6 +35,25 @@ server.use(express.static("public"));
 server.use(express.json());
 server.use(express.urlencoded({extended:true}));
 
+//Create SQL connection pool
+const SQLStore = MySQLStore(session);
+
+// Create MySQLStore 
+const sessionStore = new SQLStore({}, db);
+
+// Create Session
+server.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: sessionStore,
+  cookie: {
+    httpOnly: false,
+    secure: false,
+    maxAge: 1000 * 60 * 60,
+  },
+}));
+
 // API routes
 server.use("/api", apiRouter);
 
