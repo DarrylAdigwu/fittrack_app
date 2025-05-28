@@ -70,4 +70,55 @@ export async function getUserByUsername(username, info = "id") {
   } finally {
     connection.release();
   }
-}
+};
+
+
+/* Authenticate user login */
+export async function authLogin(username, password) {
+  const connection = await db.getConnection();
+  
+  try {
+    let hashResult;
+    let findUser;
+  
+    // Search for matching username
+    try {
+      [findUser] = await db.query(
+              `SELECT username, hash
+              FROM users 
+              WHERE username = ?`, 
+              [username]
+      );
+      
+    } catch (err) {
+      console.error("Error:" , err)
+    }
+  
+    
+    if(!findUser[0]) {
+      return "Invalid username";
+    } 
+  
+    // Verify password
+    try {
+      if(await argon2.verify(findUser[0].hash, password)) {
+        hashResult =  true;
+      } else {
+        hashResult =  false;
+      }
+    } catch(err) {
+      console.error('Error:', err)
+    }
+  
+    // Return boolean based on information
+    if(findUser[0].username === username && hashResult) {
+      return true;
+    } else if(!hashResult){
+      return "Password does not match";
+    } 
+  } catch(err) {
+    console.error("Get user by username error:", err);
+  } finally {
+    connection.release();
+  }
+};

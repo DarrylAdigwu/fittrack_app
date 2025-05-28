@@ -1,8 +1,14 @@
 /* Send form data to server */
-export async function sendData(route, allData) {
+export async function sendData(route, allData, prevUrl = null) {
+  let prevParam;
+
+  if(prevUrl) {
+    const params = new URL(prevUrl.href);
+    prevParam = params.searchParams.get("redirect");
+  }
 
   try {
-    const response = await fetch(`https://fittrack-server-api.onrender.com/api/${route}`, {
+    const response = await fetch(`http://localhost:3000/api/${route}`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -10,12 +16,17 @@ export async function sendData(route, allData) {
     },
     body: JSON.stringify({
       allData,
+      redirectParam: {prevUrl, prevParam}
     })
   });
     
   const responseData = await response.json();
-  
-  return responseData;
+
+  if(responseData && responseData.redirectUrl) {
+    //return window.location.replace(`${responseData.redirectUrl}`);
+  } else {
+    return responseData;
+  };
 
   } catch(err) {
   console.error("Error:", err)
