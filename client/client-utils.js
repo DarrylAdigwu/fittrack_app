@@ -8,7 +8,7 @@ export async function sendData(route, allData, prevUrl = null) {
   }
 
   try {
-    const response = await fetch(`http://localhost:3000/api/${route}`, {
+    const response = await fetch(`https://fittrack-server-api.onrender.com/api/${route}`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -21,7 +21,7 @@ export async function sendData(route, allData, prevUrl = null) {
   });
     
   const responseData = await response.json();
-
+  
   if(responseData && responseData.redirectUrl) {
     //return window.location.replace(`${responseData.redirectUrl}`);
   } else {
