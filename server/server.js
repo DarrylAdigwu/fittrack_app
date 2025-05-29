@@ -53,7 +53,7 @@ server.use(session({
     secure: true,
     sameSite: "none",
     maxAge: 1000 * 60 * 60,
-    domain: "fittrack-stage.onrender.com"
+    domain: "fittrack-stage*.onrender.com"
   },
 }));
 
