@@ -27,7 +27,9 @@ server.set("trust proxy", 1);
 export const domain = process.env.NODE_ENV === "production" ? `${process.env.NGINX_DOMAIN}` : `${process.env.REACT_DEV_DOMAIN}`;
 server.use(cors({
   origin: "https://fittrack-stage.onrender.com", 
-  credentials: true
+  credentials: true,
+  methods: 'GET, HEAD, PUT, PATCH, POST, DELETE, OPTIONS',
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 // Configure middleware for JSON, public folder, and parsing body
@@ -59,6 +61,13 @@ server.use(session({
 
 // API routes
 server.use("/api", apiRouter);
+
+server.options('*', cors({
+  origin: "https://fittrack-stage.onrender.com", 
+  credentials: true,
+  methods: 'GET, HEAD, PUT, PATCH, POST, DELETE, OPTIONS',
+  allowedHeaders: ['Content-Type', 'Authorization']
+}))
 
 // Run server
 server.listen(process.env.PORT, () => {
