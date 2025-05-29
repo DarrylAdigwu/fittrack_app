@@ -8,7 +8,7 @@ export async function sendData(route, allData, prevUrl = null) {
   }
 
   try {
-    const response = await fetch(`https://fittrack-server-api.onrender.com/api/${route}`, {
+    const response = await fetch(`https://fittrack-stage-api.onrender.com/api/${route}`, {
     method: "POST",
     credentials: "include",
     headers: {
