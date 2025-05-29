@@ -106,15 +106,6 @@ router.route("/login")
       });
     };
 
-    // Start Session
-    if(loginUser) {
-      const user_id = await getUserByUsername(username, "id");
-      const sessionUser = req.session.user = {
-        id: user_id,
-        username: username
-      }
-    }
-
     // Send URL data based on redirectParam value
     if(prevParam) {
       return res.status(200).json({
