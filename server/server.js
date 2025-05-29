@@ -41,21 +41,6 @@ const SQLStore = MySQLStore(session);
 // Create MySQLStore 
 const sessionStore = new SQLStore({}, db);
 
-// Create Session
-server.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  store: sessionStore,
-  rolling: true,
-  cookie: {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: 1000 * 60 * 60,
-    domain: "onrender.com"
-  },
-}));
 
 // API routes
 server.use("/api", apiRouter);
