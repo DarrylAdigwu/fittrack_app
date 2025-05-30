@@ -26,8 +26,8 @@ server.set("trust proxy", 1);
 // Middleware for cross-origin resources and pass header
 export const domain = process.env.NODE_ENV === "production" ? `${process.env.NGINX_DOMAIN}` : `${process.env.REACT_DEV_DOMAIN}`;
 server.use(cors({
-  origin: ".onrender.com", 
-  credentials: true
+  origin: "https://fittrack-stage.onrender.com", 
+  credentials: true,
 }));
 
 // Configure middleware for JSON, public folder, and parsing body
@@ -51,8 +51,9 @@ server.use(session({
   cookie: {
     httpOnly: true,
     secure: true,
+    sameSite: "none",
     maxAge: 1000 * 60 * 60,
-    domain: `.onrender.com`,
+    domain: ".onrender.com",
   },
 }));
 
