@@ -51,7 +51,7 @@ server.use(session({
   cookie: {
     httpOnly: true,
     secure: true,
-    sameSite: "none",
+    sameSite: "lax",
     maxAge: 1000 * 60 * 60,
     domain: ".onrender.com",
   },
