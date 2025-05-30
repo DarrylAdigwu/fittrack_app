@@ -51,6 +51,7 @@ server.use(session({
   cookie: {
     httpOnly: true,
     secure: true,
+    sameSite: "lax",
     maxAge: 1000 * 60 * 60,
     domain: ".fittracker.us",
   },
