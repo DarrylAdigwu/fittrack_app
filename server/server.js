@@ -26,7 +26,7 @@ server.set("trust proxy", 1);
 // Middleware for cross-origin resources and pass header
 export const domain = process.env.NODE_ENV === "production" ? `${process.env.NGINX_DOMAIN}` : `${process.env.REACT_DEV_DOMAIN}`;
 server.use(cors({
-  origin: "https://stage.fittracker.us", 
+  origin: process.env.CLIENT_DOMAIN, 
   credentials: true,
 }));
 
