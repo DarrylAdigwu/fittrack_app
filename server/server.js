@@ -26,7 +26,7 @@ server.set("trust proxy", 1);
 // Middleware for cross-origin resources and pass header
 export const domain = process.env.NODE_ENV === "production" ? `${process.env.NGINX_DOMAIN}` : `${process.env.REACT_DEV_DOMAIN}`;
 server.use(cors({
-  origin: "https://www.darryladigwu.com", 
+  origin: "https://stage.fittracker.us", 
   credentials: true,
 }));
 
@@ -52,7 +52,7 @@ server.use(session({
     httpOnly: true,
     secure: true,
     maxAge: 1000 * 60 * 60,
-    domain: ".darryladigwu.com",
+    domain: ".fittracker.us",
   },
 }));
 

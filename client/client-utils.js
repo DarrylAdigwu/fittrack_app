@@ -8,7 +8,7 @@ export async function sendData(route, allData, prevUrl = null) {
   }
 
   try {
-    const response = await fetch(`https://api.darryladigwu.com/api/${route}`, {
+    const response = await fetch(`https://api.stage.fittracker.us/api/${route}`, {
     method: "POST",
     credentials: "include",
     headers: {
