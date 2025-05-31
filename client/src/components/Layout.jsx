@@ -32,7 +32,7 @@ export default function Layout() {
 
   // Delete Cookies
   function handleRemoveCookies(name) {
-    removeCookie(`${name}`, { path: "/" })
+    removeCookie(`${name}`, { path: "/", domain: ".fittracker.us" })
   }
 
   return(
