@@ -1,6 +1,6 @@
 import express from "express";
 import { registerUser, getUserByUsername, authLogin } from "../database/db.js";
-import { checkString } from "../server-utils.js";
+import { checkString, generateToken } from "../server-utils.js";
 
 // Create Router
 const router = express.Router();
@@ -109,16 +109,34 @@ router.route("/login")
     // Start Session
     if(loginUser) {
       const user_id = await getUserByUsername(username, "id");
-      const sessionUser = req.session.user = {
+      req.session.user = {
         id: user_id,
         username: username
       }
     }
 
+    // Create auth tokens
+    const tokenUser = await generateToken({username: req.session.user.username});
+    const tokenID = await generateToken({id: req.session.user.id});
+
+    res.cookie("user-token", `${tokenUser}`, {
+      maxAge: 1000 * 60 * 60,
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+    });
+
+    res.cookie("id-token", `${tokenID}`, {
+      maxAge: 1000 * 60 * 60,
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+    });
+
     // Send URL data based on redirectParam value
     if(prevParam) {
       return res.status(200).json({
-        message: "Login Successfull",
+        message: "Login Successful",
         redirectUrl: `${urlOrigin}${prevParam}/${username}`,
       });
     } else {
