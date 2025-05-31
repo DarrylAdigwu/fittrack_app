@@ -121,7 +121,7 @@ router.route("/login")
 
     res.cookie("user-token", `${tokenUser}`, {
       maxAge: 1000 * 60 * 60,
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
       sameSite: "lax",
       domain: ".fittracker.us",
@@ -129,7 +129,7 @@ router.route("/login")
 
     res.cookie("id-token", `${tokenID}`, {
       maxAge: 1000 * 60 * 60,
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
       sameSite: "lax",
       domain: ".fittracker.us",
