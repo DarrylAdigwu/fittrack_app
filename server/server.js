@@ -49,7 +49,7 @@ server.use(session({
   store: sessionStore,
   rolling: true,
   cookie: {
-    httpOnly: true,
+    httpOnly: false,
     secure: true,
     sameSite: "lax",
     maxAge: 1000 * 60 * 60,
