@@ -19,6 +19,7 @@ export default function Header(props) {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${sessionStorage.getItem("authToken")}`
       },
       body: JSON.stringify({
         "username": props.user_name
@@ -32,7 +33,7 @@ export default function Header(props) {
       props.removeCookies("user-token");
       props.removeCookies("id-token");
       //props.removeCookies("recoverToken");
-      //sessionStorage.removeItem("authToken");
+      sessionStorage.removeItem("authToken");
       return window.location.replace(".");
     }
   }
@@ -45,7 +46,7 @@ export default function Header(props) {
         <nav>
           <Link to=".">home</Link>
           <Link to="about">about</Link>
-          <Link to={`dashboard`}>dash</Link>
+          <Link to={`dashboard/${props.user_name}`}>dash</Link>
         </nav>
         <img src={profileIcon} alt="person icon" className="profile" onClick={handleProfile}/>
       </header>

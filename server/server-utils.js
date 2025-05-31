@@ -25,3 +25,58 @@ export async function generateToken(payload) {
     console.error("Error creating web token");
   }
 }
+
+
+// Authenticator Token
+export async function verifyToken(token) {
+  try {
+    if(token === "null") {
+      return null
+    }
+    let verified = jwt.verify(`${token}`, `${process.env.JWT_TOKEN}`)
+    return verified["username"];
+  } catch (err) {
+    console.error("Error with auth Token:", err);
+  }
+}
+
+
+// Authenticate Middleware
+export async function requireAuth (req, res, next) {
+  
+  try {
+    const authToken = req["headers"].authorization.split(" ")[1];
+    const decodedToken = await verifyToken(`${authToken}`);
+
+    if(!req.session || authToken === "null") {
+      return res.status(401).json({
+        invalid: "Unauthorized", 
+      });
+    }
+
+    if(decodedToken === req.session.user.username) {
+      next();
+    } else {
+      return res.status(401).json({
+        invalid: "Unauthorized", 
+      });
+    }
+
+  } catch(err) {
+    console.error("Authentication failed:", err)
+  }
+}
+
+
+// Format date 
+export function formatDate(date) {
+  const passedInDate = Date.parse(date)
+  const plannedDate = new Date(passedInDate)
+  
+  const year = plannedDate.getFullYear();
+  const month = String(plannedDate.getMonth() + 1).padStart(2, '0');
+  const day = String(plannedDate.getDate()).padStart(2, '0');
+  const newFormat = `${year}-${month}-${day}`;
+  
+  return newFormat;
+}

@@ -140,3 +140,61 @@ export async function deleteSession(username) {
     connection.release();
   }
 }
+
+
+/* Get all user workouts for the day */
+export async function getUsersExercises(id, date) {
+  const connection = await db.getConnection();
+
+  try {
+    // Get stored workouts
+    let getWorkoutsQuery = `SELECT id, exercise, muscle_group, reps, date FROM workouts
+            WHERE user_id = ?
+            AND date =?`;
+    
+    let getWorkoutsInsert = [id, date];
+  
+    getWorkoutsQuery = mysql.format(getWorkoutsQuery, getWorkoutsInsert);
+  
+    const [getExercisesQuery] = await db.query(getWorkoutsQuery);
+    
+    if(getExercisesQuery.length === 0) {
+      return null
+    }
+    return getExercisesQuery;
+  } catch(err) {
+    console.error("Get user exercises error:", err);
+  } finally {
+    connection.release();
+  }
+}
+
+
+/* Store workout */
+export async function storeExercise(id, username, workout, muscleGroup, reps, date) {
+  const connection = await db.getConnection();
+
+  try {
+    // Check if entry already exists
+    if(await checkWorkouts(id, username, workout, date)) {
+      return "Workout already exists";
+    }
+  
+    // Store new workouts
+    let storeExerciseQuery = `INSERT INTO workouts 
+            (user_id, user_name, exercise, muscle_group, reps, date)
+            VALUES(?, ?, ?, ?, ?, ?)`;
+    
+    let storeExerciseInsert = [id, username, workout, muscleGroup, reps, date];
+  
+    storeExerciseQuery = mysql.format(storeExerciseQuery, storeExerciseInsert);
+  
+    const exerciseQuery = await db.query(storeExerciseQuery);
+  
+    return exerciseQuery;
+  } catch(err) {
+    console.error("Store exercise error:", err);
+  } finally {
+    connection.release();
+  }
+}

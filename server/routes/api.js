@@ -1,6 +1,7 @@
 import express from "express";
-import { registerUser, getUserByUsername, authLogin, deleteSession } from "../database/db.js";
-import { checkString, generateToken } from "../server-utils.js";
+import { registerUser, getUserByUsername, authLogin, deleteSession, 
+  getUsersExercises, storeExercise } from "../database/db.js";
+import { checkString, generateToken, requireAuth, formatDate } from "../server-utils.js";
 
 // Create Router
 const router = express.Router();
@@ -116,6 +117,7 @@ router.route("/login")
     }
 
     // Create auth tokens
+    const authToken = await generateToken({username: req.session.user.username});
     const tokenUser = await generateToken({username: req.session.user.username});
     const tokenID = await generateToken({id: req.session.user.id});
 
@@ -140,11 +142,13 @@ router.route("/login")
       return res.status(200).json({
         message: "Login Successful",
         redirectUrl: `${urlOrigin}${prevParam}/${username}`,
+        authToken: authToken
       });
     } else {
       return res.status(200).json({
         message: "Login Successful",
         redirectUrl: `${urlOrigin}/dashboard/${username}`,
+        authToken: authToken
       });
     }
   }
@@ -174,6 +178,23 @@ router.route("/logout")
   }
 });
 
+
+/* Dashboard Route */
+router.route("/dashboard/:username")
+.get(requireAuth, async (req, res) => {
+  if(req.session.user) {
+    const user_id = req.session.user.id;
+    const url = new URL(`https://api.stage.fittracker.us${req.url}`)
+    const date = url.searchParams.get("date");
+    const formattedDate = formatDate(date);
+
+    // Get Stored workout and return to dashboard
+    const getWorkout = await getUsersExercises(user_id, formattedDate);
+    return res.status(200).json({
+        getWorkout,
+    })
+  }
+});
 
 
 export default router;
