@@ -1,21 +1,53 @@
-import React  from "react";
+import React from "react";
 import { Link } from "react-router";
-import profileIcon from "../assets/images/profile-icon.svg"
+import profileIcon from "../assets/images/profile-icon.svg";
 
-export default function Header() {
-    
-  return (
+export default function Header(props) {
+  
+  //Toggle drop down nav
+  function handleProfile(event) {
+    const profile = document.querySelector("nav.off-screen");
+
+    if(event){
+      profile.classList.toggle("active")
+    }
+    profile.classList.toggle("off");
+  }
+
+  // Logout User
+  async function handleLogout() {
+    const response = await fetch(`https://api.stage.fittracker.us/api/logout`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": 'application/json',
+      },
+      body: JSON.stringify({
+        "username": props.user_name
+      })
+    });
+
+    const data = await response.json();
+
+
+  }
+  return(
     <>
       <header>
         <Link to="." className="logo">FitTrack</Link>
-        <hr/>
+        <hr />
         <nav>
           <Link to=".">home</Link>
           <Link to="about">about</Link>
-          <Link to={`dashboard`}>dash</Link>
+          <Link to={`dashboard`}>dashboard</Link>
         </nav>
-        <img src={profileIcon} alt="person icon" className="profile"/>
+        <img src={profileIcon} alt="person icon" className="profile" onClick={handleProfile}/>
       </header>
+      <nav className="off-screen">
+        <Link to={`dashboard/${props.user_name}`}>
+          {props.user_name === "" ? "Log In" : "Dashboard"}
+        </Link>
+        {props.user_name !== "" && <Link onClick={handleLogout}>Logout</Link>}
+      </nav>
     </>
   )
 }
