@@ -124,6 +124,7 @@ router.route("/login")
       httpOnly: true,
       secure: true,
       sameSite: "lax",
+      domain: ".fittracker.us",
     });
 
     res.cookie("id-token", `${tokenID}`, {
@@ -131,6 +132,7 @@ router.route("/login")
       httpOnly: true,
       secure: true,
       sameSite: "lax",
+      domain: ".fittracker.us",
     });
 
     // Send URL data based on redirectParam value
