@@ -123,7 +123,7 @@ router.route("/login")
       maxAge: 1000 * 60 * 60,
       httpOnly: false,
       secure: true,
-      sameSite: "lax",
+      sameSite: "none",
       domain: ".fittracker.us",
     });
 
@@ -131,7 +131,7 @@ router.route("/login")
       maxAge: 1000 * 60 * 60,
       httpOnly: false,
       secure: true,
-      sameSite: "lax",
+      sameSite: "none",
       domain: ".fittracker.us",
     });
 
