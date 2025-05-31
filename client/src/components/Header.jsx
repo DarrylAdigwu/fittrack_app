@@ -28,8 +28,16 @@ export default function Header(props) {
 
     const data = await response.json();
 
-
+    if(data.success) {
+      props.removeCookies("connect.sid");
+      props.removeCookies("user-token");
+      props.removeCookies("id-token");
+      //props.removeCookies("recoverToken");
+      //sessionStorage.removeItem("authToken");
+      return window.location.replace(".");
+    }
   }
+  
   return(
     <>
       <header>

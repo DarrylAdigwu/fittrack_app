@@ -1,5 +1,5 @@
 import express from "express";
-import { registerUser, getUserByUsername, authLogin } from "../database/db.js";
+import { registerUser, getUserByUsername, authLogin, deleteSession } from "../database/db.js";
 import { checkString, generateToken } from "../server-utils.js";
 
 // Create Router
@@ -149,5 +149,31 @@ router.route("/login")
     }
   }
 });
+
+
+/* Logout Route */
+router.route("/logout")
+.delete(async (req, res) => {
+  // Remove session from DB
+  await deleteSession(req.body.username)
+  if(req.session) {
+    await new Promise((resolve, reject) => {
+      req.session.destroy((err) => {
+        if(err) {
+          reject(err)
+          return;
+        } else {
+          resolve();
+          res.clearCookie('connect.sid')
+          res.status(200).json({ success: "Logout successful" })
+        }
+      });
+    })
+  } else {
+    return;
+  }
+});
+
+
 
 export default router;

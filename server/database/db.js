@@ -122,3 +122,21 @@ export async function authLogin(username, password) {
     connection.release();
   }
 };
+
+
+/* Delete session */
+export async function deleteSession(username) {
+  const connection = await db.getConnection();
+
+  try {
+    // Delete session 
+    let sessionQuery = `DELETE FROM sessions WHERE ? = JSON_EXTRACT(data, '$.user.username')`;
+    let sessionInsert = [username];
+    sessionQuery = mysql.format(sessionQuery, sessionInsert);
+    const [deleteSession] = await db.query(sessionQuery);
+  } catch(err) {
+    console.error("Error with delete session in database:", err);
+  } finally {
+    connection.release();
+  }
+}
