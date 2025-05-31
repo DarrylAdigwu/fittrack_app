@@ -1,11 +1,13 @@
 import React from "react";
-import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from "react-router"
+import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, redirect } from "react-router"
 import Layout from "./components/Layout";
 import Home from './pages/Home';
 import About from './pages/About';
 import Error from './pages/Error';
 import Register, { action as registerAction} from './pages/Register';
 import Login, { action as loginAction} from "./pages/Login";
+import DashboardLayout from "./components/DashboardLayout";
+import Dashboard, { loader as dashboardLoader, action as dashboardAction } from "./pages/profile/Dashboard";
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />}>
@@ -27,6 +29,24 @@ const router = createBrowserRouter(createRoutesFromElements(
       element={<Login />}
       action={loginAction}
     />
+
+    <Route 
+      path="dashboard"
+      element={<DashboardLayout />}
+    >
+      <Route
+        index
+        loader={async() => redirect(":userame")}
+      />
+      <Route
+        path=":username"
+        element={<Dashboard />}
+        hydrateFallbackElement={<React.Suspense fallback={<h2 className='loading'>Loading...</h2>}></React.Suspense>}
+        loader={dashboardLoader}
+        action={dashboardAction}
+      />
+    </Route>
+
 
     {/* Error page */} 
     {/* <Route 

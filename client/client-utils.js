@@ -33,3 +33,30 @@ export async function sendData(route, allData, prevUrl = null) {
   throw err;
   }
 }
+
+
+/* Authenticate user */
+export async function authUser(request) {
+  const url = new URL(request.url)
+  const pathname = url.pathname;
+  
+  try{
+    const response = await fetch(`http://localhost:3000/api${pathname}`, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${sessionStorage.getItem("authToken")}`
+      },
+      credentials: "include"
+    })
+
+    if(response.status === 401) {
+      return window.location.replace(`/login`)
+    }
+
+    return;
+
+  } catch(err) {
+    console.error("Error with authentication:", err)
+  }
+}
