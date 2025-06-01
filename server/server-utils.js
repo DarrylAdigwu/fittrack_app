@@ -48,7 +48,25 @@ export async function requireAuth (req, res, next) {
     const authToken = req["headers"].authorization.split(" ")[1];
     const decodedToken = await verifyToken(`${authToken}`);
 
-    if(!req.session || authToken === "null") {
+    if(!req.session) {
+      return res.status(401).json({
+        invalid: "Unauthorized", 
+      });
+    }
+
+    if(authToken === "null") {
+      return res.status(401).json({
+        invalid: "Unauthorized", 
+      });
+    }
+
+    if(decodedToken === null) {
+      return res.status(401).json({
+        invalid: "Unauthorized", 
+      });
+    }
+
+    if(decodedToken !== req.session.user.username) {
       return res.status(401).json({
         invalid: "Unauthorized", 
       });
@@ -56,10 +74,6 @@ export async function requireAuth (req, res, next) {
 
     if(decodedToken === req.session.user.username) {
       next();
-    } else {
-      return res.status(401).json({
-        invalid: "Unauthorized", 
-      });
     }
 
   } catch(err) {
