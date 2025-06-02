@@ -110,6 +110,18 @@ export default function Dashboard() {
       {plannedWorkout === null && <button id="add-workout" type="button">Add workout</button>}
     </div>
 
+
+    // Create form for new workout
+    function newForm(e) {
+      const hideNoScheduleContainer = document.getElementById("no-schedule");
+      const showContainer = document.getElementById("workout-form");
+
+      if(e.currentTarget) {
+        hideNoScheduleContainer.style.display = "none";
+        showContainer.style.display = "flex";
+      }
+    }
+
   return(
     <div className="container dash-container">
       <div className="displayDate">
@@ -118,6 +130,63 @@ export default function Dashboard() {
         <button id="future-date" onClick={() => nextDate()}>&gt;</button>
       </div>
       {showSchedule}
+      <div id="workout-form" className="workout-form">
+        <h1>Create a Workout</h1>
+        <Form method="post" id="exercise-form">
+          <div className="inputBoxes" id="inputBoxes1">
+            <label htmlFor="displayDate"/>
+            <input id="displayDate" className="displayDate" 
+               name="displayDate" 
+              placeholder="" 
+              type="hidden" 
+              value={formatCurrentDate(showDate)}
+            />
+
+            <label htmlFor="workoutInput1"></label>
+            <input 
+              className="workoutInput" 
+              id="workoutInput1" 
+              name="workoutInput1" 
+              placeholder="Workout" 
+              aria-label="Input name of exercise number one"
+              required
+            />
+
+            <label htmlFor="muscleGroupInput1"></label>
+            <input className="muscleGroupInput" 
+              id="muscleGroupInput1" 
+              name="muscleGroupInput1" 
+              placeholder="Focus"
+              aria-label="Input muscle group for exercise number one"
+              required
+            />
+
+            <label htmlFor="repInput1"></label>
+            <input className="repInput"
+              type="number" 
+              id="repInput1" 
+              name="repInput1" 
+              placeholder="Reps" 
+              aria-label="Input reps for exercise number one"
+              required
+              step="1"
+              min="1"
+            />
+          </div>
+          {/* <div className="exercise-btn-container">
+            <div id="add-exercise" onClick={newExercise} aria-label="add exercise input">
+              <img src={plusIcon} alt="plus sign" />
+              Add
+            </div>
+            <div id="remove-exercise" onClick={removeExercise} aria-label="remove exercise input">
+              <img src={minusIcon} alt="minus sign" />
+              Remove
+            </div>
+          </div>
+          {actionData && key.startsWith("invalid") ? <span className="invalidDash">{actionData[key]}</span> : null} */}
+          <button id="submit-exercise" type="submit">{isLoading ? "Submitting..." : "Submit"}</button>
+        </Form>
+      </div>
     </div>
   )
 }
