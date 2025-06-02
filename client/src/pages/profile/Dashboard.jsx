@@ -1,8 +1,8 @@
 import React from "react";
 import { Form, useActionData, useLoaderData } from "react-router";
 import "../../assets/css/dashboard.css";
-import "../../assets/images/plusIcon.svg";
-import "../../assets/images/minusIcon.svg";
+import plusIcon from "../../assets/images/plusIcon.svg";
+import minusIcon from "../../assets/images/minusIcon.svg";
 import { sendData, authUser, getTodaysWorkout} from "../../../client-utils";
 
 
