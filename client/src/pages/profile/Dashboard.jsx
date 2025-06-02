@@ -107,7 +107,7 @@ export default function Dashboard() {
     </div> :
     <div className="no-schedule" id="no-schedule">
       <h1>No workout schedule for today</h1>
-      {plannedWorkout === null && <button id="add-workout" type="button">Add workout</button>}
+      {plannedWorkout === null && <button id="add-workout" onClick={newForm} type="button">Add workout</button>}
     </div>
 
 
