@@ -72,55 +72,162 @@ export default function Dashboard() {
 
   // Display form for planned workout
   const todaysSchedule = plannedWorkout ? 
-    plannedWorkout.map((workouts) => {
-      return (                                                                                                                                                                    
-        <tbody key={workouts.id}>            
-          <tr className="focus-row">
-            <td>{workouts.muscle_group}</td>
-          </tr> 
-          
-          <tr className="exercise-row">
-            <td>{workouts.exercise}</td>
-          </tr>
-          
-          <tr className="reps-row">
-            <td>{workouts.reps}</td>
-          </tr>
-        </tbody>
-      )
-    }) : null
+  plannedWorkout.map((workouts) => {
+    return (                                                                                                                                                                    
+      <tbody key={workouts.id}>            
+        <tr className="focus-row">
+          <td>{workouts.muscle_group}</td>
+        </tr> 
+        
+        <tr className="exercise-row">
+          <td>{workouts.exercise}</td>
+        </tr>
+        
+        <tr className="reps-row">
+          <td>{workouts.reps}</td>
+        </tr>
+      </tbody>
+    )
+  }) : null
 
 
-    // Show no schedule or schedule depending on loaderData
+  // Show no schedule or schedule depending on loaderData
   const showSchedule = todaysSchedule ? 
-    <div className="schedule">
-      <table>
-        <thead>
-          <tr className="table-head-row">
-            <th className="focus">Focus</th>
-            <th className="exercise">Exercise</th>
-            <th className="reps">Reps</th>
-          </tr>
-        </thead>
-        {todaysSchedule}
-      </table>
-    </div> :
-    <div className="no-schedule" id="no-schedule">
-      <h1>No workout schedule for today</h1>
-      {plannedWorkout === null && <button id="add-workout" onClick={newForm} type="button">Add workout</button>}
-    </div>
+  <div className="schedule">
+    <table>
+      <thead>
+        <tr className="table-head-row">
+          <th className="focus">Focus</th>
+          <th className="exercise">Exercise</th>
+          <th className="reps">Reps</th>
+        </tr>
+      </thead>
+      {todaysSchedule}
+    </table>
+  </div> :
+  <div className="no-schedule" id="no-schedule">
+    <h1>No workout schedule for today</h1>
+    {plannedWorkout === null && <button id="add-workout" onClick={newForm} type="button">Add workout</button>}
+  </div>
 
 
-    // Create form for new workout
-    function newForm(e) {
-      const hideNoScheduleContainer = document.getElementById("no-schedule");
-      const showContainer = document.getElementById("workout-form");
+  // Create form for new workout
+  function newForm(e) {
+    const hideNoScheduleContainer = document.getElementById("no-schedule");
+    const showContainer = document.getElementById("workout-form");
 
-      if(e.currentTarget) {
-        hideNoScheduleContainer.style.display = "none";
-        showContainer.style.display = "flex";
-      }
+    if(e.currentTarget) {
+      hideNoScheduleContainer.style.display = "none";
+      showContainer.style.display = "flex";
     }
+  }
+
+
+  // Create new exercise inputs
+  function newExercise() {
+    if(exerciseCount > 6) {
+      return "max";
+    }
+
+    const prevWorkoutInput = document.getElementById(`workoutInput${exerciseCount - 1}`);
+    const prevMuscleGroupInput = document.getElementById(`muscleGroupInput${exerciseCount - 1}`);
+    const prevRepInput = document.getElementById(`repInput${exerciseCount - 1}`);
+      
+    if(!prevWorkoutInput.value) {
+      return prevWorkoutInput.style.backgroundColor = "#d56d6a";
+    } else {
+      prevWorkoutInput.style.backgroundColor = "transparent";
+    }
+
+    if(!prevMuscleGroupInput.value) {
+      return prevMuscleGroupInput.style.backgroundColor = "#d56d6a";
+    } else {
+      prevMuscleGroupInput.style.backgroundColor = "transparent";
+    }
+      
+    if(!prevRepInput.value || isNaN(prevRepInput.value)) {
+      return prevRepInput.style.backgroundColor = "#d56d6a";
+    }else {
+      prevRepInput.style.backgroundColor = "transparent";
+    }
+
+    // Creating new inputs for exercise form
+    if(document.getElementById(`workoutInput${exerciseCount - 1}`).value && 
+    document.getElementById(`muscleGroupInput${exerciseCount - 1}`).value &&
+    document.getElementById(`repInput${exerciseCount - 1}`).value) {
+      
+      prevWorkoutInput.style.backgroundColor = "transparent";
+      prevMuscleGroupInput.style.backgroundColor = "transparent";
+      prevRepInput.style.backgroundColor = "transparent";
+    
+      // Chaging state of exercise count
+      setExerciseCount(prevCount => prevCount + 1);
+      
+
+      // Previous input box
+      const prevInputBox = document.getElementById(`inputBoxes${exerciseCount - 1}`)
+      
+      // create div
+      const inputBoxes = document.createElement("div");
+      inputBoxes.setAttribute("class", "inputBoxes");
+      inputBoxes.setAttribute("id", `inputBoxes${exerciseCount}`);
+      
+      /* Create labels and inputs */ 
+
+      // Workout input
+      const newExerciseLabel = document.createElement("label");
+      newExerciseLabel.setAttribute("for", `workoutInput${exerciseCount}`);
+      
+      const newExerciseInput = document.createElement("input");
+      newExerciseInput.setAttribute("class", "workoutInput");
+      newExerciseInput.setAttribute("id", `workoutInput${exerciseCount}`);
+      newExerciseInput.setAttribute("name", `workoutInput${exerciseCount}`);
+      newExerciseInput.setAttribute("placeholder", "Workout");
+      newExerciseInput.setAttribute("aria-label", `Input name of exercise number ${exerciseCount}`);
+      
+      // Muscle Group input
+      const newMuscleGroupLabel = document.createElement("label");
+      newMuscleGroupLabel.setAttribute("for", `muscleGroupInput${exerciseCount}`);
+      
+      const newMuscleGroupInput = document.createElement("input");
+      newMuscleGroupInput.setAttribute("class", "muscleGroupInput");
+      newMuscleGroupInput.setAttribute("id", `muscleGroupInput${exerciseCount}`);
+      newMuscleGroupInput.setAttribute("name", `muscleGroupInput${exerciseCount}`);
+      newMuscleGroupInput.setAttribute("placeholder", "Focus");
+      newMuscleGroupInput.setAttribute("aria-label", `Input muscle group for exercise number ${exerciseCount}`);
+      
+      // Reps input
+      const newRepLabel = document.createElement("label");
+      newRepLabel.setAttribute("for", `repInput${exerciseCount}` );
+      
+      const newRepInput = document.createElement("input");
+      newRepInput.setAttribute("class", "repInput");
+      newRepInput.setAttribute("id", `repInput${exerciseCount}`);
+      newRepInput.setAttribute("name", `repInput${exerciseCount}`);
+      newRepInput.setAttribute("placeholder", "Reps");
+      newExerciseInput.setAttribute("aria-label", `Input reps for exercise number ${exerciseCount}`);
+
+      // append child nodes
+      inputBoxes.appendChild(newExerciseLabel);
+      inputBoxes.appendChild(newExerciseInput);
+      inputBoxes.appendChild(newMuscleGroupLabel);
+      inputBoxes.appendChild(newMuscleGroupInput);
+      inputBoxes.appendChild(newRepLabel);
+      inputBoxes.appendChild(newRepInput);
+      
+      // append div
+      prevInputBox.after(inputBoxes)
+    }
+  }
+
+  function removeExercise() {
+    const firstInputBox = document.getElementById(`inputBoxes1`);
+    const lastInputBox = document.getElementById(`inputBoxes${exerciseCount - 1}`);
+    if(lastInputBox != firstInputBox) {
+      lastInputBox.remove();
+      setExerciseCount(prevCount => prevCount - 1)
+    };
+  }
 
   return(
     <div className="container dash-container">
@@ -173,7 +280,7 @@ export default function Dashboard() {
               min="1"
             />
           </div>
-          {/* <div className="exercise-btn-container">
+          <div className="exercise-btn-container">
             <div id="add-exercise" onClick={newExercise} aria-label="add exercise input">
               <img src={plusIcon} alt="plus sign" />
               Add
@@ -183,7 +290,7 @@ export default function Dashboard() {
               Remove
             </div>
           </div>
-          {actionData && key.startsWith("invalid") ? <span className="invalidDash">{actionData[key]}</span> : null} */}
+          {actionData && key.startsWith("invalid") ? <span className="invalidDash">{actionData[key]}</span> : null}
           <button id="submit-exercise" type="submit">{isLoading ? "Submitting..." : "Submit"}</button>
         </Form>
       </div>
