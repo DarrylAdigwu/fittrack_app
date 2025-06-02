@@ -54,6 +54,12 @@ export async function requireAuth (req, res, next) {
       });
     }
 
+    if(!req.session.user.username) {
+      return res.status(401).json({
+        invalid: "Unauthorized", 
+      });
+    }
+
     if(authToken === "null") {
       return res.status(401).json({
         invalid: "Unauthorized", 

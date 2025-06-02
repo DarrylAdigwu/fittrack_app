@@ -184,7 +184,7 @@ router.route("/dashboard/:username")
 .get(requireAuth, async (req, res) => {
   if(req.session.user) {
     const user_id = req.session.user.id;
-    const url = new URL(`https://api.stage.fittracker.us${req.url}`)
+    const url = new URL(`https://api.stage.fittracker.us/api${req.url}`)
     const date = url.searchParams.get("date");
     const formattedDate = formatDate(date);
 

@@ -19,7 +19,6 @@ export default function Header(props) {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${sessionStorage.getItem("authToken")}`
       },
       body: JSON.stringify({
         "username": props.user_name

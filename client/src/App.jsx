@@ -36,7 +36,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     >
       <Route
         index
-        loader={async() => redirect(":userame")}
+        loader={async() => redirect(":username")}
       />
       <Route
         path=":username"

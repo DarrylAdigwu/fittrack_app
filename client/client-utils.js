@@ -23,7 +23,13 @@ export async function sendData(route, allData, prevUrl = null) {
   const responseData = await response.json();
   
   if(responseData && responseData.redirectUrl) {
-    sessionStorage.setItem("authToken", responseData.authToken);
+    // Object for token signautre and expiration time
+    const authTokenData = {
+      token: responseData.authToken,
+      expiresAt: new Date(new Date().getTime() + (60000 * 60)).toISOString()
+    }
+    // Store token
+    sessionStorage.setItem("authToken", JSON.stringify(authTokenData));
     return window.location.replace(`${responseData.redirectUrl}`);
   } else {
     return responseData;
@@ -41,12 +47,19 @@ export async function authUser(request) {
   const url = new URL(request.url)
   const pathname = url.pathname;
   
-  try{
+  // Check if token is expired
+  if(await isTokenExpired()) {
+    return window.location.replace("/login")
+  } else {
+    try {
+    // Get value for authToken's token key
+    const getAuthToken = JSON.parse(sessionStorage.getItem("authToken")).token;
+
     const response = await fetch(`https://api.stage.fittracker.us/api${pathname}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${sessionStorage.getItem("authToken")}`
+        "Authorization": `Bearer ${getAuthToken}`
       },
       credentials: "include"
     })
@@ -57,8 +70,9 @@ export async function authUser(request) {
 
     return;
 
-  } catch(err) {
-    console.error("Error with authentication:", err)
+    } catch(err) {
+      console.error("Error with authentication:", err)
+    }
   }
 }
 
@@ -68,13 +82,17 @@ export async function getTodaysWorkout(date = "null") {
   const fetchUrl = date ? 
   `https://api.stage.fittracker.us/api/dashboard/:username?date=${date}` : 
   `https://api.stage.fittracker.us/api/dashboard/:username`;
+
   try {
+    // Get value for authToken's token key
+    const getAuthToken = JSON.parse(sessionStorage.getItem("authToken")).token;
+
     const response = await fetch(`${fetchUrl}`, {
       method: "GET",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${sessionStorage.getItem("authToken")}`
+        "Authorization": `Bearer ${getAuthToken}`
       }
     })
     
@@ -88,4 +106,17 @@ export async function getTodaysWorkout(date = "null") {
   } catch(err) {
     console.error("Error:", err)
   }
+}
+
+
+// Check if token is expired
+export async function isTokenExpired() {
+  const authTokenString = sessionStorage.getItem("authToken");
+  if(!authTokenString) {
+    return true;
+  }
+
+  const authTokenData = JSON.parse(authTokenString);
+  const expirationDate = new Date(authTokenData.expiresAt);
+  return new Date() > expirationDate;
 }
