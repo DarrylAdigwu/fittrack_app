@@ -56,6 +56,60 @@ export default function Dashboard() {
     });
   };
 
+
+  // Get current day's workout
+  React.useEffect(() => {
+    async function loadWorkout(date) {
+      try {
+        const getExercise = await getTodaysWorkout(new Date(date));
+        setPlannedWorkout(getExercise.getWorkout)
+      } catch(err) {
+        console.error("Error:", err)
+      }
+    }
+    loadWorkout(showDate)
+  }, [showDate]);
+
+  // Display form for planned workout
+  const todaysSchedule = plannedWorkout ? 
+    plannedWorkout.map((workouts) => {
+      return (                                                                                                                                                                    
+        <tbody key={workouts.id}>            
+          <tr className="focus-row">
+            <td>{workouts.muscle_group}</td>
+          </tr> 
+          
+          <tr className="exercise-row">
+            <td>{workouts.exercise}</td>
+          </tr>
+          
+          <tr className="reps-row">
+            <td>{workouts.reps}</td>
+          </tr>
+        </tbody>
+      )
+    }) : null
+
+
+    // Show no schedule or schedule depending on loaderData
+  const showSchedule = todaysSchedule ? 
+    <div className="schedule">
+      <table>
+        <thead>
+          <tr className="table-head-row">
+            <th className="focus">Focus</th>
+            <th className="exercise">Exercise</th>
+            <th className="reps">Reps</th>
+          </tr>
+        </thead>
+        {todaysSchedule}
+      </table>
+    </div> :
+    <div className="no-schedule" id="no-schedule">
+      <h1>No workout schedule for today</h1>
+      {plannedWorkout === null && <button id="add-workout" type="button">Add workout</button>}
+    </div>
+
   return(
     <div className="container dash-container">
       <div className="displayDate">
@@ -63,6 +117,7 @@ export default function Dashboard() {
           <span>{formatCurrentDate(showDate)}</span>
         <button id="future-date" onClick={() => nextDate()}>&gt;</button>
       </div>
+      {showSchedule}
     </div>
   )
 }
