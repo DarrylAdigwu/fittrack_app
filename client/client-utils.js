@@ -83,10 +83,7 @@ export async function getTodaysWorkout(date = "null") {
   `https://api.stage.fittracker.us/api/dashboard/:username?date=${date}` : 
   `https://api.stage.fittracker.us/api/dashboard/:username`;
 
-  if(await isTokenExpired()) {
-    return window.location.replace("/login")
-  }
-  
+
   try {
     // Get value for authToken's token key
     const getAuthToken = JSON.parse(sessionStorage.getItem("authToken")).token;

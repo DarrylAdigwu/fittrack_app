@@ -150,7 +150,7 @@ export async function getUsersExercises(id, date) {
     // Get stored workouts
     let getWorkoutsQuery = `SELECT id, exercise, muscle_group, reps, date FROM workouts
             WHERE user_id = ?
-            AND date =?`;
+            AND date = ?`;
     
     let getWorkoutsInsert = [id, date];
   

@@ -202,7 +202,7 @@ router.route("/dashboard/:username")
   const numOfWorkouts = (Object.keys(allDashboardData).length - 1) / 3;
   const date = allDashboardData.displayDate;
 
-  if(req.method === "POST") {
+  if(req.method = "POST") {
     // Server side validation
     for(const [key, value] of Object.entries(allDashboardData)) {
       if(value === null || value === "") {
@@ -226,7 +226,7 @@ router.route("/dashboard/:username")
 
     const newDateFormat = formatDate(date);
 
-    //Send Workouts to database
+    // Send workouts to database
     for(let i = 0; i < numOfWorkouts; i++) {
       const workout = allDashboardData[`workoutInput${i + 1}`];
       const muscleGroup = allDashboardData[`muscleGroupInput${i + 1}`];
