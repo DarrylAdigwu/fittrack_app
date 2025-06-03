@@ -12,7 +12,15 @@ export async function loader({ request }) {
 }
 
 export async function action({ request }) {
+  const formData = await request.formData();
+  const allData = Object.fromEntries(formData);
   
+  // Send Data to server
+  const sendFormData = await sendData("dashboard/:username", allData);
+
+  if(sendFormData.serverError) {
+    return sendFormData.serverError;
+  }
 }
 
 export default function Dashboard() {

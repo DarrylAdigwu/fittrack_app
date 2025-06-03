@@ -194,7 +194,52 @@ router.route("/dashboard/:username")
         getWorkout,
     })
   }
-});
+})
+.post(async (req, res) => {
+  const allDashboardData = req.body.allData;
+  const id = req.session.user.id;
+  const username = req.session.user.username;
+  const numOfWorkouts = (Object.keys(allDashboardData).length - 1) / 3;
+  const date = allDashboardData.displayDate;
+
+  if(req.method === "POST") {
+    // Server side validation
+    for(const [key, value] of Object.entries(allDashboardData)) {
+      if(value === null || value === "") {
+        return res.status(400).json({
+          serverError: {"invalid": "Visible fields must have an answer"}
+        });
+      }
+
+      if(key.startsWith("repInput") && isNaN(value)) {
+        return res.status(400).json({
+          serverError: {"invalid": "Rep fields must be a number"}
+        });
+      }
+
+      if(key !== "displayDate" && checkString(value) === null) {
+        return res.status(400).json({
+          serverError: {"invalid": "Inputs cannot contain special characters or spaces"}
+        });
+      }
+    }
+
+    const newDateFormat = formatDate(date);
+
+    //Send Workouts to database
+    for(let i = 0; i < numOfWorkouts; i++) {
+      const workout = allDashboardData[`workoutInput${i + 1}`];
+      const muscleGroup = allDashboardData[`muscleGroupInput${i + 1}`];
+      const rep = allDashboardData[`repInput${i + 1}`];
+      await storeExercise(id, username, workout, muscleGroup, rep, newDateFormat);
+    }
+
+    // Return valid message
+    return res.status(200).json({
+      serverCheck: {"valid": "Data is valid"}
+    });
+  }
+})
 
 
 export default router;

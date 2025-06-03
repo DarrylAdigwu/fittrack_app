@@ -170,6 +170,35 @@ export async function getUsersExercises(id, date) {
 }
 
 
+/* Search for duplicate workouts */
+export async function checkWorkouts(id, username, workout, date) {
+  const connection = await db.getConnection();
+  
+  try {
+    let checkWorkoutsQuery = `Select * FROM workouts 
+            WHERE user_id = ? 
+            AND user_name = ? 
+            AND exercise = ? 
+            AND date = ?`;
+    
+    let checkWorkoutsInsert = [id, username, workout, date];
+  
+    checkWorkoutsQuery = mysql.format(checkWorkoutsQuery, checkWorkoutsInsert);
+  
+    const [workoutsQuery] = await db.query(checkWorkoutsQuery);
+    if(workoutsQuery[0]) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch(err) {
+    console.error("Check for duplicate workouts error:", err);
+  } finally {
+    connection.release();
+  }
+}
+
+
 /* Store workout */
 export async function storeExercise(id, username, workout, muscleGroup, reps, date) {
   const connection = await db.getConnection();
