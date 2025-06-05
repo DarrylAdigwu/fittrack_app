@@ -1,7 +1,7 @@
 import express from "express";
 import { registerUser, getUserByUsername, authLogin, deleteSession, 
   getUsersExercises, storeExercise } from "../database/db.js";
-import { checkString, generateToken, requireAuth, formatDate } from "../server-utils.js";
+import { checkString, generateToken, requireAuth, formatDate, capitalizeFirstLetter } from "../server-utils.js";
 
 // Create Router
 const router = express.Router();
@@ -244,8 +244,8 @@ router.route("/dashboard/:username")
 
     // Send workouts to database
     for(let i = 0; i < numOfWorkouts; i++) {
-      const workout = allDashboardData[`workoutInput${i + 1}`];
-      const muscleGroup = allDashboardData[`muscleGroupInput${i + 1}`];
+      const workout = capitalizeFirstLetter(allDashboardData[`workoutInput${i + 1}`]);
+      const muscleGroup = capitalizeFirstLetter(allDashboardData[`muscleGroupInput${i + 1}`]);
       const rep = allDashboardData[`repInput${i + 1}`];
       await storeExercise(id, username, workout, muscleGroup, rep, newDateFormat);
     }
