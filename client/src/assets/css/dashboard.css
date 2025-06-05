@@ -72,6 +72,7 @@ div.dash-container > div.no-schedule button:active {
 div.schedule {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   width: 90%;
   max-width: 500px;
   min-width: 300px;
@@ -84,13 +85,13 @@ div.schedule > table {
   margin-block: 1rem;
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 2px 4px 4px 4px rgba(159,154,154, .5);
+  border: 1px solid rgba(159,154,154, .5);
 }
 
 table > thead {
   width: 100%;
-  background-color: #1f1f1f;
-  color: #FFFAF0;
+  background-color: #FFFFFF;
+  color: #D98B22;
 }
 
 thead > tr.table-head-row {
@@ -111,8 +112,6 @@ tr.table-head-row > th.reps {
 /* #36454F #9F9AA4*/
 tr.table-head-row > th.exercise {
   width: 55%;
-  border-left: 1px solid rgba(159,154,164, 1);
-  border-right: 1px solid rgba(159,154,164, 1);
 }
 
 tr.table-head-row > th.focus {
@@ -129,7 +128,7 @@ table > tbody {
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-  border-top: 1px solid rgba(159,154,164, 1);
+  border-top: 1px solid rgba(217, 139, 34, .5);
   background-color: rgba(159,154,164, .75);
 }
 
@@ -138,12 +137,12 @@ tbody > tr.reps-row {
 }
 
 tbody > tr.exercise-row {
-  border-left: 1px solid rgba(159,154,164, 1);
-  border-right: 1px solid rgba(159,154,164, 1);
   width: 55%;
 }
 
 tbody > tr.focus-row {
+  border-left: 1px solid rgba(159,154,164, .25);
+  border-right: 1px solid rgba(159,154,164, .25);
   width: 25%;
 }
 

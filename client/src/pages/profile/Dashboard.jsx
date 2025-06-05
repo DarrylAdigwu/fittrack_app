@@ -39,8 +39,18 @@ export default function Dashboard() {
   // Get key and make it string if error in form 
   let key = actionData ? Object.keys(actionData).toString() : null;
 
+  // Elements for add workout form
+  const showContainer = document.getElementById("workout-form");
+  const hideNoScheduleContainer = document.getElementById("no-schedule");
+
   // Display previous date
   function prevDate() {
+
+    if(showContainer.style.display !== "none") {
+      showContainer.style.display = "none";
+      hideNoScheduleContainer.style.display = "flex";
+    };
+
     setSearchParams((prev) => {
       const prevParam = new Date(prev.get("date"));
       const prevDate = prevParam.setDate(prevParam.getDate() - 1);
@@ -50,6 +60,12 @@ export default function Dashboard() {
 
   // Display next date
   function nextDate() {
+
+    if(showContainer.style.display !== "none") {
+      showContainer.style.display = "none";
+      hideNoScheduleContainer.style.display = "flex";
+    };
+
     setSearchParams((prev) => {
       const nextParam = new Date(prev.get("date"));
       const nextDate = nextParam.setDate(nextParam.getDate() + 1);
