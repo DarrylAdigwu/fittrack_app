@@ -8,6 +8,8 @@ import Register, { action as registerAction} from './pages/Register';
 import Login, { action as loginAction} from "./pages/Login";
 import DashboardLayout from "./components/DashboardLayout";
 import Dashboard, { loader as dashboardLoader, action as dashboardAction } from "./pages/profile/Dashboard";
+import { authUser, usersUsername } from "../client-utils";
+
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />}>
@@ -36,10 +38,13 @@ const router = createBrowserRouter(createRoutesFromElements(
     >
       <Route
         index
-        loader={async() => redirect(":username")}
+        loader={async({request}) => {
+          await authUser(request)
+          return redirect(`${usersUsername}`)
+        }}
       />
       <Route
-        path=":username"
+        path={`${usersUsername}`}
         element={<Dashboard />}
         hydrateFallbackElement={<React.Suspense fallback={<h2 className='loading'>Loading...</h2>}></React.Suspense>}
         loader={dashboardLoader}

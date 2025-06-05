@@ -70,9 +70,19 @@ router.route("/login")
   const username = allLoginData.username;
   const password = allLoginData.password;
   const loginUser = await authLogin(username, password);
+
   const prevUrl = redirectParam.prevUrl;
   const prevParam = redirectParam.prevParam;
   const urlOrigin = new URL(prevUrl).origin;
+
+  const usersLanguage = req.headers["accept-language"].split(",")[0];
+  const formatUsersLocalTime = new Intl.DateTimeFormat(usersLanguage, {
+    weekday: "short", 
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+  const currentLocalTime = formatUsersLocalTime.format(new Date());
 
   if(req.method === "POST") {
 
@@ -141,13 +151,13 @@ router.route("/login")
     if(prevParam) {
       return res.status(200).json({
         message: "Login Successful",
-        redirectUrl: `${urlOrigin}${prevParam}/${username}`,
+        redirectUrl: `${urlOrigin}${prevParam}/${username}?date=${currentLocalTime}`,
         authToken: authToken
       });
     } else {
       return res.status(200).json({
         message: "Login Successful",
-        redirectUrl: `${urlOrigin}/dashboard/${username}`,
+        redirectUrl: `${urlOrigin}/dashboard/${username}?date=${currentLocalTime}`,
         authToken: authToken
       });
     }
@@ -202,6 +212,12 @@ router.route("/dashboard/:username")
   const numOfWorkouts = (Object.keys(allDashboardData).length - 1) / 3;
   const date = allDashboardData.displayDate;
 
+  if(!req.session) {
+    return res.status(401).json({
+        invalid: "Unauthorized", 
+    });
+  }
+
   if(req.method = "POST") {
     // Server side validation
     for(const [key, value] of Object.entries(allDashboardData)) {
@@ -234,12 +250,15 @@ router.route("/dashboard/:username")
       await storeExercise(id, username, workout, muscleGroup, rep, newDateFormat);
     }
 
+    // Retrieve Workout from database
+    const getNewWorkout = await getUsersExercises(id, newDateFormat);
+
     // Return valid message
     return res.status(200).json({
-      serverCheck: {"valid": "Data is valid"}
+      serverCheck: {"valid": "Data is valid"},
+      getNewWorkout,
     });
   }
 })
-
 
 export default router;

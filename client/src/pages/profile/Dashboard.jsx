@@ -1,14 +1,13 @@
 import React from "react";
-import { Form, useActionData, useLoaderData } from "react-router";
+import { Form, useActionData, useLoaderData, useNavigate, useSearchParams } from "react-router";
 import "../../assets/css/dashboard.css";
 import plusIcon from "../../assets/images/plusIcon.svg";
 import minusIcon from "../../assets/images/minusIcon.svg";
-import { sendData, authUser, getTodaysWorkout} from "../../../client-utils";
+import { sendData, getTodaysWorkout, formatCurrentDate} from "../../../client-utils";
 
 
 export async function loader({ request }) {
-  await authUser(request);
-  return await getTodaysWorkout(new Date()); 
+  
 }
 
 export async function action({ request }) {
@@ -20,6 +19,8 @@ export async function action({ request }) {
 
   if(sendFormData.serverError) {
     return sendFormData.serverError;
+  } else {
+    return {"currentForm": allData};
   }
 }
 
@@ -27,56 +28,65 @@ export default function Dashboard() {
   const dashLoader = useLoaderData();
   const actionData = useActionData();
   const [exerciseCount, setExerciseCount] = React.useState(2);
-  const [showDate, setShowDate] = React.useState(new Date());
-  const [plannedWorkout, setPlannedWorkout] = React.useState(dashLoader.getWorkout);
+  const [searchParams, setSearchParams] = useSearchParams(`?date=${new Date()}`);
+  const [showDate, setShowDate] = React.useState();
+  const [plannedWorkout, setPlannedWorkout] = React.useState();
   const [isLoading, setIsLoading] = React.useState(null)
+  const navigate = useNavigate();
+
+  const dateParam = searchParams.get("date");
 
   // Get key and make it string if error in form 
   let key = actionData ? Object.keys(actionData).toString() : null;
 
-  // Display current date to page
-  function formatCurrentDate(date) {
-    let options = {
-      weekday: "short", 
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    };
-
-    return new Intl.DateTimeFormat(undefined, options).format(date);
-  }
-
   // Display previous date
   function prevDate() {
-    setShowDate((prev) => {
-      const currentDate = new Date(prev);
-      const prevDate = currentDate.setDate(currentDate.getDate() - 1);
-      return prevDate;
+    setSearchParams((prev) => {
+      const prevParam = new Date(prev.get("date"));
+      const prevDate = prevParam.setDate(prevParam.getDate() - 1);
+      return { "date": formatCurrentDate(prevDate)}
     });
   };
 
   // Display next date
   function nextDate() {
-    setShowDate((prev) => {
-      const currentDate = new Date(prev);
-      const nextDate = currentDate.setDate(currentDate.getDate() + 1);
-      return nextDate;
+    setSearchParams((prev) => {
+      const nextParam = new Date(prev.get("date"));
+      const nextDate = nextParam.setDate(nextParam.getDate() + 1);
+      return { "date": formatCurrentDate(nextDate)}
     });
   };
 
 
-  // Get current day's workout
+  // Set date based on search params
   React.useEffect(() => {
-    async function loadWorkout(date) {
+      if(dateParam) {
+        try {
+          const paramDate = new Date(dateParam);
+          if(!isNaN(paramDate)) {
+            setShowDate(paramDate)
+            setSearchParams({ date: formatCurrentDate(paramDate)})
+          }
+        } catch(err) {
+          console.error("Error parsing date", err)
+        }
+      } 
+  }, [dateParam])
+
+
+  // Load for current date using search params
+  React.useEffect(() => {
+    async function loadTodaysWorkout() {
       try {
-        const getExercise = await getTodaysWorkout(new Date(date));
+        const getExercise = await getTodaysWorkout(formatCurrentDate(new Date(dateParam)));
         setPlannedWorkout(getExercise.getWorkout)
       } catch(err) {
-        console.error("Error:", err)
+        console.error("Load current date workout error:", err)
       }
     }
-    loadWorkout(showDate)
-  }, [showDate]);
+    loadTodaysWorkout()
+  }, [dateParam]);
+
 
   // Display form for planned workout
   const todaysSchedule = plannedWorkout ? 

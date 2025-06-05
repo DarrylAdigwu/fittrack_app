@@ -1,3 +1,25 @@
+import { jwtDecode } from "jwt-decode";
+
+
+// Get Cookie Value
+export function getCookie(cookieValue) {
+  let username;
+  
+  if(cookieValue) {
+    try{
+      let decodeUser = jwtDecode(cookieValue);
+      username = decodeUser.username
+      return username
+    } catch(err) {
+      console.error("Error getting cookie in top level:", err)
+    }
+  }
+}
+
+const cookUsername = document.cookie.split(";")[0].split("=")[1] ? document.cookie.split(";")[0].split("=")[1] : null;
+export const usersUsername = getCookie(cookUsername);
+
+
 /* Send form data to server */
 export async function sendData(route, allData, prevUrl = null) {
   let prevParam;
@@ -36,7 +58,7 @@ export async function sendData(route, allData, prevUrl = null) {
   };
 
   } catch(err) {
-  console.error("Error:", err)
+  console.error("Error sending data:", err)
   throw err;
   }
 }
@@ -79,10 +101,14 @@ export async function authUser(request) {
 
 /* Get Current Dates workouts */
 export async function getTodaysWorkout(date = "null") {
-  const fetchUrl = date ? 
-  `https://api.stage.fittracker.us/api/dashboard/:username?date=${date}` : 
-  `https://api.stage.fittracker.us/api/dashboard/:username`;
 
+  const fetchUrl = date ? 
+  `https://api.stage.fittracker.us/api/dashboard/${usersUsername}?date=${date}` : 
+  `https://api.stage.fittracker.us/api/dashboard/${usersUsername}`;
+
+  if(await isTokenExpired()) {
+    return window.location.replace("/login")
+  }
 
   try {
     // Get value for authToken's token key
@@ -97,6 +123,10 @@ export async function getTodaysWorkout(date = "null") {
       }
     })
     
+    if(response.status === 401) {
+        return window.location.replace(`/login`)
+    }
+
     if(!response.ok) {
       throw new Error(`HTTP ERROR: ${response.status}` )
     }
@@ -105,7 +135,7 @@ export async function getTodaysWorkout(date = "null") {
     return data;
 
   } catch(err) {
-    console.error("Error:", err)
+    console.error("Error getting workout:", err)
   }
 }
 
@@ -120,4 +150,17 @@ export async function isTokenExpired() {
   const authTokenData = JSON.parse(authTokenString);
   const expirationDate = new Date(authTokenData.expiresAt);
   return new Date() > expirationDate;
+}
+
+
+// Format current date
+export function formatCurrentDate(date) {
+  let options = {
+    weekday: "short", 
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  };
+
+  return new Intl.DateTimeFormat(undefined, options).format(date);
 }

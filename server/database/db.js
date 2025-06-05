@@ -147,6 +147,12 @@ export async function getUsersExercises(id, date) {
   const connection = await db.getConnection();
 
   try {
+    
+    // Check if date is valid
+    if(date === "NaN-NaN-NaN" || date === null || date === NaN) {
+      return null;
+    }
+
     // Get stored workouts
     let getWorkoutsQuery = `SELECT id, exercise, muscle_group, reps, date FROM workouts
             WHERE user_id = ?
