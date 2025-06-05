@@ -109,13 +109,13 @@ export default function Dashboard() {
   plannedWorkout.map((workouts) => {
     return (                                                                                                                                                                    
       <tbody key={workouts.id}>            
-        <tr className="focus-row">
-          <td>{workouts.muscle_group}</td>
-        </tr> 
-        
         <tr className="exercise-row">
           <td>{workouts.exercise}</td>
         </tr>
+
+        <tr className="focus-row">
+          <td>{workouts.muscle_group}</td>
+        </tr> 
         
         <tr className="reps-row">
           <td>{workouts.reps}</td>
@@ -131,8 +131,8 @@ export default function Dashboard() {
     <table>
       <thead>
         <tr className="table-head-row">
-          <th className="focus">Focus</th>
           <th className="exercise">Exercise</th>
+          <th className="focus">Focus</th>
           <th className="reps">Reps</th>
         </tr>
       </thead>

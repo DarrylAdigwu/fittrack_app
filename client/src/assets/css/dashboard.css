@@ -73,7 +73,7 @@ div.schedule {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 90%;
+  width: 80%;
   max-width: 500px;
   min-width: 300px;
 }
@@ -129,7 +129,7 @@ table > tbody {
   justify-content: space-evenly;
   width: 100%;
   border-top: 1px solid rgba(217, 139, 34, .5);
-  background-color: rgba(159,154,164, .75);
+  background-color: #FFFFFF;
 }
 
 tbody > tr.reps-row {
