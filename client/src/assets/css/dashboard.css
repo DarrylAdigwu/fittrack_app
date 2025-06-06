@@ -153,14 +153,15 @@ div.schedule > table {
   flex-wrap: wrap;
   width: 90%;
   margin-bottom: 1rem;
+  padding: 0 .125rem;
   border-radius: 6px;
   overflow: hidden;
   border: 1px solid rgba(159,154,154, .5);
+  background-color: #FFFFFF;
 }
 
 table > thead {
   width: 100%;
-  background-color: #FFFFFF;
   color: #D98B22;
 }
 
@@ -168,6 +169,7 @@ thead > tr.table-head-row {
   display: flex;
   justify-content: space-evenly;
   width: 100%;
+  border-bottom: 1px solid rgba(217, 139, 34, .5);
 }
 
 tr.table-head-row > th {
@@ -203,7 +205,6 @@ table > tbody {
   justify-content: space-evenly;
   width: 100%;
   border-top: 1px solid rgba(217, 139, 34, .5);
-  background-color: #FFFFFF;
 }
 
 tbody > tr.sets-row {
@@ -220,7 +221,7 @@ tbody > tr.exercise-row {
 }
 
 tbody > tr.focus-row {
-  border-left: 1px solid rgba(159,154,164, .25);
+  border-left: 1px solid rgba(217, 139, 34, .5);
   border-right: 1px solid rgba(159,154,164, .25);
   width: 25%;
 }

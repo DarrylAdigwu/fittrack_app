@@ -7,6 +7,7 @@ export function checkString(str) {
   return match;
 }
 
+
 // Hash password with argon2
 export async function hashPassword(password) {
   try{
@@ -16,6 +17,7 @@ export async function hashPassword(password) {
     console.error("Error:", err)
   }
 }
+
 
 // JSONWebToken
 export async function generateToken(payload) {
@@ -36,7 +38,6 @@ export async function verifyToken(token) {
     let verified = jwt.verify(`${token}`, `${process.env.JWT_TOKEN}`)
     return verified["username"];
   } catch (err) {
-    console.error("Error with auth Token:", err);
     return null;
   }
 }
@@ -89,5 +90,11 @@ export function formatDate(date) {
 
 
 export function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  try {
+    const firstCap = `${string}`.charAt(0).toUpperCase();
+    const joinString = `${string}`.slice(1);
+    return firstCap + joinString
+  } catch(err) {
+    console.error("Error capitalizing string:", err)
+  }
 }

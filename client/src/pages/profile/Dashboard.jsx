@@ -158,9 +158,6 @@ export default function Dashboard() {
         <tr className="reps-row">
           <td>{workouts.reps}</td>
         </tr>
-        {/* <tr className="workout-actions">
-          <td className="action-edit">edit</td>
-          </tr> */}
       </tbody>
     )
   }) : null
@@ -383,7 +380,7 @@ export default function Dashboard() {
               step="1"
               min="1"
             />
-            
+
             <label htmlFor="repInput1"></label>
             <input className="repInput"
               type="number" 
