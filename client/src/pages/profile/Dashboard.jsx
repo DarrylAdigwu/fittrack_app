@@ -14,7 +14,7 @@ export async function loader({ request }) {
 export async function action({ request }) {
   const formData = await request.formData();
   const allData = Object.fromEntries(formData);
-  
+  console.log(allData)
   // Send Data to server
   const sendFormData = await sendUserData(`dashboard/${usersUsername}`, allData);
 
@@ -121,7 +121,7 @@ export default function Dashboard() {
   // Load new workout after form is filled
   function handleSubmit(event) {
     if(event) {
-      window.location.reload();
+      //window.location.reload();
     }
   }
 
