@@ -78,6 +78,73 @@ div.schedule {
   min-width: 300px;
 }
 
+div.schedule > .table-actions {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  width: 100%;
+  padding: 0 10%;
+}
+
+.table-actions > img.threeDotImg {
+  height: 1.125rem;
+  padding: 0 .25rem;
+  width: fit-content;
+}
+
+.table-actions > img:hover {
+  cursor: pointer;
+}
+
+div.schedule > .table-actions-menu {
+  display: none;
+}
+
+div.schedule > .table-actions-menu.active {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 5%;
+  top: 1.125rem;
+  border-radius: 6px;
+  border: 1px solid #1f1f1f;
+  background-color: #FFFAF0;
+  box-shadow: -1px 4px 6px 2px rgba(159,154,154, .5);
+}
+
+.table-actions-menu > span {
+  width: 100%;
+  padding: .5rem .0125rem;
+  text-align: center;
+  font-family: "Work Sans";
+}
+
+.table-actions-menu > span.action-edit {
+  border-bottom: 1px solid rgba(0, 0, 0, .25);
+}
+
+.table-actions-menu.active > span.action-edit:hover {
+  background-color: rgba(217, 139, 34, 1);
+  color: #FFFAF0;
+  cursor: pointer;
+}
+.table-actions-menu.active > span.action-delete:hover {
+  background-color: rgba(217, 139, 34, 1);
+  color: #FFFAF0;
+  cursor: pointer;
+}
+
+.workout-actions {
+  border: 1px solid red;
+  width: 80%;
+}
+
+.workout-actions > td.action-edit {
+  border-right: 1px solid red;
+}
+
 div.schedule > table {
   display: flex;
   flex-wrap: wrap;

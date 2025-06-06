@@ -39,17 +39,23 @@ export default function Dashboard() {
   // Get key and make it string if error in form 
   let key = actionData ? Object.keys(actionData).toString() : null;
 
-  // Elements for add workout form
-  const showContainer = document.getElementById("workout-form");
-  const hideNoScheduleContainer = document.getElementById("no-schedule");
 
   // Display previous date
   function prevDate() {
-
-    if(showContainer.style.display !== "none") {
+    // Document elements
+    const showContainer = document.getElementById("workout-form");
+    const hideNoScheduleContainer = document.getElementById("no-schedule");
+    const scheduleContainer = document.getElementById("schedule");
+    
+    if(scheduleContainer && scheduleContainer.style.display === "flex" && plannedWorkout === null) {
+      scheduleContainer.style.display = "none";
+    }
+    if(showContainer && showContainer.style.display === "flex") {
       showContainer.style.display = "none";
-      hideNoScheduleContainer.style.display = "flex";
-    };
+    }
+    if(!plannedWorkout) {
+      hideNoScheduleContainer.style.display = "flex"
+    } 
 
     setSearchParams((prev) => {
       const prevParam = new Date(prev.get("date"));
@@ -60,11 +66,20 @@ export default function Dashboard() {
 
   // Display next date
   function nextDate() {
+    // Document elements
+    const showContainer = document.getElementById("workout-form");
+    const hideNoScheduleContainer = document.getElementById("no-schedule");
+    const scheduleContainer = document.getElementById("schedule");
 
-    if(showContainer.style.display !== "none") {
+    if(scheduleContainer && scheduleContainer.style.display === "flex" && plannedWorkout === null) {
+      scheduleContainer.style.display = "none";
+    }
+    if(showContainer && showContainer.style.display === "flex") {
       showContainer.style.display = "none";
-      hideNoScheduleContainer.style.display = "flex";
-    };
+    }
+    if(!plannedWorkout) {
+      hideNoScheduleContainer.style.display = "flex"
+    } 
 
     setSearchParams((prev) => {
       const nextParam = new Date(prev.get("date"));
@@ -104,6 +119,26 @@ export default function Dashboard() {
   }, [dateParam]);
 
 
+  // Load new workout after form is filled
+  function handleSubmit(event) {
+    if(event) {
+      window.location.reload();
+    }
+  }
+
+
+  // Toggle drop down nav
+  function handleDropDown(event) {
+    const threeDotImage = document.querySelector("img.threeDotImg");
+    const actionsMenu = document.querySelector("div.table-actions-menu")
+    
+    if(event) {
+      threeDotImage.classList.toggle("active");
+      actionsMenu.classList.toggle("active");
+    }
+  }
+
+
   // Display form for planned workout
   const todaysSchedule = plannedWorkout ? 
   plannedWorkout.map((workouts) => {
@@ -127,7 +162,14 @@ export default function Dashboard() {
 
   // Show no schedule or schedule depending on loaderData
   const showSchedule = todaysSchedule ? 
-  <div className="schedule">
+  <div id="schedule" className="schedule">
+    <div className="table-actions">
+      <img className="threeDotImg" src={threeDot} alt="menu to edit table" onClick={handleDropDown}/>
+    </div>
+    <div className="table-actions-menu">
+      <span className="action-edit">Edit</span>
+      <span className="action-delete">Delete</span>
+    </div>
     <table>
       <thead>
         <tr className="table-head-row">
@@ -142,7 +184,7 @@ export default function Dashboard() {
   <div className="no-schedule" id="no-schedule">
     <h1>No workout schedule for today</h1>
     {plannedWorkout === null && <button id="add-workout" onClick={newForm} type="button">Add workout</button>}
-  </div>
+  </div>;
 
 
   // Create form for new workout
@@ -273,7 +315,7 @@ export default function Dashboard() {
       {showSchedule}
       <div id="workout-form" className="workout-form">
         <h1>Create a Workout</h1>
-        <Form method="post" id="exercise-form">
+        <Form method="post" id="exercise-form" onSubmit={handleSubmit}>
           <div className="inputBoxes" id="inputBoxes1">
             <label htmlFor="displayDate"/>
             <input id="displayDate" className="displayDate" 
