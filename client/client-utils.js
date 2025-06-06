@@ -93,7 +93,7 @@ export async function sendUserData(route, allData) {
       window.location.replace("/login");
     }
 
-    const responsData = response.json();
+    const responsData = await response.json();
 
     return responsData;
   } catch(err) {

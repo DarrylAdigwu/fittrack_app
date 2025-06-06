@@ -20,8 +20,6 @@ export async function action({ request }) {
 
   if(sendFormData.serverError) {
     return sendFormData.serverError;
-  } else {
-    return {"currentForm": allData};
   }
 }
 
@@ -123,7 +121,7 @@ export default function Dashboard() {
   // Load new workout after form is filled
   function handleSubmit(event) {
     if(event) {
-      //window.location.reload();
+      window.location.reload();
     }
   }
 
