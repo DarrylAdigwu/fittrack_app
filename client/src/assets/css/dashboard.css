@@ -72,6 +72,7 @@ div.dash-container > div.no-schedule button:active {
 div.schedule {
   display: flex;
   flex-wrap: wrap;
+  position: relative;
   justify-content: center;
   width: 80%;
   max-width: 500px;
