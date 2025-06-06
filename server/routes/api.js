@@ -205,7 +205,7 @@ router.route("/dashboard/:username")
     })
   }
 })
-.post(async (req, res) => {
+.post(requireAuth, async (req, res) => {
   const allDashboardData = req.body.allData;
   const id = req.session.user.id;
   const username = req.session.user.username;

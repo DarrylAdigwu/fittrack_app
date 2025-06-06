@@ -64,6 +64,45 @@ export async function sendData(route, allData, prevUrl = null) {
 }
 
 
+// Send data from Dashboard page
+export async function sendUserData(route, allData) {
+  if(await isTokenExpired()) {
+    sessionStorage.removeItem("authToken");
+    removeCookies("id-token", "user-token", "connect.sid");
+    return window.location.replace("/login")
+  }
+
+  const getAuthToken = JSON.parse(sessionStorage.getItem("authToken")).token;
+
+  try {
+    const response = await fetch(`https://api.stage.fittracker.us/api/${route}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${getAuthToken}`
+      },
+      body: JSON.stringify({
+        allData,
+      })
+    });
+
+    if(response.status === 401) {
+      sessionStorage.removeItem("authToken");
+      removeCookies("id-token", "user-token", "connect.sid");
+      window.location.replace("/login");
+    }
+
+    const responsData = response.json();
+
+    return responsData;
+  } catch(err) {
+    console.error("Error sending user data:", err)
+    throw err;
+  }
+}
+
+
 /* Authenticate user */
 export async function authUser(request) {
   const url = new URL(request.url)
@@ -71,6 +110,8 @@ export async function authUser(request) {
   
   // Check if token is expired
   if(await isTokenExpired()) {
+    sessionStorage.removeItem("authToken");
+    removeCookies("id-token", "user-token", "connect.sid");
     return window.location.replace("/login")
   } else {
     try {
@@ -87,6 +128,8 @@ export async function authUser(request) {
     })
 
     if(response.status === 401) {
+      sessionStorage.removeItem("authToken");
+      removeCookies("id-token", "user-token", "connect.sid");
       return window.location.replace(`/login`)
     }
 
@@ -107,6 +150,8 @@ export async function getTodaysWorkout(date = "null") {
   `https://api.stage.fittracker.us/api/dashboard/${usersUsername}`;
 
   if(await isTokenExpired()) {
+    sessionStorage.removeItem("authToken");
+    removeCookies("id-token", "user-token", "connect.sid");
     return window.location.replace("/login")
   }
 
@@ -124,7 +169,9 @@ export async function getTodaysWorkout(date = "null") {
     })
     
     if(response.status === 401) {
-        return window.location.replace(`/login`)
+      sessionStorage.removeItem("authToken");
+      removeCookies("id-token", "user-token", "connect.sid");
+      return window.location.replace(`/login`)
     }
 
     if(!response.ok) {
@@ -163,4 +210,17 @@ export function formatCurrentDate(date) {
   };
 
   return new Intl.DateTimeFormat(undefined, options).format(date);
+}
+
+
+export function removeCookies(cookieOne, cookieTwo = null, cookieThree = null) {
+  document.cookie = `${cookieOne}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  
+  if(cookieTwo) {
+    document.cookie = `${cookieTwo}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  }
+
+  if(cookieThree) {
+    document.cookie = `${cookieThree}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  }
 }

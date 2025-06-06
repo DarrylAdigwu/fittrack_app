@@ -4,7 +4,7 @@ import "../../assets/css/dashboard.css";
 import plusIcon from "../../assets/images/plusIcon.svg";
 import minusIcon from "../../assets/images/minusIcon.svg";
 import threeDot from "../../assets/images/three-dot-menu.svg";
-import { sendData, getTodaysWorkout, formatCurrentDate, usersUsername} from "../../../client-utils";
+import {sendUserData, getTodaysWorkout, formatCurrentDate, usersUsername} from "../../../client-utils";
 
 
 export async function loader({ request }) {
@@ -16,7 +16,7 @@ export async function action({ request }) {
   const allData = Object.fromEntries(formData);
   
   // Send Data to server
-  const sendFormData = await sendData(`dashboard/${usersUsername}`, allData);
+  const sendFormData = await sendUserData(`dashboard/${usersUsername}`, allData);
 
   if(sendFormData.serverError) {
     return sendFormData.serverError;
