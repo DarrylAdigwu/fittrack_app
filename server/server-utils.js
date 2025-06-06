@@ -48,8 +48,8 @@ export async function requireAuth (req, res, next) {
   
   try {
     const authToken = req["headers"].authorization.split(" ")[1];
-    const urlSafeToken = urlSafeBase64(authToken);
-    const decodedToken = await verifyToken(`${urlSafeToken}`);
+    const paddToken = addPadding(authToken);
+    const decodedToken = await verifyToken(`${paddToken}`);
 
     if(authToken === "null") {
       return res.status(401).json({
@@ -101,10 +101,11 @@ export function capitalizeFirstLetter(string) {
 }
 
 
-function urlSafeBase64(base64string) {
-  let base64 = base64string.replace(/-/g, "+").replace(/_/g, "/");
-  while (base64.length % 4 !== 0) {
-    base64 += "=";
+function addPadding(base64string) {
+  let padding = "";
+  const remainder = base64string.length % 4;
+  if(remainder > 0 ) {
+    padding = "=".repeat(4 - remainder);
   }
-  return base64;
+  return base64string + padding;
 }

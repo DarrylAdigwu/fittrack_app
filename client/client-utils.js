@@ -175,8 +175,7 @@ export async function getTodaysWorkout(date = "null") {
     }
 
     if(!response.ok) {
-      //throw new Error(`HTTP ERROR: ${response.status}` )
-      throw Error;
+      throw new Error(`HTTP ERROR: ${response.status}`)
     }
 
     const data = await response.json();
