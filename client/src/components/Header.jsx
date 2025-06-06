@@ -10,7 +10,6 @@ export default function Header(props) {
     if(event) {
       profile.classList.toggle("active")
     }
-    profile.classList.toggle("off");
   }
 
   // Logout User

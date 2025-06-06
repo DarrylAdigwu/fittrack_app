@@ -1,10 +1,10 @@
 import React from "react";
-import { Form, useActionData, useLoaderData, useNavigate, useSearchParams } from "react-router";
+import { Form, useActionData, useLoaderData, useSearchParams } from "react-router";
 import "../../assets/css/dashboard.css";
 import plusIcon from "../../assets/images/plusIcon.svg";
 import minusIcon from "../../assets/images/minusIcon.svg";
 import threeDot from "../../assets/images/three-dot-menu.svg";
-import { sendData, getTodaysWorkout, formatCurrentDate} from "../../../client-utils";
+import { sendData, getTodaysWorkout, formatCurrentDate, usersUsername} from "../../../client-utils";
 
 
 export async function loader({ request }) {
@@ -16,7 +16,7 @@ export async function action({ request }) {
   const allData = Object.fromEntries(formData);
   
   // Send Data to server
-  const sendFormData = await sendData("dashboard/:username", allData);
+  const sendFormData = await sendData(`dashboard/${usersUsername}`, allData);
 
   if(sendFormData.serverError) {
     return sendFormData.serverError;
@@ -32,9 +32,9 @@ export default function Dashboard() {
   const [searchParams, setSearchParams] = useSearchParams(`?date=${new Date()}`);
   const [showDate, setShowDate] = React.useState();
   const [plannedWorkout, setPlannedWorkout] = React.useState();
-  const [isLoading, setIsLoading] = React.useState(null)
-  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = React.useState(false);
 
+  // Get value for date search param state
   const dateParam = searchParams.get("date");
 
   // Get key and make it string if error in form 
@@ -184,7 +184,7 @@ export default function Dashboard() {
   </div> :
   <div className="no-schedule" id="no-schedule">
     <h1>No workout schedule for today</h1>
-    {plannedWorkout === null && <button id="add-workout" onClick={newForm} type="button">Add workout</button>}
+    <button id="add-workout" onClick={newForm} type="button">Add workout</button>
   </div>;
 
 
