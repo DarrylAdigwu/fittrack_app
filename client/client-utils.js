@@ -150,9 +150,9 @@ export async function getTodaysWorkout(date = "null") {
   `https://api.stage.fittracker.us/api/dashboard/${usersUsername}`;
 
   if(await isTokenExpired()) {
-    sessionStorage.removeItem("authToken");
-    removeCookies("id-token", "user-token", "connect.sid");
-    return window.location.replace("/login")
+    // sessionStorage.removeItem("authToken");
+    // removeCookies("id-token", "user-token", "connect.sid");
+    // return window.location.replace("/login")
   }
 
   try {
@@ -169,9 +169,9 @@ export async function getTodaysWorkout(date = "null") {
     })
     
     if(response.status === 401) {
-      sessionStorage.removeItem("authToken");
-      removeCookies("id-token", "user-token", "connect.sid");
-      return window.location.replace(`/login`)
+      // sessionStorage.removeItem("authToken");
+      // removeCookies("id-token", "user-token", "connect.sid");
+      // return window.location.replace(`/login`)
     }
 
     if(!response.ok) {
