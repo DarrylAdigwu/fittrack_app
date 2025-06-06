@@ -87,12 +87,14 @@ div.schedule > .table-actions {
   padding: 0 10%;
   height: 1.125rem;
   margin: 0;
+  border: 1px solid red;
 }
 
 .table-actions > img.threeDotImg {
   height: 1.125rem;
   padding: 0 .25rem;
   width: fit-content;
+  border: 1px solid red;
 }
 
 .table-actions > img:hover {
