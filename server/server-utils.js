@@ -48,7 +48,8 @@ export async function requireAuth (req, res, next) {
   
   try {
     const authToken = req["headers"].authorization.split(" ")[1];
-    const decodedToken = await verifyToken(`${authToken}`);
+    const urlSafeToken = urlSafeBase64(authToken);
+    const decodedToken = await verifyToken(`${urlSafeToken}`);
 
     if(authToken === "null") {
       return res.status(401).json({
@@ -97,4 +98,13 @@ export function capitalizeFirstLetter(string) {
   } catch(err) {
     console.error("Error capitalizing string:", err)
   }
+}
+
+
+function urlSafeBase64(base64string) {
+  let base64 = base64string.replace(/-/g, "+").replace(/_/g, "/");
+  while (base64.length % 4 !== 0) {
+    base64 += "=";
+  }
+  return base64;
 }
