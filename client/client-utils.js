@@ -110,9 +110,9 @@ export async function authUser(request) {
   
   // Check if token is expired
   if(await isTokenExpired()) {
-    sessionStorage.removeItem("authToken");
-    removeCookies("id-token", "user-token", "connect.sid");
-    return window.location.replace("/login")
+    // sessionStorage.removeItem("authToken");
+    // removeCookies("id-token", "user-token", "connect.sid");
+    // return window.location.replace("/login")
   } else {
     try {
     // Get value for authToken's token key
@@ -128,9 +128,9 @@ export async function authUser(request) {
     })
 
     if(response.status === 401) {
-      sessionStorage.removeItem("authToken");
-      removeCookies("id-token", "user-token", "connect.sid");
-      return window.location.replace(`/login`)
+      // sessionStorage.removeItem("authToken");
+      // removeCookies("id-token", "user-token", "connect.sid");
+      // return window.location.replace(`/login`)
     }
 
     return;
