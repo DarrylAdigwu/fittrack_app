@@ -52,7 +52,7 @@ export async function sendData(route, allData, prevUrl = null) {
     }
     // Store token
     sessionStorage.setItem("authToken", JSON.stringify(authTokenData));
-    //return window.location.replace(`${responseData.redirectUrl}`);
+    return window.location.replace(`${responseData.redirectUrl}`);
   } else {
     return responseData;
   };
@@ -110,9 +110,9 @@ export async function authUser(request) {
   
   // Check if token is expired
   if(await isTokenExpired()) {
-    // sessionStorage.removeItem("authToken");
-    // removeCookies("id-token", "user-token", "connect.sid");
-    // return window.location.replace("/login")
+    sessionStorage.removeItem("authToken");
+    removeCookies("id-token", "user-token", "connect.sid");
+    return window.location.replace("/login")
   } else {
     try {
     // Get value for authToken's token key
@@ -128,9 +128,9 @@ export async function authUser(request) {
     })
 
     if(response.status === 401) {
-      // sessionStorage.removeItem("authToken");
-      // removeCookies("id-token", "user-token", "connect.sid");
-      // return window.location.replace(`/login`)
+      sessionStorage.removeItem("authToken");
+      removeCookies("id-token", "user-token", "connect.sid");
+      return window.location.replace(`/login`)
     }
 
     return;
@@ -150,9 +150,9 @@ export async function getTodaysWorkout(date = "null") {
   `https://api.stage.fittracker.us/api/dashboard/${usersUsername}`;
 
   if(await isTokenExpired()) {
-    // sessionStorage.removeItem("authToken");
-    // removeCookies("id-token", "user-token", "connect.sid");
-    // return window.location.replace("/login")
+    sessionStorage.removeItem("authToken");
+    removeCookies("id-token", "user-token", "connect.sid");
+    return window.location.replace("/login")
   }
 
   try {
@@ -169,13 +169,13 @@ export async function getTodaysWorkout(date = "null") {
     })
     
     if(response.status === 401) {
-      // sessionStorage.removeItem("authToken");
-      // removeCookies("id-token", "user-token", "connect.sid");
-      // return window.location.replace(`/login`)
+      sessionStorage.removeItem("authToken");
+      removeCookies("id-token", "user-token", "connect.sid");
+      return window.location.replace(`/login`)
     }
 
     if(!response.ok) {
-      throw new Error(`HTTP ERROR: ${response.status}`)
+      throw new Error(`HTTP ERROR: ${response.status}` )
     }
 
     const data = await response.json();
