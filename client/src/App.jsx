@@ -50,6 +50,11 @@ const router = createBrowserRouter(createRoutesFromElements(
         action={dashboardAction}
       />
     </Route>
+    {/* Error page */} 
+    {/* <Route 
+      path="*"
+      element={<Error />}
+    /> */}
   </Route>
 ));
 
@@ -58,8 +63,5 @@ export default function App() {
     <RouterProvider router={router} />
   )
 };
-{/* Error page */} 
-    {/* <Route 
-      path="*"
-      element={<Error />}
-    /> */}
+
+    
