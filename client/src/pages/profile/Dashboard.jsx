@@ -151,9 +151,16 @@ export default function Dashboard() {
           <td>{workouts.muscle_group}</td>
         </tr> 
         
+        <tr className="sets-row">
+          <td>{workouts.sets}</td>
+        </tr>
+
         <tr className="reps-row">
           <td>{workouts.reps}</td>
         </tr>
+        {/* <tr className="workout-actions">
+          <td className="action-edit">edit</td>
+          </tr> */}
       </tbody>
     )
   }) : null
@@ -174,6 +181,7 @@ export default function Dashboard() {
         <tr className="table-head-row">
           <th className="exercise">Exercise</th>
           <th className="focus">Focus</th>
+          <th className="sets">Sets</th>
           <th className="reps">Reps</th>
         </tr>
       </thead>
@@ -206,8 +214,9 @@ export default function Dashboard() {
 
     const prevWorkoutInput = document.getElementById(`workoutInput${exerciseCount - 1}`);
     const prevMuscleGroupInput = document.getElementById(`muscleGroupInput${exerciseCount - 1}`);
+    const prevSetInput = document.getElementById(`setInput${exerciseCount - 1}`);
     const prevRepInput = document.getElementById(`repInput${exerciseCount - 1}`);
-      
+    
     if(!prevWorkoutInput.value) {
       return prevWorkoutInput.style.backgroundColor = "#d56d6a";
     } else {
@@ -219,7 +228,13 @@ export default function Dashboard() {
     } else {
       prevMuscleGroupInput.style.backgroundColor = "transparent";
     }
-      
+    
+    if(!prevSetInput.value || isNaN(prevSetInput.value)) {
+      return prevSetInput.style.backgroundColor = "#d56d6a";
+    }else {
+      prevSetInput.style.backgroundColor = "transparent";
+    }
+
     if(!prevRepInput.value || isNaN(prevRepInput.value)) {
       return prevRepInput.style.backgroundColor = "#d56d6a";
     }else {
@@ -229,10 +244,12 @@ export default function Dashboard() {
     // Creating new inputs for exercise form
     if(document.getElementById(`workoutInput${exerciseCount - 1}`).value && 
     document.getElementById(`muscleGroupInput${exerciseCount - 1}`).value &&
+    document.getElementById(`setInput${exerciseCount - 1}`).value &&
     document.getElementById(`repInput${exerciseCount - 1}`).value) {
       
       prevWorkoutInput.style.backgroundColor = "transparent";
       prevMuscleGroupInput.style.backgroundColor = "transparent";
+      prevSetInput.style.backgroundColor = "transparent";
       prevRepInput.style.backgroundColor = "transparent";
     
       // Chaging state of exercise count
@@ -271,6 +288,17 @@ export default function Dashboard() {
       newMuscleGroupInput.setAttribute("placeholder", "Focus");
       newMuscleGroupInput.setAttribute("aria-label", `Input muscle group for exercise number ${exerciseCount}`);
       
+      // Sets input
+      const newSetLabel = document.createElement("label");
+      newSetLabel.setAttribute("for", `setInput${exerciseCount}` );
+      
+      const newSetInput = document.createElement("input");
+      newSetInput.setAttribute("class", "setInput");
+      newSetInput.setAttribute("id", `setInput${exerciseCount}`);
+      newSetInput.setAttribute("name", `setInput${exerciseCount}`);
+      newSetInput.setAttribute("placeholder", "Sets");
+      newExerciseInput.setAttribute("aria-label", `Input sets for exercise number ${exerciseCount}`);
+
       // Reps input
       const newRepLabel = document.createElement("label");
       newRepLabel.setAttribute("for", `repInput${exerciseCount}` );
@@ -287,11 +315,15 @@ export default function Dashboard() {
       inputBoxes.appendChild(newExerciseInput);
       inputBoxes.appendChild(newMuscleGroupLabel);
       inputBoxes.appendChild(newMuscleGroupInput);
+      inputBoxes.appendChild(newSetLabel);
+      inputBoxes.appendChild(newSetInput);
       inputBoxes.appendChild(newRepLabel);
       inputBoxes.appendChild(newRepInput);
+      //inputBoxes.appendChild(removeButton)
       
       // append div
       prevInputBox.after(inputBoxes)
+
     }
   }
 
@@ -318,7 +350,7 @@ export default function Dashboard() {
           <div className="inputBoxes" id="inputBoxes1">
             <label htmlFor="displayDate"/>
             <input id="displayDate" className="displayDate" 
-               name="displayDate" 
+              name="displayDate" 
               placeholder="" 
               type="hidden" 
               value={formatCurrentDate(showDate)}
@@ -331,7 +363,6 @@ export default function Dashboard() {
               name="workoutInput1" 
               placeholder="Workout" 
               aria-label="Input name of exercise number one"
-              required
             />
 
             <label htmlFor="muscleGroupInput1"></label>
@@ -340,9 +371,19 @@ export default function Dashboard() {
               name="muscleGroupInput1" 
               placeholder="Focus"
               aria-label="Input muscle group for exercise number one"
-              required
             />
 
+            <label htmlFor="setInput1"></label>
+            <input className="setInput"
+              type="number" 
+              id="setInput1" 
+              name="setInput1" 
+              placeholder="Sets" 
+              aria-label="Input sets for exercise number one"
+              step="1"
+              min="1"
+            />
+            
             <label htmlFor="repInput1"></label>
             <input className="repInput"
               type="number" 
@@ -350,7 +391,6 @@ export default function Dashboard() {
               name="repInput1" 
               placeholder="Reps" 
               aria-label="Input reps for exercise number one"
-              required
               step="1"
               min="1"
             />

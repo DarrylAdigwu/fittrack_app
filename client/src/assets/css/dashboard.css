@@ -177,15 +177,19 @@ tr.table-head-row > th {
 }
 
 tr.table-head-row > th.reps {
-  width: 20%;
-}
-/* #36454F #9F9AA4*/
-tr.table-head-row > th.exercise {
-  width: 55%;
+  width: 15%;
 }
 
+tr.table-head-row > th.sets {
+  width: 15%;
+}
+/* #36454F #9F9AA4*/
 tr.table-head-row > th.focus {
   width: 25%;
+}
+
+tr.table-head-row > th.exercise {
+  width: 45%;
 }
 
 table > tbody {
@@ -202,12 +206,17 @@ table > tbody {
   background-color: #FFFFFF;
 }
 
+tbody > tr.sets-row {
+  width: 15%;
+  border-right: 1px solid rgba(159,154,164, .25);
+}
+
 tbody > tr.reps-row {
-  width: 20%;
+  width: 15%;
 }
 
 tbody > tr.exercise-row {
-  width: 55%;
+  width: 45%;
 }
 
 tbody > tr.focus-row {
@@ -269,11 +278,17 @@ div.workout-form .workoutInput {
 }
 
 div.workout-form .muscleGroupInput {
-  width: 30%;
+  width: 25%;
+  margin-left: .25rem;
+}
+
+div.workout-form .setInput {
+  width: 20%;
+  margin-left: .25rem;
 }
 
 div.workout-form .repInput {
-  width: 25%;
+  width: 20%;
   margin-left: .25rem;
 }
 

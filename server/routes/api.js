@@ -227,6 +227,12 @@ router.route("/dashboard/:username")
         });
       }
 
+      if(key.startsWith("setInput") && isNaN(value)) {
+        return res.status(400).json({
+          serverError: {"invalid": "Rep fields must be a number"}
+        });
+      }
+
       if(key.startsWith("repInput") && isNaN(value)) {
         return res.status(400).json({
           serverError: {"invalid": "Rep fields must be a number"}
@@ -246,8 +252,9 @@ router.route("/dashboard/:username")
     for(let i = 0; i < numOfWorkouts; i++) {
       const workout = capitalizeFirstLetter(allDashboardData[`workoutInput${i + 1}`]);
       const muscleGroup = capitalizeFirstLetter(allDashboardData[`muscleGroupInput${i + 1}`]);
+      const set = allDashboardData[`setInput${i + 1}`];
       const rep = allDashboardData[`repInput${i + 1}`];
-      await storeExercise(id, username, workout, muscleGroup, rep, newDateFormat);
+      await storeExercise(id, username, workout, muscleGroup, set, rep, newDateFormat);
     }
 
     // Retrieve Workout from database

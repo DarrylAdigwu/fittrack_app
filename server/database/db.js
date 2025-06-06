@@ -154,7 +154,7 @@ export async function getUsersExercises(id, date) {
     }
 
     // Get stored workouts
-    let getWorkoutsQuery = `SELECT id, exercise, muscle_group, reps, date FROM workouts
+    let getWorkoutsQuery = `SELECT id, exercise, muscle_group, sets, reps, date FROM workouts
             WHERE user_id = ?
             AND date = ?`;
     
@@ -206,7 +206,7 @@ export async function checkWorkouts(id, username, workout, date) {
 
 
 /* Store workout */
-export async function storeExercise(id, username, workout, muscleGroup, reps, date) {
+export async function storeExercise(id, username, workout, muscleGroup, sets, reps, date) {
   const connection = await db.getConnection();
 
   try {
@@ -217,10 +217,10 @@ export async function storeExercise(id, username, workout, muscleGroup, reps, da
   
     // Store new workouts
     let storeExerciseQuery = `INSERT INTO workouts 
-            (user_id, user_name, exercise, muscle_group, reps, date)
-            VALUES(?, ?, ?, ?, ?, ?)`;
+            (user_id, user_name, exercise, muscle_group, sets, reps, date)
+            VALUES(?, ?, ?, ?, ?, ?, ?)`;
     
-    let storeExerciseInsert = [id, username, workout, muscleGroup, reps, date];
+    let storeExerciseInsert = [id, username, workout, muscleGroup, sets, reps, date];
   
     storeExerciseQuery = mysql.format(storeExerciseQuery, storeExerciseInsert);
   
