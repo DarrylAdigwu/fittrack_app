@@ -52,11 +52,12 @@ const router = createBrowserRouter(createRoutesFromElements(
       />
     </Route>
 
+
     {/* Error page */} 
-    <Route 
+    {/* <Route 
       path="*"
       element={<Error />}
-    />
+    /> */}
   </Route>
 ));
 
