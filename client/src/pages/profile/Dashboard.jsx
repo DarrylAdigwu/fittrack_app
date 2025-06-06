@@ -123,7 +123,7 @@ export default function Dashboard() {
   // Load new workout after form is filled
   function handleSubmit(event) {
     if(event) {
-      window.location.reload();
+      //window.location.reload();
     }
   }
 
