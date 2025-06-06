@@ -74,7 +74,7 @@ div.schedule {
   flex-wrap: wrap;
   position: relative;
   justify-content: center;
-  width: 80%;
+  width: 90%;
   max-width: 500px;
   min-width: 300px;
 }
@@ -153,8 +153,8 @@ div.schedule > .table-actions-menu.active {
 div.schedule > table {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  margin-block: 1rem;
+  width: 90%;
+  margin-bottom: 1rem;
   border-radius: 6px;
   overflow: hidden;
   border: 1px solid rgba(159,154,154, .5);
