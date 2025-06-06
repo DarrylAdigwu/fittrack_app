@@ -3,6 +3,7 @@ import { Form, useActionData, useLoaderData, useNavigate, useSearchParams } from
 import "../../assets/css/dashboard.css";
 import plusIcon from "../../assets/images/plusIcon.svg";
 import minusIcon from "../../assets/images/minusIcon.svg";
+import threeDot from "../../assets/images/three-dot-menu.svg";
 import { sendData, getTodaysWorkout, formatCurrentDate} from "../../../client-utils";
 
 
