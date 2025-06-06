@@ -52,7 +52,7 @@ export async function sendData(route, allData, prevUrl = null) {
     }
     // Store token
     sessionStorage.setItem("authToken", JSON.stringify(authTokenData));
-    return window.location.replace(`${responseData.redirectUrl}`);
+    //return window.location.replace(`${responseData.redirectUrl}`);
   } else {
     return responseData;
   };
