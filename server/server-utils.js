@@ -48,8 +48,7 @@ export async function requireAuth (req, res, next) {
   
   try {
     const authToken = req["headers"].authorization.split(" ")[1];
-    const paddToken = addPadding(authToken);
-    const decodedToken = await verifyToken(`${paddToken}`);
+    const decodedToken = await verifyToken(`${authToken}`);
 
     if(authToken === "null") {
       return res.status(401).json({
@@ -98,14 +97,4 @@ export function capitalizeFirstLetter(string) {
   } catch(err) {
     console.error("Error capitalizing string:", err)
   }
-}
-
-
-function addPadding(base64string) {
-  let padding = "";
-  const remainder = base64string.length % 4;
-  if(remainder > 0 ) {
-    padding = "=".repeat(4 - remainder);
-  }
-  return base64string + padding;
 }
