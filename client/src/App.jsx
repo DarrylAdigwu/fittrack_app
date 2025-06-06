@@ -1,38 +1,37 @@
-import React from "react";
-import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, redirect } from "react-router"
-import Layout from "./components/Layout";
-import Home from './pages/Home';
-import About from './pages/About';
-import Error from './pages/Error';
-import Register, { action as registerAction} from './pages/Register';
-import Login, { action as loginAction} from "./pages/Login";
-import DashboardLayout from "./components/DashboardLayout";
-import Dashboard, { loader as dashboardLoader, action as dashboardAction } from "./pages/profile/Dashboard";
-import { authUser, usersUsername } from "../client-utils";
+import React from 'react';
+import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, redirect } from 'react-router';
+import Layout from './components/Layout.jsx';
+import Home from './pages/Home.jsx';
+import About from './pages/About.jsx';
+import Register, { action as registerAction } from './pages/Register.jsx';
+import Login, { action as loginAction } from './pages/Login.jsx';
+import DashboardLayout from './components/DashboardLayout.jsx';
+import Dashboard, { loader as dashboardLoader, action as dashboardAction } from './pages/profile/Dashboard.jsx';
+import { authUser, usersUsername } from '../client-utils.js';
 
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />}>
-    <Route
-      index
-      element={<Home />}
+    <Route 
+      index 
+      element={<Home />} 
     />
-    <Route
+    <Route 
       path="about"
       element={<About />}
     />
-    <Route 
+    <Route
       path="register"
       element={<Register />}
       action={registerAction}
     />
-    <Route 
+    <Route
       path="login"
       element={<Login />}
       action={loginAction}
     />
 
-    <Route 
+    <Route
       path="dashboard"
       element={<DashboardLayout />}
     >
@@ -51,13 +50,6 @@ const router = createBrowserRouter(createRoutesFromElements(
         action={dashboardAction}
       />
     </Route>
-
-
-    {/* Error page */} 
-    {/* <Route 
-      path="*"
-      element={<Error />}
-    /> */}
   </Route>
 ));
 
@@ -66,3 +58,8 @@ export default function App() {
     <RouterProvider router={router} />
   )
 };
+{/* Error page */} 
+    {/* <Route 
+      path="*"
+      element={<Error />}
+    /> */}
