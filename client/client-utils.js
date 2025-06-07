@@ -2,22 +2,39 @@ import { jwtDecode } from "jwt-decode";
 
 
 // Get Cookie Value
-export function getCookie(cookieValue) {
+export function getCookie(cookieStr) {
   let username;
+
+  // Get array of cookies
+  const cookieArr = document.cookie ? document.cookie.split(";") : null;
+
+  // Filter cookie that matches passed in value
+  const findCookie = cookieArr && cookieArr.filter(cookie => {
+    if(cookie.startsWith(`${cookieStr}`) || cookie.startsWith(` ${cookieStr}`)) {
+      return cookie;
+    } else {
+      return null;
+    }
+  });
+
+  // Isolate cookies value
+  const cookieValue = findCookie ? findCookie.toString().split("=")[1] : null;
   
+  // Decode cookie, return data
   if(cookieValue) {
     try{
       let decodeUser = jwtDecode(cookieValue);
       username = decodeUser.username
-      return username
+      return username;
     } catch(err) {
       console.error("Error getting cookie in top level:", err)
     }
+  } else {
+    return null
   }
 }
 
-const cookUsername = document.cookie.split(";")[0].split("=")[1] ? document.cookie.split(";")[0].split("=")[1] : null;
-export const usersUsername = getCookie(cookUsername);
+export const usersUsername = getCookie("user-token");
 
 
 /* Send form data to server */
