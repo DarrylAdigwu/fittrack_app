@@ -5,6 +5,7 @@ import plusIcon from "../../assets/images/plusIcon.svg";
 import minusIcon from "../../assets/images/minusIcon.svg";
 import threeDot from "../../assets/images/three-dot-menu.svg";
 import trash from "../../assets/images/trash.svg";
+import cancel from "../../assets/images/cancel.svg";
 import {sendUserData, getTodaysWorkout, formatCurrentDate, usersUsername} from "../../../client-utils";
 
 
@@ -50,7 +51,9 @@ export default function Dashboard() {
     const showContainer = document.getElementById("workout-form");
     const hideNoScheduleContainer = document.getElementById("no-schedule");
     const scheduleContainer = document.getElementById("schedule");
-    
+    const plannedSchedule = document.getElementById("schedule");
+    const editScheduleForm = document.getElementById("edit-exercise-form-section");
+
     if(scheduleContainer && scheduleContainer.style.display === "flex" && plannedWorkout === null) {
       scheduleContainer.style.display = "none";
     }
@@ -60,6 +63,10 @@ export default function Dashboard() {
     if(!plannedWorkout) {
       hideNoScheduleContainer.style.display = "flex"
     } 
+    if(editScheduleForm.classList.contains("active")) {
+      plannedSchedule.classList.toggle("active");
+      editScheduleForm.classList.toggle("active");
+    }
 
     setSearchParams((prev) => {
       const prevParam = new Date(prev.get("date"));
@@ -74,6 +81,8 @@ export default function Dashboard() {
     const showContainer = document.getElementById("workout-form");
     const hideNoScheduleContainer = document.getElementById("no-schedule");
     const scheduleContainer = document.getElementById("schedule");
+    const plannedSchedule = document.getElementById("schedule");
+    const editScheduleForm = document.getElementById("edit-exercise-form-section");
 
     if(scheduleContainer && scheduleContainer.style.display === "flex" && plannedWorkout === null) {
       scheduleContainer.style.display = "none";
@@ -84,6 +93,10 @@ export default function Dashboard() {
     if(!plannedWorkout) {
       hideNoScheduleContainer.style.display = "flex"
     } 
+    if(editScheduleForm.classList.contains("active")) {
+      plannedSchedule.classList.toggle("active");
+      editScheduleForm.classList.toggle("active");
+    }
 
     setSearchParams((prev) => {
       const nextParam = new Date(prev.get("date"));
@@ -159,7 +172,7 @@ export default function Dashboard() {
       <img className="threeDotImg" src={threeDot} alt="menu to edit table" onClick={handleDropDown}/>
     </div>
     <div className="table-actions-menu">
-      <span className="action-edit">Edit</span>
+      <span className="action-edit" onClick={handleEditSchedule}>Edit</span>
       <span className="action-delete">Delete</span>
     </div>
     <table className="workout-table">
@@ -324,6 +337,89 @@ export default function Dashboard() {
     };
   }
 
+  // Edit schedule option
+  const editSchedule = plannedWorkout && 
+  plannedWorkout.map((workout) => {
+    return(
+      <div className="inputBoxes" id="edit-exercise-form">
+        <div className="inputBoxes" id="editInputBoxes1">
+          <label htmlFor="displayDate"/>
+          <input id="displayDate" className="displayDate" 
+            name="displayDate" 
+            placeholder="" 
+            type="hidden" 
+            value={formatCurrentDate(new Date(`${workout.date}`))}
+          />
+
+          <label htmlFor="workoutInput1"></label>
+          <input 
+            className="workoutInput" 
+            id="workoutInput1" 
+            name="workoutInput1" 
+            defaultValue={`${workout.exercise}`}
+            placeholder="Workout" 
+            aria-label="Input name of exercise number one"
+            autoFocus
+          />
+
+          <label htmlFor="muscleGroupInput1"></label>
+          <input className="muscleGroupInput" 
+            id="muscleGroupInput1" 
+            name="muscleGroupInput1"
+            defaultValue={`${workout.muscle_group}`} 
+            placeholder="Focus"
+            aria-label="Input muscle group for exercise number one"
+          />
+
+          <label htmlFor="setInput1"></label>
+          <input className="setInput"
+            type="number" 
+            id="setInput1" 
+            name="setInput1" 
+            defaultValue={`${workout.sets}`}
+            placeholder="Sets" 
+            aria-label="Input sets for exercise number one"
+            step="1"
+            min="1"
+          />
+
+          <label htmlFor="repInput1"></label>
+          <input className="repInput"
+            type="number" 
+            id="repInput1" 
+            name="repInput1" 
+            defaultValue={`${workout.reps}`}
+            placeholder="Reps" 
+            aria-label="Input reps for exercise number one"
+            step="1"
+            min="1"
+          />
+        </div>
+      </div>
+    )
+  });
+
+
+  // Toggle schedule and edit form
+  function handleEditSchedule(event) {
+    const editScheduleButton = document.querySelector("action-edit");
+    const plannedSchedule = document.getElementById("schedule");
+    const editScheduleForm = document.getElementById("edit-exercise-form-section");
+    if(event) {
+      plannedSchedule.classList.toggle("active");
+      editScheduleForm.classList.toggle("active");
+    }
+  }
+
+  function handleEditCancel(event) {
+    const plannedSchedule = document.getElementById("schedule");
+    const editScheduleForm = document.getElementById("edit-exercise-form-section");
+    if(event) {
+      plannedSchedule.classList.toggle("active");
+      editScheduleForm.classList.toggle("active");
+    }
+  }
+
   return(
     <div className="container dash-container">
       <div className="displayDate">
@@ -332,6 +428,16 @@ export default function Dashboard() {
         <button id="future-date" onClick={() => nextDate()}>&gt;</button>
       </div>
       {showSchedule}
+      <div className="edit-exercise-form-section" id="edit-exercise-form-section">
+        <div className="cancel-edit">
+          <img src={cancel} alt="cancel edit" className="cancel-edit-img" onClick={handleEditCancel} />
+        </div>
+        <Form method="PATCH" className="edit-exercise-form">
+          {editSchedule}
+          {actionData && key.startsWith("invalid") ? <span className="invalidDash">{actionData[key]}</span> : null}
+          <button id="submit-edit-exercise" type="submit">{isLoading ? "Submitting..." : "Edit Workout"}</button>
+        </Form>
+      </div>
       <div id="workout-form" className="workout-form">
         <h1>Create a Workout</h1>
         <Form method="post" id="exercise-form">

@@ -79,6 +79,10 @@ div.schedule {
   min-width: 300px;
 }
 
+div.schedule.active {
+  display: none;
+}
+
 div.schedule > .table-actions {
   display: flex;
   justify-content: right;
@@ -254,6 +258,140 @@ tr.workout-tbody-row > td.workout-actions {
 th, tbody > tr {
   padding: 20px 0px;
 }
+
+
+/* Edit workout form */
+div.edit-exercise-form-section {
+  display: none;
+}
+
+div.edit-exercise-form-section.active {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 90%;
+  max-width: 500px;
+  min-width: 300px;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  height: fit-content; 
+}
+
+div.edit-exercise-form-section form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  width: 90%;
+  max-width: 450px;
+}
+
+div.edit-exercise-form-section > div.cancel-edit {
+  width: 90%;
+  text-align: right;
+  padding: 0 .5rem;
+}
+
+div.cancel-edit > img.cancel-edit-img {
+  height: 1.5rem;
+}
+
+div.cancel-edit > img.cancel-edit-img:hover {
+  cursor: pointer;
+  border-bottom: 1px solid black;
+}
+
+div.edit-exercise-form-section input {
+  height: 70px;
+  padding: 0 .5rem;
+  margin-block: .125rem;
+  border: 1px solid rgba(120, 120, 120, .5);
+  font-size: 1rem;
+  border-radius: 5px;
+  text-align: center;
+}
+
+div.edit-exercise-form-section button {
+  height: 40px;
+  padding: 0 .5rem;
+  border-radius: 5px;
+  border: 1px solid rgba(120, 120, 120, .5);
+  font-size: 1rem;
+}
+
+div.inputBoxes {
+  display: flex;
+  width: 100%;
+}
+
+div.edit-exercise-form-section .workoutInput {
+  width: 40%;
+  border-bottom: 1px solid rgba(217, 139, 34, .8);
+}
+
+div.edit-exercise-form-section .muscleGroupInput {
+  width: 30%;
+}
+
+div.edit-exercise-form-section .setInput {
+  width: 15%;
+}
+
+div.edit-exercise-form-section .repInput {
+  width: 15%;
+}
+
+div.edit-exercise-form-section > Form > div.edit-exercise-btn-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: .25rem;
+}
+
+div.edit-exercise-btn-container > div#edit-add-exercise,
+div.edit-exercise-btn-container > div#edit-remove-exercise {
+  display: flex;
+  align-items: center;
+  justify-self: right;
+  width: fit-content;
+  height: 25px;
+  background: none;
+  color: #D98B22;
+  cursor: pointer;
+  font-size: .875rem;
+}
+
+div.edit-exercise-btn-container > div#edit-add-exercise:hover,
+div.edit-exercise-btn-container > div#edit-remove-exercise:hover {
+  border-bottom: 1px solid #D98B22;
+}
+
+div.edit-exercise-btn-container > div#edit-add-exercise > img,
+div.edit-exercise-btn-container > div#edit-remove-exercise > img {
+  margin-right: .25rem;
+}
+
+div.edit-exercise-form-section > Form > #submit-edit-exercise {
+  width: 100%;
+  margin-top: 1rem;
+  background-color: #D98B22;
+  color: #FFFFFF;
+}
+
+div.edit-exercise-form-section > Form > #submit-edit-exercise:hover {
+  cursor: pointer;
+}
+
+
+div.edit-exercise-form-section > Form > #submit-edit-exercise:active {
+  background-color: #FFFFFF;
+  color:#D98B22;
+  border: 1px solid #D98B22;
+  cursor: pointer;
+}
+
 
 /* Workout form */
 div.dash-container > div.workout-form {
