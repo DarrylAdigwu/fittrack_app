@@ -4,6 +4,7 @@ import "../../assets/css/dashboard.css";
 import plusIcon from "../../assets/images/plusIcon.svg";
 import minusIcon from "../../assets/images/minusIcon.svg";
 import threeDot from "../../assets/images/three-dot-menu.svg";
+import trash from "../../assets/images/trash.svg";
 import {sendUserData, getTodaysWorkout, formatCurrentDate, usersUsername} from "../../../client-utils";
 
 
@@ -20,6 +21,10 @@ export async function action({ request }) {
 
   if(sendFormData.serverError) {
     return sendFormData.serverError;
+  }
+
+  if(sendFormData.serverCheck.valid) {
+    return window.location.reload();
   }
 }
 
@@ -118,14 +123,6 @@ export default function Dashboard() {
   }, [dateParam]);
 
 
-  // Load new workout after form is filled
-  function handleSubmit(event) {
-    if(event) {
-      window.location.reload();
-    }
-  }
-
-
   // Toggle drop down nav
   function handleDropDown(event) {
     const threeDotImage = document.querySelector("img.threeDotImg");
@@ -138,27 +135,19 @@ export default function Dashboard() {
   }
 
 
-  // Display form for planned workout
+  // Display table for planned workout
   const todaysSchedule = plannedWorkout ? 
   plannedWorkout.map((workouts) => {
     return (                                                                                                                                                                    
-      <tbody key={workouts.id}>            
-        <tr className="exercise-row">
-          <td>{workouts.exercise}</td>
-        </tr>
-
-        <tr className="focus-row">
-          <td>{workouts.muscle_group}</td>
-        </tr> 
-        
-        <tr className="sets-row">
-          <td>{workouts.sets}</td>
-        </tr>
-
-        <tr className="reps-row">
-          <td>{workouts.reps}</td>
-        </tr>
-      </tbody>
+      <tr key={workouts.id} className={`workout-tbody-row workout-tbody-row-${workouts.id}`}>
+        <td className="exercise-row">{workouts.exercise}</td>
+        <td className="focus-row">{workouts.muscle_group}</td>
+        <td className="sets-row">{workouts.sets}</td>
+        <td className="reps-row">{workouts.reps}</td>
+        <td className="workout-actions">
+          <img src={trash} alt="trash can to delete exercise" className="delete-action" />
+        </td>
+      </tr>
     )
   }) : null
 
@@ -173,16 +162,18 @@ export default function Dashboard() {
       <span className="action-edit">Edit</span>
       <span className="action-delete">Delete</span>
     </div>
-    <table>
-      <thead>
-        <tr className="table-head-row">
+    <table className="workout-table">
+      <thead className="workout-thead-section">
+        <tr className="workout-thead-row">
           <th className="exercise">Exercise</th>
           <th className="focus">Focus</th>
           <th className="sets">Sets</th>
           <th className="reps">Reps</th>
         </tr>
       </thead>
-      {todaysSchedule}
+      <tbody className="workout-table-tbody">
+        {todaysSchedule}
+      </tbody>
     </table>
   </div> :
   <div className="no-schedule" id="no-schedule">
@@ -343,7 +334,7 @@ export default function Dashboard() {
       {showSchedule}
       <div id="workout-form" className="workout-form">
         <h1>Create a Workout</h1>
-        <Form method="post" id="exercise-form" onSubmit={handleSubmit}>
+        <Form method="post" id="exercise-form">
           <div className="inputBoxes" id="inputBoxes1">
             <label htmlFor="displayDate"/>
             <input id="displayDate" className="displayDate" 

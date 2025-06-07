@@ -153,77 +153,102 @@ div.schedule > table {
   flex-wrap: wrap;
   width: 90%;
   margin-bottom: 1rem;
-  padding: 0 .125rem;
   border-radius: 6px;
   overflow: hidden;
   border: 1px solid rgba(159,154,154, .5);
   background-color: #FFFFFF;
+  height: fit-content;
 }
 
-table > thead {
+table.workout-table > thead.workout-thead-section {
   width: 100%;
+  height: 70px;
   color: #D98B22;
 }
 
-thead > tr.table-head-row {
+thead.workout-thead-section > tr.workout-thead-row {
   display: flex;
-  justify-content: space-evenly;
+  padding: 0;
   width: 100%;
+  height: 100%;
   border-bottom: 1px solid rgba(217, 139, 34, .5);
 }
 
-tr.table-head-row > th {
+tr.workout-thead-row > th {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+tr.workout-thead-row > th {
   display: flex;
   justify-content: space-evenly;
   font-weight: 500;
 }
 
-tr.table-head-row > th.reps {
+tr.workout-thead-row > th.reps {
   width: 15%;
 }
 
-tr.table-head-row > th.sets {
+tr.workout-thead-row > th.sets {
   width: 15%;
 }
 /* #36454F #9F9AA4*/
-tr.table-head-row > th.focus {
-  width: 25%;
+tr.workout-thead-row > th.focus {
+  width: 30%;
 }
 
-tr.table-head-row > th.exercise {
-  width: 45%;
+tr.workout-thead-row > th.exercise {
+  width: 40%;
 }
 
-table > tbody {
-  display: flex;
-  justify-content: space-evenly;
+table.workout-table > tbody.workout-table-tbody {
+  height: fit-content;
   width: 100%;
 }
 
- tbody > tr {
+ tbody.workout-table-tbody > tr.workout-tbody-row {
   display: flex;
-  justify-content: space-evenly;
-  width: 100%;
-  border-top: 1px solid rgba(217, 139, 34, .5);
+  align-items: center;
+  width: 120%;
+  height: 70px;
+  padding: 0;
+  margin: 0;
+  right: 20%;
+  border-top: 1px solid rgba(159,154,164, .25);
 }
 
-tbody > tr.sets-row {
+tr.workout-tbody-row > td {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+}
+
+tr.workout-tbody-row > td.sets-row {
   width: 15%;
   border-right: 1px solid rgba(159,154,164, .25);
 }
 
-tbody > tr.reps-row {
+tr.workout-tbody-row > td.reps-row {
   width: 15%;
 }
 
-tbody > tr.exercise-row {
-  width: 45%;
+tr.workout-tbody-row > td.exercise-row {
+  width: 40%;
+  background-color: rgba(217, 139, 34, .795);
 }
 
-tbody > tr.focus-row {
+tr.workout-tbody-row > td.focus-row {
   border-left: 1px solid rgba(217, 139, 34, .5);
   border-right: 1px solid rgba(159,154,164, .25);
-  width: 25%;
+  width: 30%;
+}
+
+tr.workout-tbody-row > td.workout-actions {
+  background-color: #c05b5b;
+  width: 20%;
 }
 
 th, tbody > tr {
