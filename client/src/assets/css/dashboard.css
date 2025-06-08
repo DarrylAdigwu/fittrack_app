@@ -19,7 +19,7 @@ div.dash-container > div.displayDate {
 }
 
 div.dash-container > div.displayDate > span {
-  margin: 0 .75rem;
+  margin: 0 auto;
   font-size: .875rem;
   color: #FFFFFF;
   min-width: fit-content;
