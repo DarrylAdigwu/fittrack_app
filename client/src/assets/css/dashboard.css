@@ -45,6 +45,10 @@ div.dash-container > div.no-schedule {
   margin-top: 6.75vh;
 }
 
+div.dash-container > div.no-schedule.active {
+  display: none;
+}
+
 div.dash-container > div.no-schedule h1 {
   width: 100%;
   text-align: center;
@@ -59,6 +63,11 @@ div.dash-container > div.no-schedule button {
   color: #FFFFFF;
   border-radius: 5px;
   cursor: pointer;
+}
+
+div.displayDate > #past-date.active, 
+div.displayDate > #future-date.active {
+  display: none;
 }
 
 div.dash-container > div.no-schedule button:active {
@@ -396,6 +405,11 @@ div.edit-exercise-form-section > Form > #submit-edit-exercise:active {
 /* Workout form */
 div.dash-container > div.workout-form {
   display: none;
+}
+
+div.dash-container > div.workout-form.active {
+  position: relative;
+  display: flex;
   flex-wrap: wrap;
   width: 90%;
   max-width: 500px;
@@ -405,6 +419,23 @@ div.dash-container > div.workout-form {
   padding: 4rem 0;
   background-color: #FFFFFF;
   border-radius: 6px;
+}
+
+div.workout-form > div.cancel-new-exercise {
+  position: absolute;
+  top: .5rem;
+  text-align: right;
+  padding: 0 .5rem;
+  width: 100%;
+}
+
+div.cancel-new-exercise > img.cancel-new-exercise-img {
+  height: 1.5rem;
+}
+
+div.cancel-new-exercise > img.cancel-new-exercise-img:hover {
+  border-bottom: 1px solid #c05b5b;
+  cursor: pointer;
 }
 
 div.workout-form form {

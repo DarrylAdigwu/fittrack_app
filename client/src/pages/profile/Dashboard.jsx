@@ -47,26 +47,6 @@ export default function Dashboard() {
 
   // Display previous date
   function prevDate() {
-    // Document elements
-    const showContainer = document.getElementById("workout-form");
-    const hideNoScheduleContainer = document.getElementById("no-schedule");
-    const scheduleContainer = document.getElementById("schedule");
-    const plannedSchedule = document.getElementById("schedule");
-    const editScheduleForm = document.getElementById("edit-exercise-form-section");
-
-    if(scheduleContainer && scheduleContainer.style.display === "flex" && plannedWorkout === null) {
-      scheduleContainer.style.display = "none";
-    }
-    if(showContainer && showContainer.style.display === "flex") {
-      showContainer.style.display = "none";
-    }
-    if(!plannedWorkout) {
-      hideNoScheduleContainer.style.display = "flex"
-    } 
-    if(editScheduleForm.classList.contains("active")) {
-      plannedSchedule.classList.toggle("active");
-      editScheduleForm.classList.toggle("active");
-    }
 
     setSearchParams((prev) => {
       const prevParam = new Date(prev.get("date"));
@@ -77,26 +57,6 @@ export default function Dashboard() {
 
   // Display next date
   function nextDate() {
-    // Document elements
-    const showContainer = document.getElementById("workout-form");
-    const hideNoScheduleContainer = document.getElementById("no-schedule");
-    const scheduleContainer = document.getElementById("schedule");
-    const plannedSchedule = document.getElementById("schedule");
-    const editScheduleForm = document.getElementById("edit-exercise-form-section");
-
-    if(scheduleContainer && scheduleContainer.style.display === "flex" && plannedWorkout === null) {
-      scheduleContainer.style.display = "none";
-    }
-    if(showContainer && showContainer.style.display === "flex") {
-      showContainer.style.display = "none";
-    }
-    if(!plannedWorkout) {
-      hideNoScheduleContainer.style.display = "flex"
-    } 
-    if(editScheduleForm.classList.contains("active")) {
-      plannedSchedule.classList.toggle("active");
-      editScheduleForm.classList.toggle("active");
-    }
 
     setSearchParams((prev) => {
       const nextParam = new Date(prev.get("date"));
@@ -188,21 +148,36 @@ export default function Dashboard() {
         {todaysSchedule}
       </tbody>
     </table>
-  </div> :
+  </div> : null;
+
+
+  // No schedule display and new exercise form button
+  const noSchedule = plannedWorkout === null ?
   <div className="no-schedule" id="no-schedule">
     <h1>No workout schedule for today</h1>
-    <button id="add-workout" onClick={newForm} type="button">Add workout</button>
-  </div>;
+    <button id="add-workout" onClick={newExerciseForm} type="button">Add workout</button>
+  </div>: null;
 
 
   // Create form for new workout
-  function newForm(e) {
+  function newExerciseForm(e) {
     const hideNoScheduleContainer = document.getElementById("no-schedule");
     const showContainer = document.getElementById("workout-form");
+    const pastDateButton = document.getElementById("past-date");
+    const futureDateButton = document.getElementById("future-date");
 
     if(e.currentTarget) {
-      hideNoScheduleContainer.style.display = "none";
-      showContainer.style.display = "flex";
+      hideNoScheduleContainer.classList.toggle("active");
+      showContainer.classList.toggle("active");
+      pastDateButton.classList.toggle("active");
+      futureDateButton.classList.toggle("active");
+    }
+  };
+
+  // Cancel new exercise form
+  function handleNewExerciseCancel(event) {
+    if(event) {
+      window.location.reload();
     }
   }
 
@@ -338,7 +313,7 @@ export default function Dashboard() {
   }
 
   // Edit schedule option
-  const editSchedule = plannedWorkout && 
+  const editSchedule = plannedWorkout ? 
   plannedWorkout.map((workout) => {
     return(
       <div className="inputBoxes" id="edit-exercise-form">
@@ -397,28 +372,30 @@ export default function Dashboard() {
         </div>
       </div>
     )
-  });
+  }) : null;
 
 
   // Toggle schedule and edit form
   function handleEditSchedule(event) {
-    const editScheduleButton = document.querySelector("action-edit");
     const plannedSchedule = document.getElementById("schedule");
     const editScheduleForm = document.getElementById("edit-exercise-form-section");
+    const pastDateButton = document.getElementById("past-date");
+    const futureDateButton = document.getElementById("future-date");
+
     if(event) {
       plannedSchedule.classList.toggle("active");
       editScheduleForm.classList.toggle("active");
+      pastDateButton.classList.toggle("active");
+      futureDateButton.classList.toggle("active");
     }
   }
 
   function handleEditCancel(event) {
-    const plannedSchedule = document.getElementById("schedule");
-    const editScheduleForm = document.getElementById("edit-exercise-form-section");
     if(event) {
-      plannedSchedule.classList.toggle("active");
-      editScheduleForm.classList.toggle("active");
+      window.location.reload();
     }
   }
+
 
   return(
     <div className="container dash-container">
@@ -427,10 +404,13 @@ export default function Dashboard() {
           <span>{formatCurrentDate(showDate)}</span>
         <button id="future-date" onClick={() => nextDate()}>&gt;</button>
       </div>
+
+      {noSchedule}
       {showSchedule}
+
       <div className="edit-exercise-form-section" id="edit-exercise-form-section">
         <div className="cancel-edit">
-          <img src={cancel} alt="cancel edit" className="cancel-edit-img" onClick={handleEditCancel} />
+          <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(showDate)}`} className="cancel-edit-img" onClick={handleEditCancel} />
         </div>
         <Form method="PATCH" className="edit-exercise-form">
           {editSchedule}
@@ -438,7 +418,11 @@ export default function Dashboard() {
           <button id="submit-edit-exercise" type="submit">{isLoading ? "Submitting..." : "Edit Workout"}</button>
         </Form>
       </div>
+
       <div id="workout-form" className="workout-form">
+        <div className="cancel-new-exercise">
+          <img src={cancel} alt={`Exit new exercise form for ${formatCurrentDate(showDate)}`} className="cancel-new-exercise-img" onClick={handleNewExerciseCancel}/>
+        </div>
         <h1>Create a Workout</h1>
         <Form method="post" id="exercise-form">
           <div className="inputBoxes" id="inputBoxes1">
