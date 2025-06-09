@@ -47,6 +47,37 @@ export default function Dashboard() {
 
   // Display previous date
   function prevDate() {
+    // Document elements
+    const showContainer = document.getElementById("workout-form");
+    const noScheduleContainer = document.getElementById("no-schedule");
+    const scheduleContainer = document.getElementById("schedule");
+    const firstInputBoxes = document.getElementById("exercise-form");
+    const firstInputBoxesContainers = firstInputBoxes.querySelectorAll(".inputBoxes");
+    const firstInputBoxesChildren = firstInputBoxes.querySelectorAll("input");
+
+    // Remove schedule, hide workout form, if no planne workout show no schedule container
+    if(scheduleContainer && !scheduleContainer.classList.contains("inactive") && plannedWorkout === null) {
+      scheduleContainer.classList.toggle("inactive");
+    }
+    if(showContainer && showContainer.classList.contains("active")) {
+      showContainer.classList.toggle("active");
+    }
+    if(noScheduleContainer && noScheduleContainer.classList.contains("inactive") && !plannedWorkout) {
+      noScheduleContainer.classList.toggle("inactive")
+    }
+
+    // Clear former inputs and input containers
+    firstInputBoxesChildren.forEach((input) => {
+      input.value = ""
+    });
+
+    firstInputBoxesContainers.forEach((child) => {
+      if(child !== document.getElementById("inputBoxes1")) {
+        firstInputBoxes.removeChild(child)
+      }
+    });
+
+    setExerciseCount(() => 2);
 
     setSearchParams((prev) => {
       const prevParam = new Date(prev.get("date"));
@@ -57,7 +88,38 @@ export default function Dashboard() {
 
   // Display next date
   function nextDate() {
+    // Document elements
+    const showContainer = document.getElementById("workout-form");
+    const noScheduleContainer = document.getElementById("no-schedule");
+    const scheduleContainer = document.getElementById("schedule");
+    const firstInputBoxes = document.getElementById("exercise-form");
+    const firstInputBoxesContainers = firstInputBoxes.querySelectorAll(".inputBoxes");
+    const firstInputBoxesChildren = firstInputBoxes.querySelectorAll("input");
 
+    // Remove schedule, hide workout form, if no planne workout show no schedule container
+    if(scheduleContainer && !scheduleContainer.classList.contains("inactive") && plannedWorkout === null) {
+      scheduleContainer.classList.toggle("inactive");
+    }
+    if(showContainer && showContainer.classList.contains("active")) {
+      showContainer.classList.toggle("active");
+    }
+    if(noScheduleContainer && noScheduleContainer.classList.contains("inactive") && !plannedWorkout) {
+      noScheduleContainer.classList.toggle("inactive")
+    }
+
+    // Clear former inputs and input containers
+    firstInputBoxesChildren.forEach((input) => {
+      input.value = ""
+    });
+
+    firstInputBoxesContainers.forEach((child) => {
+      if(child !== document.getElementById("inputBoxes1")) {
+        firstInputBoxes.removeChild(child)
+      }
+    });
+
+    setExerciseCount(() => 2);
+    
     setSearchParams((prev) => {
       const nextParam = new Date(prev.get("date"));
       const nextDate = nextParam.setDate(nextParam.getDate() + 1);
@@ -176,8 +238,33 @@ export default function Dashboard() {
 
   // Cancel new exercise form
   function handleNewExerciseCancel(event) {
+    // Document elements
+    const showContainer = document.getElementById("workout-form");
+    const noScheduleContainer = document.getElementById("no-schedule");
+    const firstInputBoxes = document.getElementById("exercise-form");
+    const firstInputBoxesContainers = firstInputBoxes.querySelectorAll(".inputBoxes");
+    const firstInputBoxesChildren = firstInputBoxes.querySelectorAll("input");
+
     if(event) {
-      window.location.reload();
+      if(showContainer && showContainer.classList.contains("active")) {
+      showContainer.classList.toggle("active");
+      }
+      
+      if(noScheduleContainer && noScheduleContainer.classList.contains("inactive") && !plannedWorkout) {
+        noScheduleContainer.classList.toggle("inactive")
+      }
+
+      firstInputBoxesChildren.forEach((input) => {
+        input.value = ""
+      });
+      
+      firstInputBoxesContainers.forEach((child) => {
+        if(child !== document.getElementById("inputBoxes1")) {
+          firstInputBoxes.removeChild(child)
+        }
+      });
+
+      setExerciseCount(() => 2)
     }
   }
 
@@ -303,6 +390,7 @@ export default function Dashboard() {
     }
   }
 
+  // Remove latest new exercise input
   function removeExercise() {
     const firstInputBox = document.getElementById(`inputBoxes1`);
     const lastInputBox = document.getElementById(`inputBoxes${exerciseCount - 1}`);
@@ -377,14 +465,14 @@ export default function Dashboard() {
 
   // Toggle schedule and edit form
   function handleEditSchedule(event) {
-    const plannedSchedule = document.getElementById("schedule");
+    const scheduleContainer = document.getElementById("schedule");
     const editScheduleForm = document.getElementById("edit-exercise-form-section");
     const pastDateButton = document.getElementById("past-date");
     const futureDateButton = document.getElementById("future-date");
 
     if(event) {
-      plannedSchedule.classList.toggle("active");
       editScheduleForm.classList.toggle("active");
+      scheduleContainer.classList.toggle("inactive");
       pastDateButton.classList.toggle("active");
       futureDateButton.classList.toggle("active");
     }
