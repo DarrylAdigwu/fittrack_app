@@ -120,6 +120,44 @@ export async function sendUserData(route, allData) {
 }
 
 
+/* UPDATE user data */
+export async function updateFormData(route, allData) {
+
+  const getAuthToken = JSON.parse(sessionStorage.getItem("authToken")).token;
+  console.log(getAuthToken)
+
+  try {
+    const response = await fetch(`https://api.stage.fittracker.us/api/${route}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${getAuthToken}`
+      },
+      body: JSON.stringify({
+        allData,
+      })
+    });
+
+    if(response.status === 401) {
+      sessionStorage.removeItem("authToken");
+      removeCookies("id-token", "user-token", "connect.sid");
+      return window.location.replace("/login")
+    }
+
+    if(!response.ok) {
+      throw new Error(`HTTP ERROR: ${response.status}`)
+    }
+
+    const responsData = await response.json();
+    console.log(responsData)
+    return responsData;
+
+  } catch(err) {
+    console.error("Error sending updated data", err)
+  }
+}
+
+
 /* Authenticate user */
 export async function authUser(request) {
   const url = new URL(request.url)

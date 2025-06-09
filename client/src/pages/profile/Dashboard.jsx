@@ -16,16 +16,25 @@ export async function loader({ request }) {
 export async function action({ request }) {
   const formData = await request.formData();
   const allData = Object.fromEntries(formData);
-  console.log(allData)
-  // Send Data to server
-  const sendFormData = await sendUserData(`dashboard/${usersUsername}`, allData);
-
-  if(sendFormData.serverError) {
-    return sendFormData.serverError;
+  
+  // Send new data to server
+  if(request.method === "POST") {
+    const sendFormData = await sendUserData(`dashboard/${usersUsername}`, allData);
+    
+    if(sendFormData.serverError) {
+      return sendFormData.serverError;
+    }
+  
+    if(sendFormData.serverCheck.valid) {
+      return window.location.reload();
+    }
   }
 
-  if(sendFormData.serverCheck.valid) {
-    return window.location.reload();
+  // Send Updated data to server
+  if(request.method === "PATCH") {
+    const updatedFormData = await updateFormData(`dashboard/${usersUsername}`, allData);
+
+    
   }
 }
 
@@ -402,6 +411,16 @@ export default function Dashboard() {
     return(
       <div className="inputBoxes" id="edit-exercise-form">
         <div className="inputBoxes" id="editInputBoxes1">
+          <label htmlFor="exerciseId" />
+          <input 
+            id="exerciseId" 
+            className="exerciseId" 
+            name="idInput1"
+            placeholder=""
+            type="hidden"
+            value={workout.id}
+          />
+
           <label htmlFor="displayDate"/>
           <input id="displayDate" className="displayDate" 
             name="displayDate" 
