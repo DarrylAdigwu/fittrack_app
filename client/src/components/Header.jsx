@@ -49,7 +49,7 @@ export default function Header(props) {
         <img src={profileIcon} alt="person icon" className="profile" onClick={handleProfile}/>
       </header>
       <nav className="off-screen">
-        <Link to={`dashboard/${props.user_name}`} >
+        <Link to={`dashboard/:${props.user_name}`} >
           {props.user_name === "" ? "Log In" : "Dashboard"}
         </Link>
         {props.user_name !== "" && <Link onClick={handleLogout}>Logout</Link>}
