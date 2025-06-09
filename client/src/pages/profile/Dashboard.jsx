@@ -119,7 +119,7 @@ export default function Dashboard() {
     });
 
     setExerciseCount(() => 2);
-    
+
     setSearchParams((prev) => {
       const nextParam = new Date(prev.get("date"));
       const nextDate = nextParam.setDate(nextParam.getDate() + 1);
@@ -223,16 +223,12 @@ export default function Dashboard() {
 
   // Create form for new workout
   function newExerciseForm(e) {
-    const hideNoScheduleContainer = document.getElementById("no-schedule");
+    const noScheduleContainer = document.getElementById("no-schedule");
     const showContainer = document.getElementById("workout-form");
-    const pastDateButton = document.getElementById("past-date");
-    const futureDateButton = document.getElementById("future-date");
 
     if(e.currentTarget) {
-      hideNoScheduleContainer.classList.toggle("active");
+      noScheduleContainer.classList.toggle("inactive");
       showContainer.classList.toggle("active");
-      pastDateButton.classList.toggle("active");
-      futureDateButton.classList.toggle("active");
     }
   };
 
