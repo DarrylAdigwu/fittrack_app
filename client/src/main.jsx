@@ -5,9 +5,7 @@ import './index.css';
 import App from './App.jsx';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <CookiesProvider>
-      <App />
-    </CookiesProvider>
-  </StrictMode>,
+  <CookiesProvider>
+    <App />
+  </CookiesProvider>
 );

@@ -1,6 +1,6 @@
 import express from "express";
 import { registerUser, getUserByUsername, authLogin, deleteSession, 
-  getUsersExercises, storeExercise } from "../database/db.js";
+  getUsersExercises, storeExercise, updateUsersWorkouts } from "../database/db.js";
 import { checkString, generateToken, requireAuth, formatDate, capitalizeFirstLetter } from "../server-utils.js";
 
 // Create Router
@@ -206,17 +206,19 @@ router.route("/dashboard/:username")
   }
 })
 .post(requireAuth, async (req, res) => {
-  const allDashboardData = req.body.allData;
-  const id = req.session.user.id;
-  const username = req.session.user.username;
-  const numOfWorkouts = (Object.keys(allDashboardData).length - 1) / 3;
-  const date = allDashboardData.displayDate;
-
   if(!req.session) {
     return res.status(401).json({
         invalid: "Unauthorized", 
     });
   }
+
+  const allDashboardData = req.body.allData;
+  const user_id = req.session.user.id;
+  const username = req.session.user.username;
+  const numOfWorkouts = (Object.keys(allDashboardData).length - 1) / 3;
+  const date = allDashboardData.displayDate;
+  const newDateFormat = formatDate(date);
+
 
   if(req.method = "POST") {
     // Server side validation
@@ -246,19 +248,17 @@ router.route("/dashboard/:username")
       }
     }
 
-    const newDateFormat = formatDate(date);
-
     // Send workouts to database
     for(let i = 0; i < numOfWorkouts; i++) {
       const workout = capitalizeFirstLetter(allDashboardData[`workoutInput${i + 1}`]);
       const muscleGroup = capitalizeFirstLetter(allDashboardData[`muscleGroupInput${i + 1}`]);
       const set = allDashboardData[`setInput${i + 1}`];
       const rep = allDashboardData[`repInput${i + 1}`];
-      await storeExercise(id, username, workout, muscleGroup, set, rep, newDateFormat);
+      await storeExercise(user_id, username, workout, muscleGroup, set, rep, newDateFormat);
     }
 
     // Retrieve Workout from database
-    const getNewWorkout = await getUsersExercises(id, newDateFormat);
+    const getNewWorkout = await getUsersExercises(user_id, newDateFormat);
 
     // Return valid message
     return res.status(200).json({
@@ -266,6 +266,71 @@ router.route("/dashboard/:username")
       getNewWorkout,
     });
   }
+})
+.put(async (req, res) => {
+  if(!req.session) {
+    return res.status(401).json({
+        invalid: "Unauthorized", 
+    });
+  }
+  
+  const allUpdatedData = req.body.allData;
+  const username = req.session.user.username;
+  const user_id = req.session.user.id;
+  const numOfWorkouts = (Object.entries(allUpdatedData).length - 1) / 5;
+  const date = allUpdatedData.displayDate;
+  const newDateFormat = formatDate(date);
+  const firstExercise_id = Number(Object.entries(allUpdatedData)[1][1]);
+  
+  if(req.method === "PUT") {
+    // Server side validation
+    for(const [key, value] of Object.entries(allUpdatedData)) {
+      if(value === null || value === "") {
+        return res.status(400).json({
+          serverError: {"invalid": "Visible fields must have an answer"}
+        });
+      }
+
+      if(key.startsWith("setInput") && isNaN(value)) {
+        return res.status(400).json({
+          serverError: {"invalid": "Rep fields must be a number"}
+        });
+      }
+
+      if(key.startsWith("repInput") && isNaN(value)) {
+        return res.status(400).json({
+          serverError: {"invalid": "Rep fields must be a number"}
+        });
+      }
+
+      if(key !== "displayDate" && checkString(value) === null) {
+        return res.status(400).json({
+          serverError: {"invalid": "Inputs cannot contain special characters or spaces"}
+        });
+      }
+    }
+
+    for(let i = firstExercise_id; i < numOfWorkouts + firstExercise_id; i++) {
+      const exercise_id = i;
+      const updatedWorkout = allUpdatedData[`workoutInput${i}`];
+      const updatedMuscleGroup = allUpdatedData[`muscleGroupInput${i}`];
+      const updatedSets = allUpdatedData[`setInput${i}`];
+      const updatedReps = allUpdatedData[`repInput${i}`];
+
+      // Send updated workout from database
+      await updateUsersWorkouts(updatedWorkout, updatedMuscleGroup, updatedSets, updatedReps, exercise_id, username);
+    }
+
+    // Retrieve new workout from database
+    const getUpdatedWorkout = await getUsersExercises(user_id, newDateFormat)
+
+    // Return valid message
+    return res.status(200).json({
+      serverCheck: {"valid": "Data is valid"},
+      getUpdatedWorkout
+    });
+  }
+
 })
 
 export default router;

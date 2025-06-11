@@ -6,7 +6,7 @@ import minusIcon from "../../assets/images/minusIcon.svg";
 import threeDot from "../../assets/images/three-dot-menu.svg";
 import trash from "../../assets/images/trash.svg";
 import cancel from "../../assets/images/cancel.svg";
-import {sendUserData, getTodaysWorkout, formatCurrentDate, usersUsername} from "../../../client-utils";
+import {sendUserData, getTodaysWorkout, formatCurrentDate, usersUsername, updateFormData} from "../../../client-utils";
 
 
 export async function loader({ request }) {
@@ -31,10 +31,17 @@ export async function action({ request }) {
   }
 
   // Send Updated data to server
-  if(request.method === "PATCH") {
-    const updatedFormData = await updateFormData(`dashboard/${usersUsername}`, allData);
-
+  if(request.method === "PUT") {
+    // Send data to server
+    const updatedExerciseFormData = await updateFormData(`dashboard/${usersUsername}`, allData);
     
+    if(updatedExerciseFormData.serverError) {
+      return updatedExerciseFormData.serverError;
+    }
+
+    if(updatedExerciseFormData.serverCheck.valid) {
+      return window.location.reload();
+    }
   }
 }
 
@@ -45,6 +52,7 @@ export default function Dashboard() {
   const [searchParams, setSearchParams] = useSearchParams(`?date=${new Date()}`);
   const [showDate, setShowDate] = React.useState();
   const [plannedWorkout, setPlannedWorkout] = React.useState();
+  const [editPlan, setEditPlan] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
 
   // Get value for date search param state
@@ -153,18 +161,20 @@ export default function Dashboard() {
   }, [dateParam])
 
 
-  // Load for current date using search params
+  // Load for current dates workout using show date
   React.useEffect(() => {
     async function loadTodaysWorkout() {
       try {
         const getExercise = await getTodaysWorkout(formatCurrentDate(new Date(dateParam)));
         setPlannedWorkout(getExercise.getWorkout)
+        setEditPlan(getExercise.getWorkout)
       } catch(err) {
         console.error("Load current date workout error:", err)
       }
     }
-    loadTodaysWorkout()
-  }, [dateParam]);
+    
+    loadTodaysWorkout();
+  }, [showDate]);
 
 
   // Toggle drop down nav
@@ -223,7 +233,7 @@ export default function Dashboard() {
 
 
   // No schedule display and new exercise form button
-  const noSchedule = plannedWorkout === null ?
+  const noSchedule = plannedWorkout === null && !editPlan ?
   <div className="no-schedule" id="no-schedule">
     <h1>No workout schedule for today</h1>
     <button id="add-workout" onClick={newExerciseForm} type="button">Add workout</button>
@@ -406,73 +416,71 @@ export default function Dashboard() {
   }
 
   // Edit schedule option
-  const editSchedule = plannedWorkout ? 
-  plannedWorkout.map((workout) => {
+  const editSchedule = editPlan ? 
+  editPlan.map((workout) => {
     return(
-      <div className="inputBoxes" id="edit-exercise-form">
-        <div className="inputBoxes" id="editInputBoxes1">
-          <label htmlFor="exerciseId" />
-          <input 
-            id="exerciseId" 
-            className="exerciseId" 
-            name="idInput1"
-            placeholder=""
-            type="hidden"
-            value={workout.id}
-          />
+      <div className="inputBoxes" id={`editInputBoxes_${workout.id}`} key={workout.id}>
+        <label htmlFor="displayDate"/>
+        <input id="displayDate" className="displayDate" 
+          name="displayDate" 
+          placeholder="" 
+          type="hidden" 
+          value={formatCurrentDate(new Date(`${workout.date}`))}
+        />
+        
+        <label htmlFor="exerciseId" />
+        <input 
+          id="exerciseId" 
+          className="exerciseId" 
+          name={`idInput${workout.id}`}
+          placeholder=""
+          type="hidden"
+          value={workout.id}
+        />
 
-          <label htmlFor="displayDate"/>
-          <input id="displayDate" className="displayDate" 
-            name="displayDate" 
-            placeholder="" 
-            type="hidden" 
-            value={formatCurrentDate(new Date(`${workout.date}`))}
-          />
+        <label htmlFor="workoutInput1"></label>
+        <input 
+          className="workoutInput" 
+          id={`workoutInput${workout.id}`}
+          name={`workoutInput${workout.id}`} 
+          defaultValue={`${workout.exercise}`}
+          placeholder="Workout" 
+          aria-label="Input name of exercise number one"
+          autoFocus
+        />
 
-          <label htmlFor="workoutInput1"></label>
-          <input 
-            className="workoutInput" 
-            id="workoutInput1" 
-            name="workoutInput1" 
-            defaultValue={`${workout.exercise}`}
-            placeholder="Workout" 
-            aria-label="Input name of exercise number one"
-            autoFocus
-          />
+        <label htmlFor="muscleGroupInput1"></label>
+        <input className="muscleGroupInput" 
+          id={`muscleGroupInput${workout.id}`}
+          name={`muscleGroupInput${workout.id}`}
+          defaultValue={`${workout.muscle_group}`} 
+          placeholder="Focus"
+          aria-label="Input muscle group for exercise number one"
+        />
 
-          <label htmlFor="muscleGroupInput1"></label>
-          <input className="muscleGroupInput" 
-            id="muscleGroupInput1" 
-            name="muscleGroupInput1"
-            defaultValue={`${workout.muscle_group}`} 
-            placeholder="Focus"
-            aria-label="Input muscle group for exercise number one"
-          />
+        <label htmlFor="setInput1"></label>
+        <input className="setInput"
+          type="number" 
+          id={`setInput${workout.id}`} 
+          name={`setInput${workout.id}`} 
+          defaultValue={`${workout.sets}`}
+          placeholder="Sets" 
+          aria-label="Input sets for exercise number one"
+          step="1"
+          min="1"
+        />
 
-          <label htmlFor="setInput1"></label>
-          <input className="setInput"
-            type="number" 
-            id="setInput1" 
-            name="setInput1" 
-            defaultValue={`${workout.sets}`}
-            placeholder="Sets" 
-            aria-label="Input sets for exercise number one"
-            step="1"
-            min="1"
-          />
-
-          <label htmlFor="repInput1"></label>
-          <input className="repInput"
-            type="number" 
-            id="repInput1" 
-            name="repInput1" 
-            defaultValue={`${workout.reps}`}
-            placeholder="Reps" 
-            aria-label="Input reps for exercise number one"
-            step="1"
-            min="1"
-          />
-        </div>
+        <label htmlFor="repInput1"></label>
+        <input className="repInput"
+          type="number" 
+          id={`repInput${workout.id}`}
+          name={`repInput${workout.id}`} 
+          defaultValue={`${workout.reps}`}
+          placeholder="Reps" 
+          aria-label="Input reps for exercise number one"
+          step="1"
+          min="1"
+        />
       </div>
     )
   }) : null;
@@ -488,8 +496,8 @@ export default function Dashboard() {
     if(event) {
       editScheduleForm.classList.toggle("active");
       scheduleContainer.classList.toggle("inactive");
-      pastDateButton.classList.toggle("active");
-      futureDateButton.classList.toggle("active");
+      pastDateButton.classList.toggle("inactive");
+      futureDateButton.classList.toggle("inactive");
     }
   }
 
@@ -515,7 +523,7 @@ export default function Dashboard() {
         <div className="cancel-edit">
           <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(showDate)}`} className="cancel-edit-img" onClick={handleEditCancel} />
         </div>
-        <Form method="PATCH" className="edit-exercise-form">
+        <Form method="PUT" className="edit-exercise-form">
           {editSchedule}
           {actionData && key.startsWith("invalid") ? <span className="invalidDash">{actionData[key]}</span> : null}
           <button id="submit-edit-exercise" type="submit">{isLoading ? "Submitting..." : "Edit Workout"}</button>

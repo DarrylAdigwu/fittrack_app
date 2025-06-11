@@ -143,7 +143,7 @@ export async function deleteSession(username) {
 
 
 /* Get all user workouts for the day */
-export async function getUsersExercises(id, date) {
+export async function getUsersExercises(user_id, date) {
   const connection = await db.getConnection();
 
   try {
@@ -158,7 +158,7 @@ export async function getUsersExercises(id, date) {
             WHERE user_id = ?
             AND date = ?`;
     
-    let getWorkoutsInsert = [id, date];
+    let getWorkoutsInsert = [user_id, date];
   
     getWorkoutsQuery = mysql.format(getWorkoutsQuery, getWorkoutsInsert);
   
@@ -177,7 +177,7 @@ export async function getUsersExercises(id, date) {
 
 
 /* Search for duplicate workouts */
-export async function checkWorkouts(id, username, workout, date) {
+export async function checkWorkouts(user_id, username, workout, date) {
   const connection = await db.getConnection();
   
   try {
@@ -187,7 +187,7 @@ export async function checkWorkouts(id, username, workout, date) {
             AND exercise = ? 
             AND date = ?`;
     
-    let checkWorkoutsInsert = [id, username, workout, date];
+    let checkWorkoutsInsert = [user_id, username, workout, date];
   
     checkWorkoutsQuery = mysql.format(checkWorkoutsQuery, checkWorkoutsInsert);
   
@@ -206,12 +206,12 @@ export async function checkWorkouts(id, username, workout, date) {
 
 
 /* Store workout */
-export async function storeExercise(id, username, workout, muscleGroup, sets, reps, date) {
+export async function storeExercise(user_id, username, workout, muscleGroup, sets, reps, date) {
   const connection = await db.getConnection();
 
   try {
     // Check if entry already exists
-    if(await checkWorkouts(id, username, workout, date)) {
+    if(await checkWorkouts(user_id, username, workout, date)) {
       return "Workout already exists";
     }
   
@@ -220,7 +220,7 @@ export async function storeExercise(id, username, workout, muscleGroup, sets, re
             (user_id, user_name, exercise, muscle_group, sets, reps, date)
             VALUES(?, ?, ?, ?, ?, ?, ?)`;
     
-    let storeExerciseInsert = [id, username, workout, muscleGroup, sets, reps, date];
+    let storeExerciseInsert = [user_id, username, workout, muscleGroup, sets, reps, date];
   
     storeExerciseQuery = mysql.format(storeExerciseQuery, storeExerciseInsert);
   
@@ -229,6 +229,32 @@ export async function storeExercise(id, username, workout, muscleGroup, sets, re
     return exerciseQuery;
   } catch(err) {
     console.error("Store exercise error:", err);
+  } finally {
+    connection.release();
+  }
+}
+
+
+/* Update workouts */
+export async function updateUsersWorkouts(workout, muscleGroup, sets, reps, exercise_id, username) {
+  const connection = await db.getConnection();
+
+  try {
+    // Update existing workout
+    let updateWorkoutQuery = `UPDATE workouts
+            SET exercise = ?, muscle_group = ?, sets = ?, reps = ?
+            WHERE id = ? AND user_name = ?`;
+
+    let updateWorkoutInsert = [workout, muscleGroup, sets, reps, exercise_id, username];
+
+    updateWorkoutQuery = mysql.format(updateWorkoutQuery, updateWorkoutInsert);
+
+    const updateQuery = await db.query(updateWorkoutQuery);
+
+    return updateQuery;
+
+  } catch(err) {
+    console.error("Error updating workouts to the database:", err);
   } finally {
     connection.release();
   }

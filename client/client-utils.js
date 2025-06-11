@@ -113,6 +113,7 @@ export async function sendUserData(route, allData) {
     const responsData = await response.json();
 
     return responsData;
+
   } catch(err) {
     console.error("Error sending user data:", err)
     throw err;
@@ -129,6 +130,7 @@ export async function updateFormData(route, allData) {
   try {
     const response = await fetch(`https://api.stage.fittracker.us/api/${route}`, {
       method: "PATCH",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${getAuthToken}`
@@ -144,12 +146,8 @@ export async function updateFormData(route, allData) {
       return window.location.replace("/login")
     }
 
-    if(!response.ok) {
-      throw new Error(`HTTP ERROR: ${response.status}`)
-    }
-
     const responsData = await response.json();
-    console.log(responsData)
+    
     return responsData;
 
   } catch(err) {

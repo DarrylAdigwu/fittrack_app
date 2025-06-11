@@ -65,8 +65,8 @@ div.dash-container > div.no-schedule button {
   cursor: pointer;
 }
 
-div.displayDate > #past-date.active, 
-div.displayDate > #future-date.active {
+div.displayDate > #past-date.inactive, 
+div.displayDate > #future-date.inactive {
   display: none;
 }
 
