@@ -96,11 +96,23 @@ export default function Dashboard() {
 
     setExerciseCount(() => 2);
 
-    setSearchParams((prev) => {
-      const prevParam = new Date(prev.get("date"));
-      const prevDate = prevParam.setDate(prevParam.getDate() - 1);
-      return { "date": formatCurrentDate(prevDate)}
-    });
+    if(dateParam) {
+      setSearchParams((prev) => {
+        const prevParam = new Date(prev.get("date"));
+        const prevDate = prevParam.setDate(prevParam.getDate() - 1);
+        return { "date": formatCurrentDate(prevDate)}
+      });
+    }
+
+    if(!dateParam) {
+      setShowDate((prev) => {
+        const currentDate = new Date(prev);
+        const prevDate = currentDate.setDate(currentDate.getDate() - 1);
+        return prevDate;
+      });
+
+      setSearchParams({"date": formatCurrentDate(showDate)});
+    }
   };
 
   // Display next date
@@ -137,11 +149,23 @@ export default function Dashboard() {
 
     setExerciseCount(() => 2);
 
-    setSearchParams((prev) => {
-      const nextParam = new Date(prev.get("date"));
-      const nextDate = nextParam.setDate(nextParam.getDate() + 1);
-      return { "date": formatCurrentDate(nextDate)}
-    });
+    if(dateParam) {
+      setSearchParams((prev) => {
+        const nextParam = new Date(prev.get("date"));
+        const nextDate = nextParam.setDate(nextParam.getDate() + 1);
+        return { "date": formatCurrentDate(nextDate)}
+      });
+    }
+
+    if(dateParam === null) {
+      setShowDate((prev) => {
+        const currentDate = new Date(prev);
+        const nextDate = currentDate.setDate(currentDate.getDate() + 1);
+        return nextDate;
+      });
+
+      setSearchParams({"date": formatCurrentDate(showDate)});
+    }
   };
 
 
@@ -515,10 +539,8 @@ export default function Dashboard() {
           <span>{formatCurrentDate(showDate)}</span>
         <button id="future-date" onClick={() => nextDate()}>&gt;</button>
       </div>
-
       {noSchedule}
       {showSchedule}
-
       <div className="edit-exercise-form-section" id="edit-exercise-form-section">
         <div className="cancel-edit">
           <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(showDate)}`} className="cancel-edit-img" onClick={handleEditCancel} />
