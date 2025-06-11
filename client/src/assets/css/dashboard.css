@@ -18,14 +18,16 @@ div.dash-container > div.displayDate {
   box-shadow: 2px 4px 4px 2px rgba(217,139,34, .5);
 }
 
-div.dash-container > div.displayDate > span {
+div.displayDate > span {
   margin: 0 auto;
   font-size: .875rem;
   color: #FFFFFF;
   min-width: fit-content;
 }
 
-div.dash-container > div.displayDate > button {
+div.displayDate > button {
+  display: flex;
+  align-items: center;
   background-color: transparent;
   border: none;
   color: #FFFFFF;

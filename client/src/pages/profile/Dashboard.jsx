@@ -6,6 +6,8 @@ import minusIcon from "../../assets/images/minusIcon.svg";
 import threeDot from "../../assets/images/three-dot-menu.svg";
 import trash from "../../assets/images/trash.svg";
 import cancel from "../../assets/images/cancel.svg";
+import leftArr from "../../assets/images/left-arrow.svg";
+import rightArr from "../../assets/images/right-arrow.svg";
 import {sendUserData, getTodaysWorkout, formatCurrentDate, usersUsername, updateFormData} from "../../../client-utils";
 
 
@@ -535,9 +537,13 @@ export default function Dashboard() {
   return(
     <div className="container dash-container">
       <div className="displayDate">
-        <button id="past-date" onClick={() => prevDate()}>&lt;</button>
+        <button id="past-date" onClick={() => prevDate()}>
+          <img src={leftArr} alt="left button arrow to change date to day before" />
+        </button>
           <span>{formatCurrentDate(showDate)}</span>
-        <button id="future-date" onClick={() => nextDate()}>&gt;</button>
+        <button id="future-date" onClick={() => nextDate()}>
+          <img src={rightArr} alt="right button arrow to change date to day after" />
+        </button>
       </div>
       {noSchedule}
       {showSchedule}
