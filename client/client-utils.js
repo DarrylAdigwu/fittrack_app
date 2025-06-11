@@ -129,7 +129,7 @@ export async function updateFormData(route, allData) {
 
   try {
     const response = await fetch(`https://api.stage.fittracker.us/api/${route}`, {
-      method: "PATCH",
+      method: "PUT",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
