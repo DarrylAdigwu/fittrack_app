@@ -522,6 +522,19 @@ span.invalidDash {
   font-size: .875rem;
 }
 
+span#warning-key {
+  display: none;
+}
+
+span#warning-key.inactive {
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: #c05b5b;
+  margin: 1rem 0 .25rem 0;
+  font-size: .875rem;
+}
+
 div.exercise-btn-container > div#add-exercise:hover,
 div.exercise-btn-container > div#remove-exercise:hover {
   border-bottom: 1px solid #D98B22;

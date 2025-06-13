@@ -255,7 +255,7 @@ export default function Dashboard() {
         {todaysSchedule}
       </tbody>
     </table>
-    {editPlan.length < 6 ? <button id="add-workout" onClick={newExerciseForm} type="button">Add workout</button> : null}
+    {editPlan.length < 6 ? <button id="add-workout" onClick={newExerciseForm} type="button">Add Workout</button> : null}
   </div> : null;
 
 
@@ -263,7 +263,7 @@ export default function Dashboard() {
   const noSchedule = plannedWorkout === null && !editPlan ?
   <div className="no-schedule" id="no-schedule">
     <h1>No workout schedule for today</h1>
-    <button id="add-workout" onClick={newExerciseForm} type="button">Add workout</button>
+    <button id="add-workout" onClick={newExerciseForm} type="button">Add Workout</button>
   </div>: null;
 
 
@@ -325,8 +325,15 @@ export default function Dashboard() {
 
   // Create new exercise inputs
   function newExercise() {
+
+    const warningKey = document.getElementById("warning-key");
+
     if(exerciseCount > 6) {
-      return "max";
+     return warningKey.classList.toggle("inactive")
+    } 
+    
+    if(editPlan || editPlan && (exerciseCount + editPlan.length) > 6) {
+      return warningKey.classList.toggle("inactive")
     }
 
     const prevWorkoutInput = document.getElementById(`workoutInput${exerciseCount - 1}`);
@@ -364,6 +371,14 @@ export default function Dashboard() {
     document.getElementById(`setInput${exerciseCount - 1}`).value &&
     document.getElementById(`repInput${exerciseCount - 1}`).value) {
       
+      if(exerciseCount < 6) {
+      warningKey.classList.toggle("inactive")
+      } 
+    
+      if(editPlan || editPlan && (exerciseCount + editPlan.length) < 6) {
+        warningKey.classList.toggle("inactive")
+      }
+
       prevWorkoutInput.style.backgroundColor = "transparent";
       prevMuscleGroupInput.style.backgroundColor = "transparent";
       prevSetInput.style.backgroundColor = "transparent";
@@ -635,6 +650,7 @@ export default function Dashboard() {
               Remove
             </div>
           </div>
+          <span id="warning-key">Daily Limit Hit: 6 workouts</span>
           {actionData && key.startsWith("invalid") ? <span className="invalidDash">{actionData[key]}</span> : null}
           <button id="submit-exercise" type="submit">{isLoading ? "Submitting..." : "Submit"}</button>
         </Form>
