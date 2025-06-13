@@ -255,6 +255,7 @@ export default function Dashboard() {
         {todaysSchedule}
       </tbody>
     </table>
+    {editPlan.length < 6 ? <button id="add-workout" onClick={newExerciseForm} type="button">Add workout</button> : null}
   </div> : null;
 
 
@@ -270,10 +271,16 @@ export default function Dashboard() {
   function newExerciseForm(e) {
     const noScheduleContainer = document.getElementById("no-schedule");
     const showContainer = document.getElementById("workout-form");
+    const addWorkoutButton = document.getElementById("add-workout");
 
     if(e.currentTarget) {
-      noScheduleContainer.classList.toggle("inactive");
-      showContainer.classList.toggle("active");
+      if(noScheduleContainer) {
+        noScheduleContainer.classList.toggle("inactive");
+        showContainer.classList.toggle("active");
+      } else {
+        showContainer.classList.toggle("active");
+        addWorkoutButton.classList.toggle("inactive")
+      }
     }
   };
 
@@ -285,6 +292,8 @@ export default function Dashboard() {
     const firstInputBoxes = document.getElementById("exercise-form");
     const firstInputBoxesContainers = firstInputBoxes.querySelectorAll(".inputBoxes");
     const firstInputBoxesChildren = firstInputBoxes.querySelectorAll("input");
+    const scheduleContainer = document.getElementById("schedule");
+    const addWorkoutButton = document.getElementById("add-workout");
 
     if(event) {
       if(showContainer && showContainer.classList.contains("active")) {
@@ -293,6 +302,10 @@ export default function Dashboard() {
       
       if(noScheduleContainer && noScheduleContainer.classList.contains("inactive") && !plannedWorkout) {
         noScheduleContainer.classList.toggle("inactive")
+      }
+
+      if(scheduleContainer) {
+        addWorkoutButton.classList.toggle("inactive")
       }
 
       firstInputBoxesChildren.forEach((input) => {
@@ -551,7 +564,7 @@ export default function Dashboard() {
         <div className="cancel-edit">
           <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(showDate)}`} className="cancel-edit-img" onClick={handleEditCancel} />
         </div>
-        <Form method="PUT" className="edit-exercise-form">
+        <Form method="PUT" id="edit-exercise-form" className="edit-exercise-form">
           {editSchedule}
           {actionData && key.startsWith("invalid") ? <span className="invalidDash">{actionData[key]}</span> : null}
           <button id="submit-edit-exercise" type="submit">{isLoading ? "Submitting..." : "Edit Workout"}</button>
@@ -562,7 +575,7 @@ export default function Dashboard() {
         <div className="cancel-new-exercise">
           <img src={cancel} alt={`Exit new exercise form for ${formatCurrentDate(showDate)}`} className="cancel-new-exercise-img" onClick={handleNewExerciseCancel}/>
         </div>
-        <h1>Create a Workout</h1>
+        <h1>Add Workouts</h1>
         <Form method="post" id="exercise-form">
           <div className="inputBoxes" id="inputBoxes1">
             <label htmlFor="displayDate"/>

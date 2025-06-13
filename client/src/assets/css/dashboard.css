@@ -52,19 +52,24 @@ div.dash-container > div.no-schedule.inactive {
 }
 
 div.dash-container > div.no-schedule h1 {
-  width: 100%;
+  width: 90%;
   text-align: center;
 }
 
-div.dash-container > div.no-schedule button {
+div.dash-container > div.no-schedule button#add-workout,
+div.dash-container > div.schedule button#add-workout {
   height: 50px;
-  width: 100%;
+  width: 90%;
   max-width: 500px;
   background-color: #D98B22;
   border: none;
   color: #FFFFFF;
   border-radius: 5px;
   cursor: pointer;
+}
+
+div.schedule button#add-workout.inactive {
+  display: none;
 }
 
 div.displayDate > #past-date.inactive, 
@@ -166,7 +171,7 @@ div.schedule > table {
   display: flex;
   flex-wrap: wrap;
   width: 90%;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   border-radius: 6px;
   overflow: hidden;
   border: 1px solid rgba(159,154,154, .5);
