@@ -333,11 +333,11 @@ export default function Dashboard() {
     const warningKey = document.getElementById("warning-key");
 
     if(exerciseCount > 6) {
-     return warningKey.classList.toggle("inactive")
+     return warningKey.classList.add("inactive")
     } 
     
     if(editPlan || editPlan && (exerciseCount + editPlan.length) > 6) {
-      return warningKey.classList.toggle("inactive")
+      return warningKey.classList.add("inactive")
     }
 
     const prevWorkoutInput = document.getElementById(`workoutInput${exerciseCount - 1}`);
@@ -376,11 +376,11 @@ export default function Dashboard() {
     document.getElementById(`repInput${exerciseCount - 1}`).value) {
       
       if(exerciseCount < 6) {
-        warningKey.classList.toggle("inactive")
+        warningKey.classList.remove("inactive")
       } 
     
       if(editPlan || editPlan && (exerciseCount + editPlan.length) < 6) {
-        warningKey.classList.toggle("inactive")
+        warningKey.classList.remove("inactive")
       }
 
       prevWorkoutInput.style.backgroundColor = "transparent";
