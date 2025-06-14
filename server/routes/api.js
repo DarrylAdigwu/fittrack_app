@@ -280,7 +280,7 @@ router.route("/dashboard/:username")
   const numOfWorkouts = (Object.entries(allUpdatedData).length - 1) / 5;
   const date = allUpdatedData.displayDate;
   const newDateFormat = formatDate(date);
-  const firstExercise_id = Number(Object.entries(allUpdatedData)[1][1]);
+  const firstExercise_id = Number(Object.entries(allUpdatedData)[1][0].split("_")[1]);
   
   if(req.method === "PUT") {
     // Server side validation
@@ -311,7 +311,7 @@ router.route("/dashboard/:username")
     }
 
     for(let i = firstExercise_id; i < numOfWorkouts + firstExercise_id; i++) {
-      const exercise_id = i;
+      const exercise_id = allUpdatedData[`idInput_${i}`];
       const updatedWorkout = allUpdatedData[`workoutInput${i}`];
       const updatedMuscleGroup = allUpdatedData[`muscleGroupInput${i}`];
       const updatedSets = allUpdatedData[`setInput${i}`];

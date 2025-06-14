@@ -56,6 +56,7 @@ export default function Dashboard() {
   const [plannedWorkout, setPlannedWorkout] = React.useState();
   const [editPlan, setEditPlan] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
+  const refCount = React.useRef(1);
 
   // Get value for date search param state
   const dateParam = searchParams.get("date");
@@ -97,6 +98,7 @@ export default function Dashboard() {
     });
 
     setExerciseCount(() => 2);
+    refCount.current = 1;
 
     if(dateParam) {
       setSearchParams((prev) => {
@@ -150,6 +152,7 @@ export default function Dashboard() {
     });
 
     setExerciseCount(() => 2);
+    refCount.current = 1;
 
     if(dateParam) {
       setSearchParams((prev) => {
@@ -283,6 +286,7 @@ export default function Dashboard() {
       }
     }
   };
+  
 
   // Cancel new exercise form
   function handleNewExerciseCancel(event) {
@@ -372,7 +376,7 @@ export default function Dashboard() {
     document.getElementById(`repInput${exerciseCount - 1}`).value) {
       
       if(exerciseCount < 6) {
-      warningKey.classList.toggle("inactive")
+        warningKey.classList.toggle("inactive")
       } 
     
       if(editPlan || editPlan && (exerciseCount + editPlan.length) < 6) {
@@ -473,7 +477,7 @@ export default function Dashboard() {
   const editSchedule = editPlan ? 
   editPlan.map((workout) => {
     return(
-      <div className="inputBoxes" id={`editInputBoxes_${workout.id}`} key={workout.id}>
+      <div className="inputBoxes" id={`editInputBoxes_${refCount.current = refCount.current + 1}`} key={workout.id}>
         <label htmlFor="displayDate"/>
         <input id="displayDate" className="displayDate" 
           name="displayDate" 
@@ -486,7 +490,7 @@ export default function Dashboard() {
         <input 
           id="exerciseId" 
           className="exerciseId" 
-          name={`idInput${workout.id}`}
+          name={`idInput_${refCount.current}`}
           placeholder=""
           type="hidden"
           value={workout.id}
@@ -495,8 +499,8 @@ export default function Dashboard() {
         <label htmlFor="workoutInput1"></label>
         <input 
           className="workoutInput" 
-          id={`workoutInput${workout.id}`}
-          name={`workoutInput${workout.id}`} 
+          id={`workoutInput${refCount.current}`}
+          name={`workoutInput${refCount.current}`} 
           defaultValue={`${workout.exercise}`}
           placeholder="Workout" 
           aria-label="Input name of exercise number one"
@@ -505,8 +509,8 @@ export default function Dashboard() {
 
         <label htmlFor="muscleGroupInput1"></label>
         <input className="muscleGroupInput" 
-          id={`muscleGroupInput${workout.id}`}
-          name={`muscleGroupInput${workout.id}`}
+          id={`muscleGroupInput${refCount.current}`}
+          name={`muscleGroupInput${refCount.current}`}
           defaultValue={`${workout.muscle_group}`} 
           placeholder="Focus"
           aria-label="Input muscle group for exercise number one"
@@ -515,8 +519,8 @@ export default function Dashboard() {
         <label htmlFor="setInput1"></label>
         <input className="setInput"
           type="number" 
-          id={`setInput${workout.id}`} 
-          name={`setInput${workout.id}`} 
+          id={`setInput${refCount.current}`} 
+          name={`setInput${refCount.current}`} 
           defaultValue={`${workout.sets}`}
           placeholder="Sets" 
           aria-label="Input sets for exercise number one"
@@ -527,8 +531,8 @@ export default function Dashboard() {
         <label htmlFor="repInput1"></label>
         <input className="repInput"
           type="number" 
-          id={`repInput${workout.id}`}
-          name={`repInput${workout.id}`} 
+          id={`repInput${refCount.current}`}
+          name={`repInput${refCount.current}`} 
           defaultValue={`${workout.reps}`}
           placeholder="Reps" 
           aria-label="Input reps for exercise number one"
