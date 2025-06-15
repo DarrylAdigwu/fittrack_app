@@ -256,6 +256,7 @@ div.workout-table-tbody > Form > div.workout-tbody-row {
 div.workout-tbody-row > input.workout-rows {
   height: 100%;
   border: none;
+  border-radius: none;
 }
 
 div.workout-tbody-row > input.workout-rows:focus {
