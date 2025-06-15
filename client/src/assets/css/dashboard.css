@@ -156,6 +156,7 @@ div.schedule > .table-actions-menu.active {
   color: #FFFAF0;
   cursor: pointer;
 }
+
 .table-actions-menu.active > span.action-delete:hover {
   background-color: rgba(217, 139, 34, 1);
   color: #FFFAF0;
@@ -196,7 +197,7 @@ div.schedule > div.workout-table {
 }
 
 div.workout-table > div.workout-thead-section {
-  display: table-header-group;
+  display: table-row;
   width: 100%;
   height: 70px;
   color: #D98B22;
