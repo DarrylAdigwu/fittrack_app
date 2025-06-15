@@ -54,7 +54,6 @@ export default function Dashboard() {
   const [searchParams, setSearchParams] = useSearchParams(`?date=${new Date()}`);
   const [showDate, setShowDate] = React.useState();
   const [plannedWorkout, setPlannedWorkout] = React.useState();
-  const [editPlan, setEditPlan] = React.useState();
   const [isLoading, setIsLoading] = React.useState(false);
   const refCount = React.useRef(1);
 
@@ -77,13 +76,13 @@ export default function Dashboard() {
 
     // Remove schedule, hide workout form, if no planne workout show no schedule container
     if(scheduleContainer && !scheduleContainer.classList.contains("inactive") && plannedWorkout === null) {
-      scheduleContainer.classList.toggle("inactive");
+      scheduleContainer.classList.add("inactive");
     }
     if(showContainer && showContainer.classList.contains("active")) {
-      showContainer.classList.toggle("active");
+      showContainer.classList.remove("active");
     }
     if(noScheduleContainer && noScheduleContainer.classList.contains("inactive") && !plannedWorkout) {
-      noScheduleContainer.classList.toggle("inactive")
+      noScheduleContainer.classList.remove("inactive")
     }
 
     // Clear former inputs and input containers
@@ -196,7 +195,6 @@ export default function Dashboard() {
       try {
         const getExercise = await getTodaysWorkout(formatCurrentDate(new Date(dateParam)));
         setPlannedWorkout(getExercise.getWorkout)
-        setEditPlan(getExercise.getWorkout)
       } catch(err) {
         console.error("Load current date workout error:", err)
       }
@@ -222,15 +220,76 @@ export default function Dashboard() {
   const todaysSchedule = plannedWorkout ? 
   plannedWorkout.map((workouts) => {
     return (                                                                                                                                                                    
-      <tr key={workouts.id} className={`workout-tbody-row workout-tbody-row-${workouts.id}`}>
-        <td className="exercise-row">{workouts.exercise}</td>
-        <td className="focus-row">{workouts.muscle_group}</td>
-        <td className="sets-row">{workouts.sets}</td>
-        <td className="reps-row">{workouts.reps}</td>
-        <td className="workout-actions">
+      <div key={workouts.id} className={`workout-tbody-row workout-tbody-row-${refCount.current = refCount.current + 1}`}>
+        <div className="workout-actions">
           <img src={trash} alt="trash can to delete exercise" className="delete-action" />
-        </td>
-      </tr>
+        </div>
+
+        <label htmlFor="displayDate"/>
+        <input
+          id="displayDate"
+          name="displayDate"
+          className="displayDate"
+          placeholder=""
+          type="hidden"
+          value={formatCurrentDate(new Date(`${workouts.date}`))}
+        />
+
+        <label htmlFor="exerciseId"/>
+        <input
+          id="exerciseId"
+          className="exerciseId"
+          name={`idInput_${refCount.current}`}
+          placeholder=""
+          type="hidden"
+          value={workouts.id}
+        />
+
+        <label htmlFor={`workoutInput${refCount.current}`}/>
+        <input
+          className="exercise-row workout-rows"
+          id={`workoutInput${refCount.current}`}
+          name={`workoutInput${refCount.current}`} 
+          defaultValue={workouts.exercise}
+          aria-label={`Input name of ${workouts.exercise}`}
+          readOnly
+          autoFocus
+        />
+
+        <label htmlFor={`muscleGroupInput${refCount.current}`}/>
+        <input
+          className="focus-row workout-rows"
+          id={`muscleGroupInput${refCount.current}`}
+          name={`muscleGroupInput${refCount.current}`} 
+          defaultValue={workouts.muscle_group}
+          aria-label={`Input muscle group for ${workouts.exercise}`}
+          readOnly
+        />
+
+        <label htmlFor={`setInput${refCount.current}`}/>
+        <input
+          className="sets-row workout-rows"
+          id={`setInput${refCount.current}`}
+          name={`setInput${refCount.current}`} 
+          defaultValue={workouts.sets}
+          aria-label={`Input sets for ${workouts.exercise}`}
+          step="1"
+          min="1"
+          readOnly
+        />
+
+        <label htmlFor={`repInput${refCount.current}`}/>
+        <input
+          className="reps-row workout-rows"
+          id={`repInput${refCount.current}`}
+          name={`repInput${refCount.current}`} 
+          defaultValue={workouts.reps}
+          aria-label={`Input reps for ${workouts.exercise}`}
+          step="1"
+          min="1"
+          readOnly
+        />
+      </div>
     )
   }) : null
 
@@ -240,30 +299,36 @@ export default function Dashboard() {
   <div id="schedule" className="schedule">
     <div className="table-actions">
       <img className="threeDotImg" src={threeDot} alt="menu to edit table" onClick={handleDropDown}/>
+      <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(showDate)}`} className="cancel-edit-img" id="cancel-edit-img" onClick={handleEditCancel}/>
     </div>
     <div className="table-actions-menu">
       <span className="action-edit" onClick={handleEditSchedule}>Edit</span>
       <span className="action-delete">Delete</span>
     </div>
-    <table className="workout-table">
-      <thead className="workout-thead-section">
-        <tr className="workout-thead-row">
-          <th className="exercise">Exercise</th>
-          <th className="focus">Focus</th>
-          <th className="sets">Sets</th>
-          <th className="reps">Reps</th>
-        </tr>
-      </thead>
-      <tbody className="workout-table-tbody">
-        {todaysSchedule}
-      </tbody>
-    </table>
-    {editPlan.length < 6 ? <button id="add-workout" onClick={newExerciseForm} type="button">Add Workout</button> : null}
+    <div className="workout-table" role="table" aria-label={`Workouts planned for ${showDate}`}>
+      <div className="workout-thead-section" role="rowgroup">
+        <div className="workout-thead-row" role="row">
+          <div className="th exercise"role="cell">Exercise</div>
+          <div className="th focus"role="cell">Focus</div>
+          <div className="th sets"role="cell">Sets</div>
+          <div className="th reps"role="cell">Reps</div>
+        </div>
+      </div>
+      <div className="workout-table-tbody">
+        <Form method="PUT" className="edit-exercise-form" action={`/dashboard/:${usersUsername}`}>
+          {todaysSchedule}
+          <button id="submit-edit-exercise" type="submit">
+            {isLoading ? "Submitting..." : "Edit Workout"}
+          </button>
+        </Form>
+      </div>
+    </div>
+    {plannedWorkout.length < 6 ? <button id="add-workout" onClick={newExerciseForm} type="button">Add Workout</button> : null}
   </div> : null;
 
 
   // No schedule display and new exercise form button
-  const noSchedule = plannedWorkout === null && !editPlan ?
+  const noSchedule = plannedWorkout === null ?
   <div className="no-schedule" id="no-schedule">
     <h1>No workout schedule for today</h1>
     <button id="add-workout" onClick={newExerciseForm} type="button">Add Workout</button>
@@ -336,7 +401,7 @@ export default function Dashboard() {
      return warningKey.classList.add("inactive")
     } 
     
-    if(editPlan || editPlan && (exerciseCount + editPlan.length) > 6) {
+    if(plannedWorkout || plannedWorkout && (exerciseCount + plannedWorkout.length) > 6) {
       return warningKey.classList.add("inactive")
     }
 
@@ -375,11 +440,11 @@ export default function Dashboard() {
     document.getElementById(`setInput${exerciseCount - 1}`).value &&
     document.getElementById(`repInput${exerciseCount - 1}`).value) {
       
-      if(exerciseCount < 6) {
+      if(exerciseCount <= 6) {
         warningKey.classList.remove("inactive")
       } 
     
-      if(editPlan || editPlan && (exerciseCount + editPlan.length) < 6) {
+      if(plannedWorkout || plannedWorkout && (exerciseCount + plannedWorkout.length) < 6) {
         warningKey.classList.remove("inactive")
       }
 
@@ -455,7 +520,6 @@ export default function Dashboard() {
       inputBoxes.appendChild(newSetInput);
       inputBoxes.appendChild(newRepLabel);
       inputBoxes.appendChild(newRepInput);
-      //inputBoxes.appendChild(removeButton)
       
       // append div
       prevInputBox.after(inputBoxes)
@@ -473,89 +537,50 @@ export default function Dashboard() {
     };
   }
 
-  // Edit schedule option
-  const editSchedule = editPlan ? 
-  editPlan.map((workout) => {
-    return(
-      <div className="inputBoxes" id={`editInputBoxes_${refCount.current = refCount.current + 1}`} key={workout.id}>
-        <label htmlFor="displayDate"/>
-        <input id="displayDate" className="displayDate" 
-          name="displayDate" 
-          placeholder="" 
-          type="hidden" 
-          value={formatCurrentDate(new Date(`${workout.date}`))}
-        />
-        
-        <label htmlFor="exerciseId" />
-        <input 
-          id="exerciseId" 
-          className="exerciseId" 
-          name={`idInput_${refCount.current}`}
-          placeholder=""
-          type="hidden"
-          value={workout.id}
-        />
-
-        <label htmlFor="workoutInput1"></label>
-        <input 
-          className="workoutInput" 
-          id={`workoutInput${refCount.current}`}
-          name={`workoutInput${refCount.current}`} 
-          defaultValue={`${workout.exercise}`}
-          placeholder="Workout" 
-          aria-label="Input name of exercise number one"
-          autoFocus
-        />
-
-        <label htmlFor="muscleGroupInput1"></label>
-        <input className="muscleGroupInput" 
-          id={`muscleGroupInput${refCount.current}`}
-          name={`muscleGroupInput${refCount.current}`}
-          defaultValue={`${workout.muscle_group}`} 
-          placeholder="Focus"
-          aria-label="Input muscle group for exercise number one"
-        />
-
-        <label htmlFor="setInput1"></label>
-        <input className="setInput"
-          type="number" 
-          id={`setInput${refCount.current}`} 
-          name={`setInput${refCount.current}`} 
-          defaultValue={`${workout.sets}`}
-          placeholder="Sets" 
-          aria-label="Input sets for exercise number one"
-          step="1"
-          min="1"
-        />
-
-        <label htmlFor="repInput1"></label>
-        <input className="repInput"
-          type="number" 
-          id={`repInput${refCount.current}`}
-          name={`repInput${refCount.current}`} 
-          defaultValue={`${workout.reps}`}
-          placeholder="Reps" 
-          aria-label="Input reps for exercise number one"
-          step="1"
-          min="1"
-        />
-      </div>
-    )
-  }) : null;
-
 
   // Toggle schedule and edit form
   function handleEditSchedule(event) {
-    const scheduleContainer = document.getElementById("schedule");
-    const editScheduleForm = document.getElementById("edit-exercise-form-section");
     const pastDateButton = document.getElementById("past-date");
     const futureDateButton = document.getElementById("future-date");
+    const editWorkoutRows = document.querySelector("input.workout-rows");
+    const editAllWorkoutRows = document.querySelectorAll("input.workout-rows");
+    const formFocus = document.querySelectorAll("input.workout-rows");
+    const cancelEditButton = document.querySelector(".cancel-edit-img");
+    const threeDotImage = document.querySelector(".threeDotImg");
+    const actionsMenu = document.querySelector("div.table-actions-menu")
+    const submitEdit = document.getElementById("submit-edit-exercise");
+    const addWorkoutButton = document.getElementById("add-workout");
 
     if(event) {
-      editScheduleForm.classList.toggle("active");
-      scheduleContainer.classList.toggle("inactive");
+      // Hide display date buttons
       pastDateButton.classList.toggle("inactive");
       futureDateButton.classList.toggle("inactive");
+
+      // Make Form editable
+      editAllWorkoutRows.forEach((inputRow) => {
+        inputRow.removeAttribute("readonly");
+      });
+
+      // Change Form apperance
+      editWorkoutRows.classList.add("active");
+      
+      // Allow inputs to use focus
+      formFocus.forEach((inputElement) => {
+        inputElement.classList.add("active");
+      })
+
+      // Hide add workout button
+      if(addWorkoutButton) {
+        addWorkoutButton.classList.add("inactive");
+      }
+      
+      // Hide menu button
+      threeDotImage.classList.add("inactive");
+
+      // Show cancel, hide actions menu, show edit workout submit button 
+      cancelEditButton.classList.add("active");
+      actionsMenu.classList.remove("active");
+      submitEdit.classList.add("active");
     }
   }
 
@@ -579,16 +604,6 @@ export default function Dashboard() {
       </div>
       {noSchedule}
       {showSchedule}
-      <div className="edit-exercise-form-section" id="edit-exercise-form-section">
-        <div className="cancel-edit">
-          <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(showDate)}`} className="cancel-edit-img" onClick={handleEditCancel} />
-        </div>
-        <Form method="PUT" id="edit-exercise-form" className="edit-exercise-form">
-          {editSchedule}
-          {actionData && key.startsWith("invalid") ? <span className="invalidDash">{actionData[key]}</span> : null}
-          <button id="submit-edit-exercise" type="submit">{isLoading ? "Submitting..." : "Edit Workout"}</button>
-        </Form>
-      </div>
 
       <div id="workout-form" className="workout-form">
         <div className="cancel-new-exercise">
@@ -654,7 +669,7 @@ export default function Dashboard() {
               Remove
             </div>
           </div>
-          <span id="warning-key">Daily Limit Hit: 6 workouts</span>
+          <span id="warning-key">Daily Limit: 6 workouts</span>
           {actionData && key.startsWith("invalid") ? <span className="invalidDash">{actionData[key]}</span> : null}
           <button id="submit-exercise" type="submit">{isLoading ? "Submitting..." : "Submit"}</button>
         </Form>

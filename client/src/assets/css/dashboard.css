@@ -113,6 +113,10 @@ div.schedule > .table-actions {
   width: fit-content;
 }
 
+.table-actions > img.threeDotImg.inactive {
+  display: none;
+}
+
 .table-actions > img:hover {
   cursor: pointer;
 }
@@ -158,6 +162,20 @@ div.schedule > .table-actions-menu.active {
   cursor: pointer;
 }
 
+div.table-actions > img.cancel-edit-img {
+  display: none;
+}
+
+div.table-actions > img.cancel-edit-img.active {
+  display: flex;
+  height: 1.5rem;
+}
+
+div.table-actions > img.cancel-edit-img.active:hover {
+  cursor: pointer;
+  border-bottom: 1px solid black;
+}
+
 .workout-actions {
   border: 1px solid red;
   width: 80%;
@@ -167,25 +185,26 @@ div.schedule > .table-actions-menu.active {
   border-right: 1px solid red;
 }
 
-div.schedule > table {
-  display: flex;
+div.schedule > div.workout-table {
+  display: table;
   flex-wrap: wrap;
   width: 90%;
-  margin-bottom: 2rem;
   border-radius: 6px;
   overflow: hidden;
-  border: 1px solid rgba(159,154,154, .5);
-  background-color: #FFFFFF;
   height: fit-content;
+  margin-bottom: 2rem;
 }
 
-table.workout-table > thead.workout-thead-section {
+div.workout-table > div.workout-thead-section {
+  display: table-header-group;
   width: 100%;
   height: 70px;
   color: #D98B22;
+  background-color: #FFFFFF;
 }
 
-thead.workout-thead-section > tr.workout-thead-row {
+
+div.workout-thead-section > div.workout-thead-row {
   display: flex;
   padding: 0;
   width: 100%;
@@ -193,41 +212,37 @@ thead.workout-thead-section > tr.workout-thead-row {
   border-bottom: 1px solid rgba(217, 139, 34, .5);
 }
 
-tr.workout-thead-row > th {
+div.workout-thead-row > div.th {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-tr.workout-thead-row > th {
-  display: flex;
-  justify-content: space-evenly;
   font-weight: 500;
 }
 
-tr.workout-thead-row > th.reps {
+div.workout-thead-row > div.reps {
   width: 15%;
 }
 
-tr.workout-thead-row > th.sets {
+div.workout-thead-row > div.sets {
   width: 15%;
 }
-/* #36454F #9F9AA4*/
-tr.workout-thead-row > th.focus {
+
+div.workout-thead-row > div.focus {
   width: 30%;
 }
 
-tr.workout-thead-row > th.exercise {
+div.workout-thead-row > div.exercise {
   width: 40%;
 }
 
-table.workout-table > tbody.workout-table-tbody {
+div.workout-table > div.workout-table-tbody {
   height: fit-content;
   width: 100%;
 }
 
- tbody.workout-table-tbody > tr.workout-tbody-row {
+div.workout-table-tbody > Form > div.workout-tbody-row {
   display: flex;
+  position: relative;
   align-items: center;
   width: 120%;
   height: 70px;
@@ -237,7 +252,46 @@ table.workout-table > tbody.workout-table-tbody {
   border-top: 1px solid rgba(159,154,164, .25);
 }
 
-tr.workout-tbody-row > td {
+div.workout-tbody-row > input.workout-rows {
+  height: 100%;
+  border: none;
+}
+
+div.workout-tbody-row > input.workout-rows:focus {
+  outline: none;
+}
+
+div.workout-tbody-row > input.workout-rows.active {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(255,250,240, 1);
+  border-radius: 6px;
+}
+
+div.workout-tbody-row > input.workout-rows.active:focus {
+  outline: auto #D98B22;
+}
+
+div.workout-tbody-row > input.sets-row {
+  width: 15%;
+  border-right: 1px solid rgba(159,154,164, .25);
+}
+
+div.workout-tbody-row > input.reps-row {
+  width: 15%;
+}
+
+div.workout-tbody-row > input.exercise-row {
+  width: 40%;
+  background-color: rgba(217, 139, 34, .8);
+}
+
+div.workout-tbody-row > input.focus-row {
+  border-left: 1px solid rgba(217, 139, 34, .5);
+  border-right: 1px solid rgba(159,154,164, .25);
+  width: 30%;
+}
+
+div.workout-tbody-row > input {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -245,168 +299,40 @@ tr.workout-tbody-row > td {
   text-align: center;
 }
 
-tr.workout-tbody-row > td.sets-row {
-  width: 15%;
-  border-right: 1px solid rgba(159,154,164, .25);
-}
-
-tr.workout-tbody-row > td.reps-row {
-  width: 15%;
-}
-
-tr.workout-tbody-row > td.exercise-row {
-  width: 40%;
-  background-color: rgba(217, 139, 34, .795);
-}
-
-tr.workout-tbody-row > td.focus-row {
-  border-left: 1px solid rgba(217, 139, 34, .5);
-  border-right: 1px solid rgba(159,154,164, .25);
-  width: 30%;
-}
-
-tr.workout-tbody-row > td.workout-actions {
+div.workout-tbody-row > div.workout-actions {
   background-color: #c05b5b;
   width: 20%;
 }
 
-th, tbody > tr {
-  padding: 20px 0px;
-}
-
 
 /* Edit workout form */
-div.edit-exercise-form-section {
+Form > #submit-edit-exercise {
   display: none;
 }
 
-div.edit-exercise-form-section.active {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 90%;
+Form > #submit-edit-exercise.active {
+  display: block;
+  margin-top: 2rem;
+  height: 50px;
+  width: 100%;
   max-width: 500px;
-  min-width: 300px;
-  margin-bottom: 1rem;
-  border-radius: 6px;
-  height: fit-content; 
-}
-
-div.edit-exercise-form-section form {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  height: fit-content;
-  width: 90%;
-  max-width: 450px;
-}
-
-div.edit-exercise-form-section > div.cancel-edit {
-  width: 90%;
-  text-align: right;
-  padding: 0 .5rem;
-}
-
-div.cancel-edit > img.cancel-edit-img {
-  height: 1.5rem;
-}
-
-div.cancel-edit > img.cancel-edit-img:hover {
-  cursor: pointer;
-  border-bottom: 1px solid black;
-}
-
-div.edit-exercise-form-section input {
-  height: 70px;
-  padding: 0 .5rem;
-  margin-block: .125rem;
-  border: 1px solid rgba(120, 120, 120, .5);
-  font-size: 1rem;
-  border-radius: 5px;
-  text-align: center;
-}
-
-div.edit-exercise-form-section button {
-  height: 40px;
-  padding: 0 .5rem;
-  border-radius: 5px;
-  border: 1px solid rgba(120, 120, 120, .5);
-  font-size: 1rem;
-}
-
-div.inputBoxes {
-  display: flex;
-  width: 100%;
-}
-
-div.edit-exercise-form-section .workoutInput {
-  width: 40%;
-  border-bottom: 1px solid rgba(217, 139, 34, .8);
-}
-
-div.edit-exercise-form-section .muscleGroupInput {
-  width: 30%;
-}
-
-div.edit-exercise-form-section .setInput {
-  width: 15%;
-}
-
-div.edit-exercise-form-section .repInput {
-  width: 15%;
-}
-
-div.edit-exercise-form-section > Form > div.edit-exercise-btn-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-top: .25rem;
-}
-
-div.edit-exercise-btn-container > div#edit-add-exercise,
-div.edit-exercise-btn-container > div#edit-remove-exercise {
-  display: flex;
-  align-items: center;
-  justify-self: right;
-  width: fit-content;
-  height: 25px;
-  background: none;
-  color: #D98B22;
-  cursor: pointer;
-  font-size: .875rem;
-}
-
-div.edit-exercise-btn-container > div#edit-add-exercise:hover,
-div.edit-exercise-btn-container > div#edit-remove-exercise:hover {
-  border-bottom: 1px solid #D98B22;
-}
-
-div.edit-exercise-btn-container > div#edit-add-exercise > img,
-div.edit-exercise-btn-container > div#edit-remove-exercise > img {
-  margin-right: .25rem;
-}
-
-div.edit-exercise-form-section > Form > #submit-edit-exercise {
-  width: 100%;
-  margin-top: 1rem;
   background-color: #D98B22;
+  border: none;
   color: #FFFFFF;
-}
-
-div.edit-exercise-form-section > Form > #submit-edit-exercise:hover {
+  border-radius: 5px;
   cursor: pointer;
 }
 
+Form > #submit-edit-exercise.active:hover {
+  cursor: pointer;
+}
 
-div.edit-exercise-form-section > Form > #submit-edit-exercise:active {
+Form > #submit-edit-exercise.active:active {
   background-color: #FFFFFF;
   color:#D98B22;
   border: 1px solid #D98B22;
   cursor: pointer;
 }
-
 
 /* Workout form */
 div.dash-container > div.workout-form {
