@@ -1,7 +1,6 @@
 div.dash-container {
   background-color: #FFFAF0;
   align-content: start;
-  appearance: none;
 }
 
 /* date button */
@@ -188,7 +187,7 @@ div.table-actions > img.cancel-edit-img.active:hover {
 }
 
 div.schedule > div.workout-table {
-  display: table;
+  display: flex;
   flex-wrap: wrap;
   width: 90%;
   border-radius: 6px;
@@ -198,7 +197,6 @@ div.schedule > div.workout-table {
 }
 
 div.workout-table > div.workout-thead-section {
-  display: table-row;
   width: 100%;
   height: 70px;
   color: #D98B22;
@@ -267,6 +265,7 @@ div.workout-tbody-row > input.workout-rows:focus {
 div.workout-tbody-row > input.workout-rows.active {
   background-color: #FFFFFF;
   border: 1px solid rgba(255,250,240, 1);
+  border-radius: 6px;
 }
 
 div.workout-tbody-row > input.workout-rows.active:focus {
