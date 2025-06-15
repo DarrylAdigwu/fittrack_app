@@ -1,6 +1,7 @@
 div.dash-container {
   background-color: #FFFAF0;
   align-content: start;
+  appearance: none;
 }
 
 /* date button */
