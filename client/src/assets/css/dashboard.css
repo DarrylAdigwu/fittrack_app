@@ -266,7 +266,6 @@ div.workout-tbody-row > input.workout-rows:focus {
 div.workout-tbody-row > input.workout-rows.active {
   background-color: #FFFFFF;
   border: 1px solid rgba(255,250,240, 1);
-  border-radius: 6px;
 }
 
 div.workout-tbody-row > input.workout-rows.active:focus {
