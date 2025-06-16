@@ -231,9 +231,9 @@ export default function Dashboard() {
   plannedWorkout.map((workouts) => {
     return (                                                                                                                                                                    
       <div key={workouts.id} className={`workout-tbody-row workout-tbody-row-${refCount.current = refCount.current + 1}`}>
-        <div className="workout-actions">
-          <img src={trash} alt="trash can to delete exercise" className="delete-action" />
-        </div>
+        <button className="workout-actions">
+          <img src={trash} alt="trash can to delete exercise" className="delete-action-img" />
+        </button>
 
         <label htmlFor="displayDate"/>
         <input
