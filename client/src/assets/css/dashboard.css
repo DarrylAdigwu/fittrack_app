@@ -264,11 +264,15 @@ div.workout-table-tbody > Form > div.workout-tbody-row {
 div.workout-table-tbody > Form > div.workout-tbody-row.delete {
   right: 0;
   animation: slideLeft 0.5s ease-in forwards;
+  -webkit-animation: slideLeft 0.5s ease-in forwards;
+  -moz-animation: slideLeft 0.5s ease-in forwards;
+  -o-animation: slideLeft 0.5s ease-in forwards;
 }
 
 div.workout-tbody-row > input.workout-rows {
   height: 100%;
   border: none;
+  border-radius: 0px;
 }
 
 div.workout-tbody-row > input.workout-rows:focus {
