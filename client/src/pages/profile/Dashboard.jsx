@@ -8,7 +8,7 @@ import trash from "../../assets/images/trash.svg";
 import cancel from "../../assets/images/cancel.svg";
 import leftArr from "../../assets/images/left-arrow.svg";
 import rightArr from "../../assets/images/right-arrow.svg";
-import {sendUserData, getTodaysWorkout, formatCurrentDate, usersUsername, updateFormData} from "../../../client-utils";
+import {sendUserData, getTodaysWorkout, formatCurrentDate, usersUsername} from "../../../client-utils";
 
 
 export async function loader({ request }) {
@@ -21,7 +21,7 @@ export async function action({ request }) {
   
   // Send new data to server
   if(request.method === "POST") {
-    const sendFormData = await sendUserData(`dashboard/${usersUsername}`, allData);
+    const sendFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "POST");
     
     if(sendFormData.serverError) {
       return sendFormData.serverError;
@@ -35,7 +35,7 @@ export async function action({ request }) {
   // Send Updated data to server
   if(request.method === "PUT") {
     // Send data to server
-    const updatedExerciseFormData = await updateFormData(`dashboard/${usersUsername}`, allData);
+    const updatedExerciseFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "PUT");
     
     if(updatedExerciseFormData.serverError) {
       return updatedExerciseFormData.serverError;
@@ -48,7 +48,12 @@ export async function action({ request }) {
 
   // Send server data to delete
   if(request.method === "DELETE") {
+    // Send data to server
+    const deleteAllWorkoutsFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "DELETE")
 
+    if(deleteAllWorkoutsFormData.serverCheck.valid) {
+      return window.location.reload();
+    }
   }
 }
 
@@ -610,6 +615,7 @@ export default function Dashboard() {
     const actionsMenu = document.querySelector("div.table-actions-menu")
     const submitDelete= document.getElementById("delete-all-exercises");
     const addWorkoutButton = document.getElementById("add-workout");
+    const slideDelete = document.querySelectorAll("div.workout-tbody-row");
 
     if(event) {
 
@@ -633,10 +639,18 @@ export default function Dashboard() {
         addWorkoutButton.classList.add("inactive");
       }
 
+      //Hide menu button
       threeDotImage.classList.add("inactive");
+
+      // Show cancel, hide actions menu, show delete workout submit button 
       cancelEditButton.classList.add("active");
       actionsMenu.classList.remove("active");
       submitDelete.classList.add("active");
+      
+      // Display individual delete buttons
+      slideDelete.forEach((button) => {
+        button.classList.add("delete")
+      })
     }
   }
 

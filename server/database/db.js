@@ -259,3 +259,27 @@ export async function updateUsersWorkouts(workout, muscleGroup, sets, reps, exer
     connection.release();
   }
 }
+
+
+export async function deleteAllWorkouts(user_id, date) {
+  const connection = await db.getConnection();
+
+  try {
+    // Deleting all workouts
+    let deleteAllWorkoutsQuery = `DELETE FROM workouts
+            WHERE user_id = ?
+            AND date = ?`;
+
+    let deleteAllWorkoutsInsert = [user_id, date];
+
+    deleteAllWorkoutsQuery = mysql.format(deleteAllWorkoutsQuery, deleteAllWorkoutsInsert);
+
+    const deleteAllQuery = await db.query(deleteAllWorkoutsQuery);
+
+    return deleteAllQuery
+  } catch(err) {
+    console.error(`Error deleting all workouts for this date this date`)
+  } finally {
+    connection.release();
+  }
+}

@@ -82,7 +82,7 @@ export async function sendData(route, allData, prevUrl = null) {
 
 
 // Send data from Dashboard page
-export async function sendUserData(route, allData) {
+export async function sendUserData(route, allData, method) {
   if(await isTokenExpired()) {
     sessionStorage.removeItem("authToken");
     removeCookies("id-token", "user-token", "connect.sid");
@@ -93,7 +93,7 @@ export async function sendUserData(route, allData) {
 
   try {
     const response = await fetch(`https://api.stage.fittracker.us/api/${route}`, {
-      method: "POST",
+      method: `${method}`,
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
@@ -117,41 +117,6 @@ export async function sendUserData(route, allData) {
   } catch(err) {
     console.error("Error sending user data:", err)
     throw err;
-  }
-}
-
-
-/* UPDATE user data */
-export async function updateFormData(route, allData) {
-
-  const getAuthToken = JSON.parse(sessionStorage.getItem("authToken")).token;
-  console.log(getAuthToken)
-
-  try {
-    const response = await fetch(`https://api.stage.fittracker.us/api/${route}`, {
-      method: "PUT",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${getAuthToken}`
-      },
-      body: JSON.stringify({
-        allData,
-      })
-    });
-
-    if(response.status === 401) {
-      sessionStorage.removeItem("authToken");
-      removeCookies("id-token", "user-token", "connect.sid");
-      return window.location.replace("/login")
-    }
-
-    const responsData = await response.json();
-    
-    return responsData;
-
-  } catch(err) {
-    console.error("Error sending updated data", err)
   }
 }
 

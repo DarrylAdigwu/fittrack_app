@@ -1,6 +1,6 @@
 import express from "express";
 import { registerUser, getUserByUsername, authLogin, deleteSession, 
-  getUsersExercises, storeExercise, updateUsersWorkouts } from "../database/db.js";
+  getUsersExercises, storeExercise, updateUsersWorkouts, deleteAllWorkouts } from "../database/db.js";
 import { checkString, generateToken, requireAuth, formatDate, capitalizeFirstLetter } from "../server-utils.js";
 
 // Create Router
@@ -339,16 +339,23 @@ router.route("/dashboard/:username")
     });
   }
 
-  const allFormData = req.body.allData;
+  const allDeleteData = req.body.allData;
   const username = req.session.user.username;
   const user_id = req.session.user.id;
-  const numOfWorkouts = (Object.entries(allUpdatedData).length - 1) / 5;
-  const date = allUpdatedData.displayDate;
+  const numOfWorkouts = (Object.entries(allDeleteData).length - 1) / 5;
+  const date = allDeleteData.displayDate;
   const newDateFormat = formatDate(date);
-  const firstExercise_id = Number(Object.entries(allUpdatedData)[1][0].split("_")[1]);
-  
+  const firstExercise_id = Number(Object.entries(allDeleteData)[1][0].split("_")[1]);
+
   if(req.method === "DELETE") {
-    console.log(allFormData)
+    
+    // Delete all workouts from given date
+    await deleteAllWorkouts(user_id, newDateFormat)
+    
+    // Return valid message
+    return res.status(200).json({
+      serverCheck: {"valid": "Data is valid"}
+    });
   }
 })
 
