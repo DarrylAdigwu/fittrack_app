@@ -332,5 +332,24 @@ router.route("/dashboard/:username")
   }
 
 })
+.delete(async (req, res) => {
+  if(!req.session) {
+    return res.status(401).json({
+        invalid: "Unauthorized", 
+    });
+  }
+
+  const allFormData = req.body.allData;
+  const username = req.session.user.username;
+  const user_id = req.session.user.id;
+  const numOfWorkouts = (Object.entries(allUpdatedData).length - 1) / 5;
+  const date = allUpdatedData.displayDate;
+  const newDateFormat = formatDate(date);
+  const firstExercise_id = Number(Object.entries(allUpdatedData)[1][0].split("_")[1]);
+  
+  if(req.method === "DELETE") {
+    console.log(allFormData)
+  }
+})
 
 export default router;

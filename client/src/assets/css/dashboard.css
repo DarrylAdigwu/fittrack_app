@@ -105,16 +105,30 @@ div.schedule > .table-actions {
   align-items: center;
   width: 100%;
   padding: 0 10%;
+  margin-bottom: .5rem;
 }
 
 .table-actions > img.threeDotImg {
-  height: 1.5rem;
+  height: 1.75rem;
   padding: 0 .25rem;
   width: fit-content;
 }
 
 .table-actions > img.threeDotImg.inactive {
   display: none;
+}
+
+div.table-actions > img.cancel-edit-img {
+  display: none;
+}
+
+div.table-actions > img.cancel-edit-img.active {
+  display: flex;
+  height: 1.75rem;
+}
+
+div.table-actions > img.cancel-edit-img.active:hover {
+  border-bottom: 1px solid #c05b5b;
 }
 
 .table-actions > img:hover {
@@ -155,26 +169,16 @@ div.schedule > .table-actions-menu.active {
   background-color: rgba(217, 139, 34, 1);
   color: #FFFAF0;
   cursor: pointer;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
 }
 
 .table-actions-menu.active > span.action-delete:hover {
   background-color: rgba(217, 139, 34, 1);
   color: #FFFAF0;
   cursor: pointer;
-}
-
-div.table-actions > img.cancel-edit-img {
-  display: none;
-}
-
-div.table-actions > img.cancel-edit-img.active {
-  display: flex;
-  height: 1.5rem;
-}
-
-div.table-actions > img.cancel-edit-img.active:hover {
-  cursor: pointer;
-  border-bottom: 1px solid black;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 
 .workout-actions {
@@ -255,20 +259,19 @@ div.workout-table-tbody > Form > div.workout-tbody-row {
 div.workout-tbody-row > input.workout-rows {
   height: 100%;
   border: none;
-  border-radius: none;
 }
 
 div.workout-tbody-row > input.workout-rows:focus {
   outline: none;
 }
 
-div.workout-tbody-row > input.workout-rows.active {
+div.workout-tbody-row > input.workout-rows.active-edit {
   background-color: #FFFFFF;
   border: 1px solid rgba(255,250,240, 1);
   border-radius: 6px;
 }
 
-div.workout-tbody-row > input.workout-rows.active:focus {
+div.workout-tbody-row > input.workout-rows.active-edit:focus {
   outline: auto #D98B22;
 }
 
@@ -306,7 +309,7 @@ div.workout-tbody-row > div.workout-actions {
 }
 
 
-/* Edit workout form */
+/* Schedule Edit button */
 Form > #submit-edit-exercise {
   display: none;
 }
@@ -329,6 +332,35 @@ Form > #submit-edit-exercise.active:hover {
 }
 
 Form > #submit-edit-exercise.active:active {
+  background-color: #FFFFFF;
+  color:#D98B22;
+  border: 1px solid #D98B22;
+  cursor: pointer;
+}
+
+Form > #delete-all-exercises {
+  display: none;
+}
+
+/* Schedule Delete button */
+Form > #delete-all-exercises.active {
+  display: block;
+  margin-top: 2rem;
+  height: 50px;
+  width: 100%;
+  max-width: 500px;
+  background-color: #c05b5b;
+  border: none;
+  color: #FFFFFF;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+Form > #delete-all-exercises.active:hover {
+  cursor: pointer;
+}
+
+Form > #delete-all-exercises.active:active {
   background-color: #FFFFFF;
   color:#D98B22;
   border: 1px solid #D98B22;

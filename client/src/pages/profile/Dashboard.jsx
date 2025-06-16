@@ -45,6 +45,11 @@ export async function action({ request }) {
       return window.location.reload();
     }
   }
+
+  // Send server data to delete
+  if(request.method === "DELETE") {
+
+  }
 }
 
 export default function Dashboard() {
@@ -303,7 +308,7 @@ export default function Dashboard() {
     </div>
     <div className="table-actions-menu">
       <span className="action-edit" onClick={handleEditSchedule}>Edit</span>
-      <span className="action-delete">Delete</span>
+      <span className="action-delete" onClick={handleDeleteSchedule}>Delete</span>
     </div>
     <div className="workout-table" role="table" aria-label={`Workouts planned for ${showDate}`}>
       <div className="workout-thead-section" role="rowgroup">
@@ -318,7 +323,10 @@ export default function Dashboard() {
         <Form method="PUT" className="edit-exercise-form" action={`/dashboard/:${usersUsername}`}>
           {todaysSchedule}
           <button id="submit-edit-exercise" type="submit">
-            {isLoading ? "Submitting..." : "Edit Workout"}
+            {isLoading ? "Submitting..." : "Submit Edit"}
+          </button>
+          <button id="delete-all-exercises" type="submit" formMethod="DELETE">
+            {isLoading ? "Deleting..." : "Delete All Workouts"}
           </button>
         </Form>
       </div>
@@ -562,11 +570,11 @@ export default function Dashboard() {
       });
 
       // Change Form apperance
-      editWorkoutRows.classList.add("active");
+      editWorkoutRows.classList.add("active-edit");
       
       // Allow inputs to use focus
       formFocus.forEach((inputElement) => {
-        inputElement.classList.add("active");
+        inputElement.classList.add("active-edit");
       })
 
       // Hide add workout button
@@ -587,6 +595,48 @@ export default function Dashboard() {
   function handleEditCancel(event) {
     if(event) {
       window.location.reload();
+    }
+  }
+
+
+  function handleDeleteSchedule(event) {
+    const pastDateButton = document.getElementById("past-date");
+    const futureDateButton = document.getElementById("future-date");
+    const editWorkoutRows = document.querySelector("input.workout-rows");
+    const editAllWorkoutRows = document.querySelectorAll("input.workout-rows");
+    const formFocus = document.querySelectorAll("input.workout-rows");
+    const cancelEditButton = document.querySelector(".cancel-edit-img");
+    const threeDotImage = document.querySelector(".threeDotImg");
+    const actionsMenu = document.querySelector("div.table-actions-menu")
+    const submitDelete= document.getElementById("delete-all-exercises");
+    const addWorkoutButton = document.getElementById("add-workout");
+
+    if(event) {
+
+      pastDateButton.classList.toggle("inactive");
+      futureDateButton.classList.toggle("inactive");
+
+      // Make Form editable
+      editAllWorkoutRows.forEach((inputRow) => {
+        inputRow.removeAttribute("readonly");
+      });
+
+      // Change Form apperance
+      editWorkoutRows.classList.add("active");
+      
+      // Allow inputs to use focus
+      formFocus.forEach((inputElement) => {
+        inputElement.classList.add("active");
+      })
+
+      if(addWorkoutButton) {
+        addWorkoutButton.classList.add("inactive");
+      }
+
+      threeDotImage.classList.add("inactive");
+      cancelEditButton.classList.add("active");
+      actionsMenu.classList.remove("active");
+      submitDelete.classList.add("active");
     }
   }
 
