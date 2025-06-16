@@ -285,6 +285,12 @@ div.workout-tbody-row > input.workout-rows.active-edit:focus {
   outline: auto #D98B22;
 }
 
+div.workout-tbody-row > input.workout-rows.active-delete {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(255,250,240, 1);
+  border-radius: 6px;
+}
+
 div.workout-tbody-row > input.sets-row {
   width: 15%;
   border-right: 1px solid rgba(159,154,164, .25);
