@@ -621,18 +621,10 @@ export default function Dashboard() {
 
       pastDateButton.classList.toggle("inactive");
       futureDateButton.classList.toggle("inactive");
-
-      // Make Form editable
-      editAllWorkoutRows.forEach((inputRow) => {
-        inputRow.removeAttribute("readonly");
-      });
-
-      // Change Form apperance
-      editWorkoutRows.classList.add("active");
       
       // Allow inputs to use focus
       formFocus.forEach((inputElement) => {
-        inputElement.classList.add("active");
+        inputElement.classList.add("active-delete");
       })
 
       if(addWorkoutButton) {
