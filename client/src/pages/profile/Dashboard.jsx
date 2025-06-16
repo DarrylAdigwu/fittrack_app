@@ -607,8 +607,6 @@ export default function Dashboard() {
   function handleDeleteSchedule(event) {
     const pastDateButton = document.getElementById("past-date");
     const futureDateButton = document.getElementById("future-date");
-    const editWorkoutRows = document.querySelector("input.workout-rows");
-    const editAllWorkoutRows = document.querySelectorAll("input.workout-rows");
     const formFocus = document.querySelectorAll("input.workout-rows");
     const cancelEditButton = document.querySelector(".cancel-edit-img");
     const threeDotImage = document.querySelector(".threeDotImg");
