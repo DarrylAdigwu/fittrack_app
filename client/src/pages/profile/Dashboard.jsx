@@ -48,6 +48,23 @@ export async function action({ request }) {
 
   // Send server data to delete
   if(request.method === "DELETE") {
+
+    if(formData.get("submit-individual")) {
+      const submitIndividual = formData.get("submit-individual");
+      const date = formData.get("displayDate");
+
+      const individualData = {
+        submitIndividual: submitIndividual,
+        workoutDate: date
+      }
+
+      const sendSingleWorkout = await sendUserData(`dashboard/${usersUsername}`, individualData, "DELETE");
+
+      if(sendSingleWorkout.serverCheck.valid) {
+        return window.location.reload();
+      }
+    }
+    
     // Send data to server
     const deleteAllWorkoutsFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "DELETE")
 
@@ -231,7 +248,7 @@ export default function Dashboard() {
   plannedWorkout.map((workouts) => {
     return (                                                                                                                                                                    
       <div key={workouts.id} className={`workout-tbody-row workout-tbody-row-${refCount.current = refCount.current + 1}`}>
-        <button className="workout-actions">
+        <button className="workout-actions" formMethod="DELETE" name={`submit-individual`} value={workouts.id}>
           <img src={trash} alt="trash can to delete exercise" className="delete-action-img" />
         </button>
 

@@ -305,7 +305,7 @@ div.workout-tbody-row > input.reps-row {
 }
 
 div.workout-tbody-row > input.exercise-row {
-  width: 40%;
+  width: 42%;
   background-color: rgba(217, 139, 34, .8);
 }
 
@@ -328,7 +328,7 @@ div.workout-tbody-row > button.workout-actions {
   align-items: center;
   justify-content: center;
   background-color: #c05b5b;
-  width: 18%;
+  width: 20%;
   height: 100%;
   border-radius: 6px;
   margin-right: 1px;
