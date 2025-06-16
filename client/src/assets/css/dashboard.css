@@ -321,7 +321,7 @@ div.workout-tbody-row > div.workout-actions {
   width: 20%;
   height: 100%;
   border-radius: 6px;
-  border: 1px solid rgba(255,250,240, 1);
+  border-right: 1px solid rgba(255,250,240, 1);
 }
 
 div.workout-actions > img.delete-action-img {
