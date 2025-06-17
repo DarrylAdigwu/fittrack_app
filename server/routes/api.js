@@ -1,6 +1,6 @@
 import express from "express";
 import { registerUser, getUserByUsername, authLogin, deleteSession, 
-  getUsersExercises, storeExercise, updateUsersWorkouts, deleteWorkouts } from "../database/db.js";
+  getUsersExercises, storeExercise, updateUsersWorkouts, deleteAllWorkouts } from "../database/db.js";
 import { checkString, generateToken, requireAuth, formatDate, capitalizeFirstLetter } from "../server-utils.js";
 
 // Create Router
@@ -344,34 +344,13 @@ router.route("/dashboard/:username")
   
   if(req.method === "DELETE") {
 
-    if(singleWorkoutId) {
+    await deleteAllWorkouts(user_id, newDateFormat);
 
-      // Delete single workout
-      await deleteWorkouts(user_id, formatDate(singleWorkoutDate), singleWorkoutId);
-
-      // Return valid message
-      return res.status(200).json({
-        serverCheck: "valid",
-      })
-
-    } else {
-
-      const fullCheck = {
-        all: allDeleteData, 
-        username: username,
-        user_id: user_id,
-        numOfwork: numOfWorkouts,
-        date: date,
-        newDate: newDateFormat,
-      }
-
-      // Return valid message
-      return res.status(200).json({
-        serverCheck: fullCheck,
-      })
-
-    }
-
+    // Return valid message
+    return res.status(200).json({
+      serverCheck: fullCheck,
+      
+    })
 
   }
 })
