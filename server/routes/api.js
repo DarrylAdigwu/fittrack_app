@@ -343,16 +343,21 @@ router.route("/dashboard/:username")
   const singleWorkoutDate = allDeleteData.workoutDate;
   
   if(req.method === "DELETE") {
-
-    const fullCheck = {
-      all: allDeleteData, 
-      username: username,
-      user_id: user_id,
-      numOfwork: numOfWorkouts,
-      date: date,
-      newDate: newDateFormat,
-      singleWorkoutDate: singleWorkoutDate,
-      singleWorkoutId: singleWorkoutId,
+    
+    if(singleWorkoutId) {
+      const fullCheck = {
+        singleWorkoutDate: singleWorkoutDate,
+        singleWorkoutId: singleWorkoutId,
+      }
+    } else {
+      const fullCheck = {
+        all: allDeleteData, 
+        username: username,
+        user_id: user_id,
+        numOfwork: numOfWorkouts,
+        date: date,
+        newDate: newDateFormat,
+      }
     }
 
     return res.status(200).json({
