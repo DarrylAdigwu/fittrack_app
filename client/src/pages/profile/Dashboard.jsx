@@ -681,7 +681,7 @@ export default function Dashboard() {
           <img src={cancel} alt={`Exit new exercise form for ${formatCurrentDate(showDate)}`} className="cancel-new-exercise-img" onClick={handleNewExerciseCancel}/>
         </div>
         <h1>Add Workouts</h1>
-        <Form method="post" id="exercise-form">
+        <Form method="POST" id="exercise-form">
           <div className="inputBoxes" id="inputBoxes1">
             <label htmlFor="displayDate"/>
             <input id="displayDate" className="displayDate" 
