@@ -220,7 +220,7 @@ router.route("/dashboard/:username")
   const newDateFormat = formatDate(date);
 
 
-  if(req.method = "POST") {
+  if(req.method === "POST") {
     // Server side validation
     for(const [key, value] of Object.entries(allDashboardData)) {
       if(value === null || value === "") {
@@ -352,23 +352,30 @@ router.route("/dashboard/:username")
   const singleDateFormat = formatDate(singleWorkoutDate);
 
   if(req.method === "DELETE") {
-    if(singleWorkoutId) {
+    // if(singleWorkoutId) {
 
-      // Delete single workout
-      await deleteWorkouts(user_id, singleDateFormat, singleWorkoutId);
+    //   // Delete single workout
+    //   await deleteWorkouts(user_id, singleDateFormat, singleWorkoutId);
 
-    }
+    // }
 
-    if(!singleWorkoutId) {
+    // if(!singleWorkoutId) {
 
-      // Delete all workouts from given date
-      await deleteWorkouts(user_id, newDateFormat)
+    //   // Delete all workouts from given date
+    //   await deleteWorkouts(user_id, newDateFormat)
 
-    }
+    // }
 
     // Return valid message
     return res.status(200).json({
-      serverCheck: {"valid": "Data is valid"},
+      serverCheck: {
+        singleDateFormat: singleDateFormat,
+        singleWorkoutDate: singleWorkoutDate,
+        singleWorkoutId: singleWorkoutId,
+        allDeleteData: allDeleteData,
+        dataData: date,
+        newDateFormat: newDateFormat
+      },
     });
   }
 })
