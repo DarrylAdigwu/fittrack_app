@@ -279,7 +279,8 @@ export async function deleteWorkouts(user_id, date, exercise_id = null) {
 
       const deleteWorkoutQuery = await db.query(deleteSingleWorkoutQuery);
 
-      return deleteWorkoutQuery
+      return deleteWorkoutQuery;
+
     } else {
       // Deleting all workouts
       let deleteAllWorkoutsQuery = `DELETE FROM workouts
