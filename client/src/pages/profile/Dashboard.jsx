@@ -58,18 +58,20 @@ export async function action({ request }) {
         workoutDate: date,
       }
 
+      console.log(date)
+      console.log(formData.get("submit-individual"))
       const sendSingleWorkout = await sendUserData(`dashboard/${usersUsername}`, individualData, "DELETE");
 
       if(sendSingleWorkout.serverCheck.valid) {
-        return window.location.reload();
+        //return window.location.reload();
       }
     }
-
+    console.log(allData)
     // send data to server
     const deleteAllWorkoutsFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "DELETE");
 
     if(deleteAllWorkoutsFormData.serverCheck.valid) {
-      return window.location.reload();
+      //return window.location.reload();
     }
   }
 }

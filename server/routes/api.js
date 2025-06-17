@@ -340,30 +340,29 @@ router.route("/dashboard/:username")
   }
 
   const allDeleteData = req.body.allData;
+  const singleWorkoutId = req.body.allData.submitIndividual;
   const username = req.session.user.username;
   const user_id = req.session.user.id;
   const numOfWorkouts = (Object.entries(allDeleteData).length - 1) / 5;
   const date = allDeleteData.displayDate;
+  const singleWorkoutDate = req.body.allData.workoutDate;
   const newDateFormat = formatDate(date);
   const firstExercise_id = Number(Object.entries(allDeleteData)[1][0].split("_")[1]);
   
-  const singleWorkoutId = req.body.allData.submitIndividual;
-  const singleWorkoutDate = req.body.allData.workoutDate;
 
   if(req.method === "DELETE") {
-
     if(singleWorkoutId) {
       // Delete single workout
-      await deleteWorkouts(user_id, formatDate(singleWorkoutDate), singleWorkoutId)
+      await deleteWorkouts(user_id, formatDate(singleWorkoutDate), singleWorkoutId);
     } else {
       // Delete all workouts from given date
       await deleteWorkouts(user_id, newDateFormat)
     }
-    
+
     // Return valid message
-    return res.status(200).json({
-      serverCheck: {"valid": "Data is valid"}
-    });
+    // return res.status(200).json({
+    //   serverCheck: {"valid": "Data is valid"}
+    // });
   }
 })
 
