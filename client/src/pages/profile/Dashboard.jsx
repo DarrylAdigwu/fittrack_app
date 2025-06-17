@@ -240,7 +240,7 @@ export default function Dashboard() {
     }
   }
 
-
+  console.log(plannedWorkout)
   // Display table for planned workout
   const todaysSchedule = plannedWorkout ? 
   plannedWorkout.map((workouts) => {
