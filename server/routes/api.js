@@ -348,8 +348,7 @@ router.route("/dashboard/:username")
 
     // Return valid message
     return res.status(200).json({
-      serverCheck: fullCheck,
-      
+      serverCheck: {"valid": "data is valid"},
     })
 
   }
