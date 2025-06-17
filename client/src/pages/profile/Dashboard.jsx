@@ -49,7 +49,7 @@ export async function action({ request }) {
   // Send server data to delete
   if(request.method === "DELETE") {
     if(formData.get("submit-individual")) {
-
+      console.log("through submit")
       console.log(allData)
     }
 
