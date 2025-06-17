@@ -352,21 +352,24 @@ router.route("/dashboard/:username")
   const singleDateFormat = formatDate(singleWorkoutDate);
 
   if(req.method === "DELETE") {
-    // if(singleWorkoutId) {
+    if(singleWorkoutId) {
 
-    //   // Delete single workout
-    //   await deleteWorkouts(user_id, singleDateFormat, singleWorkoutId);
+      // Return valid message
+    return res.status(200).json({
+      serverCheck: {
+        singleDateFormat: singleDateFormat,
+        singleWorkoutDate: singleWorkoutDate,
+        singleWorkoutId: singleWorkoutId,
+      },
+    });
+      // Delete single workout
+      await deleteWorkouts(user_id, singleDateFormat, singleWorkoutId);
 
-    // }
+    }
 
-    // if(!singleWorkoutId) {
+    if(!singleWorkoutId) {
 
-    //   // Delete all workouts from given date
-    //   await deleteWorkouts(user_id, newDateFormat)
-
-    // }
-
-    // Return valid message
+      // Return valid message
     return res.status(200).json({
       serverCheck: {
         singleDateFormat: singleDateFormat,
@@ -377,6 +380,11 @@ router.route("/dashboard/:username")
         newDateFormat: newDateFormat
       },
     });
+      // Delete all workouts from given date
+      await deleteWorkouts(user_id, newDateFormat)
+
+    }
+
   }
 })
 
