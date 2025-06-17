@@ -354,16 +354,17 @@ router.route("/dashboard/:username")
   if(req.method === "DELETE") {
     if(singleWorkoutId) {
 
-      // Return valid message
-    return res.status(200).json({
-      serverCheck: {
-        singleDateFormat: singleDateFormat,
-        singleWorkoutDate: singleWorkoutDate,
-        singleWorkoutId: singleWorkoutId,
-      },
-    });
       // Delete single workout
       await deleteWorkouts(user_id, singleDateFormat, singleWorkoutId);
+      
+      // Return valid message
+      return res.status(200).json({
+        serverCheck: {
+          singleDateFormat: singleDateFormat,
+          singleWorkoutDate: singleWorkoutDate,
+          singleWorkoutId: singleWorkoutId,
+        },
+      });
 
     }
 
