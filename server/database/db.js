@@ -281,20 +281,7 @@ export async function deleteWorkouts(user_id, date, exercise_id = null) {
 
       return deleteWorkoutQuery;
 
-    } else {
-      // Deleting all workouts
-      let deleteAllWorkoutsQuery = `DELETE FROM workouts
-              WHERE user_id = ?
-              AND date = ?`;
-
-      let deleteAllWorkoutsInsert = [user_id, date];
-
-      deleteAllWorkoutsQuery = mysql.format(deleteAllWorkoutsQuery, deleteAllWorkoutsInsert);
-
-      const deleteAllQuery = await db.query(deleteAllWorkoutsQuery);
-
-      return deleteAllQuery
-    }
+    } 
     
   } catch(err) {
     console.error(`Error deleting all workouts for this date this date`)
