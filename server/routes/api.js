@@ -1,6 +1,6 @@
 import express from "express";
 import { registerUser, getUserByUsername, authLogin, deleteSession, 
-  getUsersExercises, storeExercise, updateUsersWorkouts, deleteWorkouts } from "../database/db.js";
+  getUsersExercises, storeExercise, updateUsersWorkouts, deleteSingleWorkout } from "../database/db.js";
 import { checkString, generateToken, requireAuth, formatDate, capitalizeFirstLetter } from "../server-utils.js";
 
 // Create Router
@@ -355,7 +355,7 @@ router.route("/dashboard/:username")
     if(singleWorkoutId) {
 
       // Delete single workout
-      await deleteWorkouts(user_id, singleDateFormat, singleWorkoutId);
+      await deleteSingleWorkout(user_id, singleDateFormat, singleWorkoutId)
       
       // Return valid message
       return res.status(200).json({
