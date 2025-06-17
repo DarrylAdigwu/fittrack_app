@@ -205,7 +205,7 @@ export default function Dashboard() {
           const paramDate = new Date(dateParam);
           if(!isNaN(paramDate)) {
             setShowDate(paramDate)
-            setSearchParams({ date: formatCurrentDate(paramDate)})
+            setSearchParams({ "date": formatCurrentDate(paramDate)})
           }
         } catch(err) {
           console.error("Error parsing date", err)
@@ -244,6 +244,7 @@ export default function Dashboard() {
   // Display table for planned workout
   const todaysSchedule = plannedWorkout ? 
   plannedWorkout.map((workouts) => {
+    console.log(workouts.date)
     return (                                                                                                                                                                    
       <div key={workouts.id} className={`workout-tbody-row workout-tbody-row-${refCount.current = refCount.current + 1}`}>
         <button className="workout-actions" formMethod="DELETE" name={`submit-individual`} value={workouts.id}>
