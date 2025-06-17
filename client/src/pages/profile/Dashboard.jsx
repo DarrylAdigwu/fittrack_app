@@ -48,20 +48,33 @@ export async function action({ request }) {
 
   // Send server data to delete
   if(request.method === "DELETE") {
-    // if(formData.get("submit-individual")) {
-    //   const submitIndividual = formData.get("submit-individual");
-    //   const date = formData.get("displayDate");
 
-    //   const individualData = {
-    //     submitIndividual: submitIndividual,
-    //     workoutDate: date
-    //   }
+    if(formData.get("submit-individual")) {
+      const submitIndividual = formData.get("submit-individual");
+      const date = formData.get("displayDate");
 
-    //   const sendSingleWorkout = await sendUserData(`dashboard/${usersUsername}`, individualData, "DELETE");
-    //   console.log(sendSingleWorkout.serverCheck)
-    // }
-    const deleteAllFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "DELETE");
-    console.log(deleteAllFormData.serverCheck)
+      const individualData = {
+        submitIndividual: submitIndividual,
+        workoutDate: date
+      }
+
+      const sendSingleWorkout = await sendUserData(`dashboard/${usersUsername}`, individualData, "DELETE");
+
+      if(sendSingleWorkout.serverCheck.valid) {
+        return window.location.reload();
+      }
+    }
+
+    if(!formData.get("submit-individual")) {
+
+      // Send data to server
+      const deleteAllWorkoutsFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "DELETE");
+  
+      if(deleteAllWorkoutsFormData.serverCheck.valid) {
+        return window.location.reload();
+      }
+    }
+
   }
 }
 

@@ -1,6 +1,6 @@
 import express from "express";
 import { registerUser, getUserByUsername, authLogin, deleteSession, 
-  getUsersExercises, storeExercise, updateUsersWorkouts, deleteAllWorkouts } from "../database/db.js";
+  getUsersExercises, storeExercise, updateUsersWorkouts, deleteWorkouts } from "../database/db.js";
 import { checkString, generateToken, requireAuth, formatDate, capitalizeFirstLetter } from "../server-utils.js";
 
 // Create Router
@@ -333,24 +333,40 @@ router.route("/dashboard/:username")
 
 })
 .delete(async (req, res) => {
+  if(!req.session) {
+    return res.status(401).json({
+        invalid: "Unauthorized", 
+    });
+  }
+
   const allDeleteData = req.body.allData;
+  const singleWorkoutId = req.body.allData.submitIndividual;
   const username = req.session.user.username;
   const user_id = req.session.user.id;
   const numOfWorkouts = (Object.entries(allDeleteData).length - 1) / 5;
   const date = allDeleteData.displayDate;
+  const singleWorkoutDate = req.body.allData.workoutDate;
   const newDateFormat = formatDate(date);
-  const singleWorkoutId = allDeleteData.submitIndividual;
-  const singleWorkoutDate = allDeleteData.workoutDate;
+  const firstExercise_id = Number(Object.entries(allDeleteData)[1][0].split("_")[1]);
   
-  if(req.method === "DELETE") {
 
-    await deleteAllWorkouts(user_id, newDateFormat);
+  if(req.method === "DELETE") {
+    if(singleWorkoutId) {
+
+      // Delete single workout
+      await deleteWorkouts(user_id, formatDate(singleWorkoutDate), singleWorkoutId);
+
+    } else {
+
+      // Delete all workouts from given date
+      await deleteWorkouts(user_id, newDateFormat);
+      
+    }
 
     // Return valid message
     return res.status(200).json({
-      serverCheck: {"valid": "data is valid"},
-    })
-
+      serverCheck: {"valid": "Data is valid"},
+    });
   }
 })
 
