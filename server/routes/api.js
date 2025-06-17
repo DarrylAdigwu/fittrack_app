@@ -354,7 +354,7 @@ router.route("/dashboard/:username")
 
     if(singleWorkoutId) {
       // Delete single workout
-      await deleteWorkouts(user_id, formatDate(singleWorkoutDate), singleWorkoutId);
+      await deleteWorkouts(user_id, formatDate(singleWorkoutDate), singleWorkoutId)
     } else {
       // Delete all workouts from given date
       await deleteWorkouts(user_id, newDateFormat)

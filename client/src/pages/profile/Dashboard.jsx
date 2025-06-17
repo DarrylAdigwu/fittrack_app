@@ -61,15 +61,15 @@ export async function action({ request }) {
       const sendSingleWorkout = await sendUserData(`dashboard/${usersUsername}`, individualData, "DELETE");
 
       if(sendSingleWorkout.serverCheck.valid) {
-        return window.location.reload();
+        //return window.location.reload();
       }
     }
-    
+
     // Send data to server
     const deleteAllWorkoutsFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "DELETE")
 
     if(deleteAllWorkoutsFormData.serverCheck.valid) {
-      return window.location.reload();
+      //return window.location.reload();
     }
   }
 }
