@@ -266,7 +266,7 @@ export async function deleteWorkouts(user_id, date, exercise_id = null) {
   const connection = await db.getConnection();
 
   try {
-    if(exercise_id !== null) {
+    if(exercise_id) {
       // Deleting all workouts
       let deleteSingleWorkoutQuery = `DELETE FROM workouts
               WHERE user_id = ?
