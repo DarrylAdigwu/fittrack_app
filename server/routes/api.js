@@ -348,10 +348,10 @@ router.route("/dashboard/:username")
 
       // Delete single workout
       await deleteWorkouts(user_id, formatDate(singleWorkoutDate), singleWorkoutId);
-      
+
       // Return valid message
       return res.status(200).json({
-        serverCheck: fullCheck,
+        serverCheck: "valid",
       })
 
     } else {
