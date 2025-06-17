@@ -55,21 +55,21 @@ export async function action({ request }) {
 
       const individualData = {
         submitIndividual: submitIndividual,
-        workoutDate: date
+        workoutDate: date,
       }
 
       const sendSingleWorkout = await sendUserData(`dashboard/${usersUsername}`, individualData, "DELETE");
 
       if(sendSingleWorkout.serverCheck.valid) {
-        //return window.location.reload();
+        return window.location.reload();
       }
     }
 
-    // Send data to server
-    const deleteAllWorkoutsFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "DELETE")
+    // send data to server
+    const deleteAllWorkoutsFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "DELETE");
 
     if(deleteAllWorkoutsFormData.serverCheck.valid) {
-      //return window.location.reload();
+      return window.location.reload();
     }
   }
 }
@@ -681,7 +681,7 @@ export default function Dashboard() {
           <img src={cancel} alt={`Exit new exercise form for ${formatCurrentDate(showDate)}`} className="cancel-new-exercise-img" onClick={handleNewExerciseCancel}/>
         </div>
         <h1>Add Workouts</h1>
-        <Form method="POST" id="exercise-form">
+        <Form method="post" id="exercise-form">
           <div className="inputBoxes" id="inputBoxes1">
             <label htmlFor="displayDate"/>
             <input id="displayDate" className="displayDate" 
