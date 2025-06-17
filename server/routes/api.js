@@ -351,8 +351,8 @@ router.route("/dashboard/:username")
       numOfwork: numOfWorkouts,
       date: date,
       newDate: newDateFormat,
-      singleWorkoutDate,
-      singleWorkoutId
+      singleWorkoutDate: singleWorkoutDate,
+      singleWorkoutId: singleWorkoutId,
     }
 
     return res.status(200).json({
