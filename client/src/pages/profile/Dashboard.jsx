@@ -51,6 +51,19 @@ export async function action({ request }) {
     if(formData.get("submit-individual")) {
       console.log("through submit")
       console.log(allData)
+      const submitIndividual = formData.get("submit-individual");
+      const date = formData.get("displayDate");
+
+      const individualData = {
+        "submitIndividual": submitIndividual,
+        "workoutDate": date
+      }
+
+      const sendSingleWorkout = await sendUserData(`dashboard/${usersUsername}`, individualData, "DELETE");
+
+      if(sendSingleWorkout.serverCheck) {
+        console.log(sendSingleWorkout.serverCheck)
+      }
     }
 
     if(!formData.get("submit-individual")) {
