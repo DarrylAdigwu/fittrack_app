@@ -338,17 +338,24 @@ router.route("/dashboard/:username")
   const user_id = req.session.user.id;
   const numOfWorkouts = (Object.entries(allDeleteData).length - 1) / 5;
   const date = allDeleteData.displayDate;
+  const newDateFormat = formatDate(date);
+  const singleWorkoutId = allDeleteData.submitIndividual;
+  const singleWorkoutDate = allDeleteData.workoutDate;
   
-  const fullCheck = {
-    all: allDeleteData, 
-    username: username,
-    user_id: user_id,
-    numOfwork: numOfWorkouts,
-    date: date,
+  if(req.method === "DELETE") {
+
+    const fullCheck = {
+      all: allDeleteData, 
+      username: username,
+      user_id: user_id,
+      numOfwork: numOfWorkouts,
+      date: date,
+    }
+    return res.status(200).json({
+      serverCheck: fullCheck,
+    })
+    
   }
-  return res.status(200).json({
-    serverCheck: fullCheck,
-  })
 })
 
 export default router;
