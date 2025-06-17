@@ -334,8 +334,20 @@ router.route("/dashboard/:username")
 })
 .delete(async (req, res) => {
   const allDeleteData = req.body.allData;
+  const username = req.session.user.username;
+  const user_id = req.session.user.id;
+  const numOfWorkouts = (Object.entries(allDeleteData).length - 1) / 5;
+  const date = allDeleteData.displayDate;
+  
+  const fullCheck = {
+    all: allDeleteData, 
+    username: username,
+    user_id: user_id,
+    numOfwork: numOfWorkouts,
+    date: date,
+  }
   return res.status(200).json({
-    serverCheck: allDeleteData,
+    serverCheck: fullCheck,
   })
 })
 
