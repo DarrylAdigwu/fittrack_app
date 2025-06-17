@@ -261,6 +261,7 @@ export async function updateUsersWorkouts(workout, muscleGroup, sets, reps, exer
 }
 
 
+/* Delete workouts */
 export async function deleteWorkouts(user_id, date, exercise_id = null) {
   const connection = await db.getConnection();
 
