@@ -107,7 +107,7 @@ export async function sendUserData(route, allData, method) {
     if(response.status === 401) {
       sessionStorage.removeItem("authToken");
       removeCookies("id-token", "user-token", "connect.sid");
-      window.location.replace("/login");
+      return window.location.replace("/login");
     }
 
     const responsData = await response.json();
