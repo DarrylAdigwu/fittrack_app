@@ -262,26 +262,23 @@ export async function updateUsersWorkouts(workout, muscleGroup, sets, reps, exer
 
 
 /* Delete workouts */
-export async function deleteWorkouts(user_id, date, exercise_id = null) {
+export async function deleteWorkouts(user_id, date, exercise_id) {
   const connection = await db.getConnection();
 
   try {
-    if(exercise_id) {
-      // Deleting all workouts
-      let deleteSingleWorkoutQuery = `DELETE FROM workouts
-              WHERE user_id = ?
-              AND date = ?
-              AND id = ?`;
+    // Deleting all workouts
+    let deleteSingleWorkoutQuery = `DELETE FROM workouts
+            WHERE user_id = ?
+            AND date = ?
+            AND id = ?`;
 
-      let deleteSingleWorkoutInsert = [user_id, date, exercise_id];
+    let deleteSingleWorkoutInsert = [user_id, date, exercise_id];
 
-      deleteSingleWorkoutQuery = mysql.format(deleteSingleWorkoutQuery, deleteSingleWorkoutInsert);
+    deleteSingleWorkoutQuery = mysql.format(deleteSingleWorkoutQuery, deleteSingleWorkoutInsert);
 
-      const deleteWorkoutQuery = await db.query(deleteSingleWorkoutQuery);
+    const deleteWorkoutQuery = await db.query(deleteSingleWorkoutQuery);
 
-      return deleteWorkoutQuery;
-
-    } 
+    return deleteWorkoutQuery;
     
   } catch(err) {
     console.error(`Error deleting all workouts for this date this date`)
