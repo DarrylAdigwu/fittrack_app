@@ -48,9 +48,9 @@ export async function action({ request }) {
 
   // Send server data to delete
   if(request.method === "DELETE") {
+
+    // Check if user selected a specific workout
     if(formData.get("submit-individual")) {
-      console.log("through submit")
-      console.log(allData)
       const submitIndividual = formData.get("submit-individual");
       const date = formData.get("displayDate");
 
@@ -62,13 +62,20 @@ export async function action({ request }) {
       const sendSingleWorkout = await sendUserData(`dashboard/${usersUsername}`, individualData, "DELETE");
 
       if(sendSingleWorkout.serverCheck) {
-        console.log(sendSingleWorkout.serverCheck)
+        return window.location.reload();
       }
     }
 
+    // Check if user wants all workouts for a day
     if(!formData.get("submit-individual")) {
-      console.log(allData)
+      // Send data to server
+      const deleteAllWorkoutsFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "DELETE");
+  
+      if(deleteAllWorkoutsFormData.serverCheck.valid) {
+        return window.location.reload();
+      }
     }
+
   }
 }
 
@@ -240,12 +247,10 @@ export default function Dashboard() {
     }
   }
 
-  console.log(plannedWorkout)
+  
   // Display table for planned workout
   const todaysSchedule = plannedWorkout ? 
   plannedWorkout.map((workouts) => {
-    console.log(workouts.date)
-    console.log(formatCurrentDate(new Date(showDate)))
     return (                                                                                                                                                                    
       <div key={workouts.id} className={`workout-tbody-row workout-tbody-row-${refCount.current = refCount.current + 1}`}>
         <button className="workout-actions" formMethod="DELETE" name={`submit-individual`} value={workouts.id}>
@@ -259,7 +264,7 @@ export default function Dashboard() {
           className="displayDate"
           placeholder=""
           type="hidden"
-          value={formatCurrentDate(new Date(showDate))}
+          value={formatCurrentDate(new Date(dateParam))}
         />
 
         <label htmlFor="exerciseId"/>

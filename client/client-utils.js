@@ -230,19 +230,6 @@ export function formatCurrentDate(date) {
   return new Intl.DateTimeFormat(undefined, options).format(date);
 }
 
-// Format current date
-export function formatLocalCurrentDate(date) {
-  let options = {
-    weekday: "short", 
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-  };
-
-  return new Intl.DateTimeFormat(undefined, options).format(date);
-}
-
 
 export function removeCookies(cookieOne, cookieTwo = null, cookieThree = null) {
   document.cookie = `${cookieOne}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;

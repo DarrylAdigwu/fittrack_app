@@ -1,6 +1,6 @@
 import express from "express";
 import { registerUser, getUserByUsername, authLogin, deleteSession, 
-  getUsersExercises, storeExercise, updateUsersWorkouts, deleteSingleWorkout } from "../database/db.js";
+  getUsersExercises, storeExercise, updateUsersWorkouts, deleteWorkouts } from "../database/db.js";
 import { checkString, generateToken, requireAuth, formatDate, capitalizeFirstLetter } from "../server-utils.js";
 
 // Create Router
@@ -349,43 +349,20 @@ router.route("/dashboard/:username")
   
   const singleWorkoutId = allDeleteData.submitIndividual;
   const singleWorkoutDate = allDeleteData.workoutDate;
-  const singleDateFormat = formatDate(singleWorkoutDate);
 
   if(req.method === "DELETE") {
     if(singleWorkoutId) {
-
       // Delete single workout
-      await deleteSingleWorkout(user_id, singleDateFormat, singleWorkoutId)
-      
-      // Return valid message
-      return res.status(200).json({
-        serverCheck: {
-          singleDateFormat: singleDateFormat,
-          singleWorkoutDate: singleWorkoutDate,
-          singleWorkoutId: singleWorkoutId,
-        },
-      });
-
-    }
-
-    if(!singleWorkoutId) {
-
-      // Return valid message
-    return res.status(200).json({
-      serverCheck: {
-        singleDateFormat: singleDateFormat,
-        singleWorkoutDate: singleWorkoutDate,
-        singleWorkoutId: singleWorkoutId,
-        allDeleteData: allDeleteData,
-        dataData: date,
-        newDateFormat: newDateFormat
-      },
-    });
+      await deleteWorkouts(user_id, formatDate(singleWorkoutDate), singleWorkoutId);
+    } else {
       // Delete all workouts from given date
-      await deleteWorkouts(user_id, newDateFormat)
-
+      await deleteWorkouts(user_id, newDateFormat);
     }
 
+    // Return valid message
+    return res.status(200).json({
+      serverCheck: {"valid": "Data is valid"},
+    });
   }
 })
 
