@@ -245,7 +245,7 @@ export default function Dashboard() {
   const todaysSchedule = plannedWorkout ? 
   plannedWorkout.map((workouts) => {
     console.log(workouts.date)
-    console.log(new Date(workouts.date))
+    console.log(new Date(workouts.date).toLocaleString)
     return (                                                                                                                                                                    
       <div key={workouts.id} className={`workout-tbody-row workout-tbody-row-${refCount.current = refCount.current + 1}`}>
         <button className="workout-actions" formMethod="DELETE" name={`submit-individual`} value={workouts.id}>
