@@ -426,7 +426,8 @@ export default function Dashboard() {
     }
   }
 
-
+  console.log(exerciseCount);
+  console.log(plannedWorkout)
   // Create new exercise inputs
   function newExercise() {
 
