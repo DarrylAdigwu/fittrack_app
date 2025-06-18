@@ -437,7 +437,7 @@ export default function Dashboard() {
      return warningKey.classList.add("inactive")
     } 
     
-    if(plannedWorkout || plannedWorkout && (exerciseCount + plannedWorkout.length) > 6) {
+    if(plannedWorkout && (exerciseCount + plannedWorkout.length) > 6) {
       return warningKey.classList.add("inactive")
     }
 
