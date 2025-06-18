@@ -225,7 +225,6 @@ export function formatCurrentDate(date) {
     year: "numeric",
     month: "short",
     day: "numeric",
-    hour: "2-digit",
   };
 
   return new Intl.DateTimeFormat(undefined, options).format(date);
