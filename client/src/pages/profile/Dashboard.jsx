@@ -8,7 +8,7 @@ import trash from "../../assets/images/trash.svg";
 import cancel from "../../assets/images/cancel.svg";
 import leftArr from "../../assets/images/left-arrow.svg";
 import rightArr from "../../assets/images/right-arrow.svg";
-import {sendUserData, getTodaysWorkout, formatCurrentDate, usersUsername} from "../../../client-utils";
+import {sendUserData, getTodaysWorkout, formatCurrentDate, formatLocalCurrentDate, usersUsername} from "../../../client-utils";
 
 
 export async function loader({ request }) {
@@ -259,7 +259,7 @@ export default function Dashboard() {
           className="displayDate"
           placeholder=""
           type="hidden"
-          value={formatCurrentDate(new Date(`${workouts.date}`))}
+          value={formatLocalCurrentDate(new Date(`${workouts.date}`))}
         />
 
         <label htmlFor="exerciseId"/>
