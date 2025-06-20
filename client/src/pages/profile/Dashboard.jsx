@@ -240,11 +240,11 @@ export default function Dashboard() {
 
   // Toggle drop down nav
   function handleDropDown(event) {
-    const threeDotImage = document.querySelector("img.threeDotImg");
+    const threeDotButton = document.querySelector("button.threeDotImg");
     const actionsMenu = document.querySelector("div.table-actions-menu")
     
     if(event) {
-      threeDotImage.classList.toggle("active");
+      threeDotButton.classList.toggle("active");
       actionsMenu.classList.toggle("active");
     }
   }
@@ -332,8 +332,12 @@ export default function Dashboard() {
   const showSchedule = todaysSchedule ? 
   <div id="schedule" className="schedule">
     <div className="table-actions">
-      <img className="threeDotImg" src={threeDot} alt="menu to edit table" onClick={handleDropDown}/>
-      <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(showDate)}`} className="cancel-edit-img" id="cancel-edit-img" onClick={handleEditCancel}/>
+      <button className="threeDotImg" onClick={handleDropDown}>
+        <img className="threeDotImg-img" src={threeDot} alt="menu to edit table" />
+      </button>
+      <button className="cancel-edit-button" onClick={handleEditCancel}>
+        <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(showDate)}`} className="cancel-edit-img" id="cancel-edit-img" />
+      </button>
     </div>
     <div className="table-actions-menu">
       <span className="action-edit" onClick={handleEditSchedule}>Edit</span>
@@ -582,8 +586,8 @@ export default function Dashboard() {
     const editWorkoutRows = document.querySelector("input.workout-rows");
     const editAllWorkoutRows = document.querySelectorAll("input.workout-rows");
     const formFocus = document.querySelectorAll("input.workout-rows");
-    const cancelEditButton = document.querySelector(".cancel-edit-img");
-    const threeDotImage = document.querySelector(".threeDotImg");
+    const cancelEditButton = document.querySelector("button.cancel-edit-img");
+    const threeDotButton = document.querySelector("button.threeDotImg");
     const actionsMenu = document.querySelector("div.table-actions-menu")
     const submitEdit = document.getElementById("submit-edit-exercise");
     const addWorkoutButton = document.getElementById("add-workout");
@@ -612,7 +616,7 @@ export default function Dashboard() {
       }
       
       // Hide menu button
-      threeDotImage.classList.add("inactive");
+      threeDotButton.classList.add("inactive");
 
       // Show cancel, hide actions menu, show edit workout submit button 
       cancelEditButton.classList.add("active");
@@ -632,8 +636,8 @@ export default function Dashboard() {
     const pastDateButton = document.getElementById("past-date");
     const futureDateButton = document.getElementById("future-date");
     const formFocus = document.querySelectorAll("input.workout-rows");
-    const cancelEditButton = document.querySelector(".cancel-edit-img");
-    const threeDotImage = document.querySelector(".threeDotImg");
+    const cancelEditButton = document.querySelector("button.cancel-edit-button");
+    const threeDotButton = document.querySelector("button.threeDotImg");
     const actionsMenu = document.querySelector("div.table-actions-menu")
     const submitDelete= document.getElementById("delete-all-exercises");
     const addWorkoutButton = document.getElementById("add-workout");
@@ -654,7 +658,7 @@ export default function Dashboard() {
       }
 
       //Hide menu button
-      threeDotImage.classList.add("inactive");
+      threeDotButton.classList.add("inactive");
 
       // Show cancel, hide actions menu, show delete workout submit button 
       cancelEditButton.classList.add("active");
