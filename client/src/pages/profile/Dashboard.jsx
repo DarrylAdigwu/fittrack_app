@@ -255,7 +255,7 @@ export default function Dashboard() {
   plannedWorkout.map((workouts) => {
     return (                                                                                                                                                                    
       <div key={workouts.id} className={`workout-tbody-row workout-tbody-row-${refCount.current = refCount.current + 1}`}>
-        <button className="workout-actions" formMethod="DELETE" name={`submit-individual`} value={workouts.id}>
+        <button className="workout-actions" formMethod="DELETE" name={`submit-individual`} value={workouts.id} aria-label={`delete button for ${workouts.exercise}`}>
           <img src={trash} alt="trash can to delete exercise" className="delete-action-img" />
         </button>
 
@@ -332,10 +332,10 @@ export default function Dashboard() {
   const showSchedule = todaysSchedule ? 
   <div id="schedule" className="schedule">
     <div className="table-actions">
-      <button className="threeDotImg" onClick={handleDropDown}>
+      <button className="threeDotImg" onClick={handleDropDown} aria-label="drop down menu with options for current schedule">
         <img className="threeDotImg-img" src={threeDot} alt="menu to edit table" />
       </button>
-      <button className="cancel-edit-button" onClick={handleEditCancel}>
+      <button className="cancel-edit-button" onClick={handleEditCancel} aria-label="button to exit out of edit or delete form options">
         <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(showDate)}`} className="cancel-edit-img" id="cancel-edit-img" />
       </button>
     </div>
