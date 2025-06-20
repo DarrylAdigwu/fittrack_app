@@ -219,13 +219,23 @@ export async function isTokenExpired() {
 
 
 // Format current date
-export function formatCurrentDate(date) {
-  let options = {
-    weekday: "short", 
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  };
+export function formatCurrentDate(date, none = null) {
+  let options = {};
+
+  if(none === "none") {
+    options = {
+      weekday: "short", 
+      month: "short",
+      day: "numeric",
+    };
+  } else {
+    options = {
+      weekday: "short", 
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    };
+  }
 
   return new Intl.DateTimeFormat(undefined, options).format(date);
 }
