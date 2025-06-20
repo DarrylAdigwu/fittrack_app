@@ -586,7 +586,7 @@ export default function Dashboard() {
     const editWorkoutRows = document.querySelector("input.workout-rows");
     const editAllWorkoutRows = document.querySelectorAll("input.workout-rows");
     const formFocus = document.querySelectorAll("input.workout-rows");
-    const cancelEditButton = document.querySelector("button.cancel-edit-img");
+    const cancelEditButton = document.querySelector("button.cancel-edit-button");
     const threeDotButton = document.querySelector("button.threeDotImg");
     const actionsMenu = document.querySelector("div.table-actions-menu")
     const submitEdit = document.getElementById("submit-edit-exercise");
