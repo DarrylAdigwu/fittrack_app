@@ -5,9 +5,10 @@ import Home from './pages/Home.jsx';
 import About from './pages/About.jsx';
 import Register, { action as registerAction } from './pages/Register.jsx';
 import Login, { action as loginAction } from './pages/Login.jsx';
-import Calendar from './pages/profile/Calendar.jsx';
+import DashboardLayout from './components/DashboardLayout.jsx';
 import Dashboard, { loader as dashboardLoader, action as dashboardAction } from './pages/profile/Dashboard.jsx';
 import { authUser, usersUsername } from '../client-utils.js';
+import Calendar from './pages/profile/Calendar.jsx';
 
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -32,16 +33,27 @@ const router = createBrowserRouter(createRoutesFromElements(
     />
 
     <Route
-        path={`dashboard/:${usersUsername}`}
+      path="dashboard"
+      element={<DashboardLayout />}
+    >
+      <Route
+        index
+        loader={async({request}) => {
+          return redirect(`${usersUsername}`)
+        }}
+      />
+      <Route
+        path={`:${usersUsername}`}
         element={<Dashboard />}
         hydrateFallbackElement={<React.Suspense fallback={<h2 className='loading'>Loading...</h2>}></React.Suspense>}
         loader={dashboardLoader}
         action={dashboardAction}
-    >
-      <Route
-        path="calendar"
-        element={<Calendar />} 
-      />
+      >
+        <Route
+          path="calendar"
+          element={<Calendar />}
+        />
+      </Route>
     </Route>
     {/* Error page */} 
     {/* <Route 

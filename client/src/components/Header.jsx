@@ -44,7 +44,7 @@ export default function Header(props) {
         <nav>
           <Link to=".">home</Link>
           <Link to="about">about</Link>
-          <Link to={`dashboard/${props.user_name}`}>dash</Link>
+          <Link to={`dashboard/:${props.user_name}`}>dash</Link>
         </nav>
         <img src={profileIcon} alt="person icon" className="profile" onClick={handleProfile}/>
       </header>
