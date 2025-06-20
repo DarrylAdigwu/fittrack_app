@@ -1,6 +1,8 @@
 import React from "react";
+import { Link } from "react-router";
 import leftArr from "../../assets/images/left-arrow.svg";
 import rightArr from "../../assets/images/right-arrow.svg";
+import cancel from "../../assets/images/cancel.svg";
 import "../../assets/css/calendar.css";
 
 export default function Calendar() {
@@ -28,7 +30,6 @@ export default function Calendar() {
     setMonth((prev) => prev + 1);
   }
 
-  const currentDate = new Date();
   const monthYear = `${months[month]} ${year}`;
   const startOfMonth = new Date(year, month, 1);
   const endOfMonth = new Date(year, month + 1, 0);
@@ -53,25 +54,25 @@ export default function Calendar() {
 
   // Map calendars to div for JSX
   const calendarDays = dateContainer.map((day, index) => {
+    const newCalDate = new Date(year, month, day);
+    const validDate = !isNaN(newCalDate) ? `?date=${newCalDate}` : null;
     return(
-      <div className="date-containers" key={index}>
-        {day}
-      </div>
+      <Link to={validDate} key={index}>
+        <div className="date-containers">
+          {day}
+        </div>
+      </Link>
     ) 
   });
-
-  console.log(currentDate);
-  console.log(firstDay);
-  console.log(daysInMonth)
-  console.log(startOfMonth);
-  console.log(endOfMonth);
-  console.log(dateContainer)
 
   return(
     <div id="calendar-container" className="calendar-container">
       <div className="calendar">
+        <button className="cancel-calendar">
+          <img className="cancel-cal-img" src={cancel} alt="x icon representing exit" />
+        </button>
         <div className="calendar-header">
-          <button className="cal-button" id="prev-cal-month" onClick={prevMonth}>
+          <button className="cal-button" id="prev-cal-month" onClick={prevMonth} aria-label="arrow button to previous month">
             <img 
               src={leftArr} 
               className="left-cal-arr" 
@@ -81,7 +82,7 @@ export default function Calendar() {
           <span id="calender-display-date" className="calendar-display-date">
             {monthYear}
           </span>
-          <button className="cal-button" id="next-cal-month" onClick={nextMonth}>
+          <button className="cal-button" id="next-cal-month" onClick={nextMonth} aria-label="arrow button to next month">
             <img 
               src={rightArr} 
               className="right-cal-arr" 
