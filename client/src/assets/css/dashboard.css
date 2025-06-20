@@ -22,6 +22,7 @@ div.displayDate > button.calendar-button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 0 auto;
   background: none;
   border: none;
   gap: 10px;
