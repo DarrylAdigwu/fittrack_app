@@ -65,10 +65,18 @@ export default function Calendar() {
     ) 
   });
 
+  // Close calendar button
+  function handleCloseCalendar(event) {
+    const displayCal = document.getElementById("calendar-container");
+    if(event) {
+      displayCal.classList.remove("active");
+    }
+  }
+
   return(
     <div id="calendar-container" className="calendar-container">
       <div className="calendar">
-        <button className="cancel-calendar">
+        <button className="cancel-calendar" aria-label="button to close calendar drop down" onClick={handleCloseCalendar}>
           <img className="cancel-cal-img" src={cancel} alt="x icon representing exit" />
         </button>
         <div className="calendar-header">

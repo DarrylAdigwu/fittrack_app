@@ -4,16 +4,17 @@ div.calendar-container {
 
 @keyframes pullUp {
   0% { height: 0vh;}
-  100% { height: 60vh;}
+  100% { height: 450px;}
 }
 
 div.calendar-container.active {
   display: flex;
-  justify-content: center ;
+  justify-content: center;
+  align-items: center;
   background-color: #1f1f1f;
   position: absolute;
-  bottom: 0;
-  height: 60vh;
+  top: 7rem;
+  height: 450px;
   animation: pullUp 1s ease-in-out 0s;
   overflow: hidden;
 }
@@ -27,17 +28,17 @@ div.calendar-container > div.calendar {
   max-width: 500px;
   height: fit-content;
   background-color: #1f1f1f;
-  padding: 4rem 0;
   border-radius: 6px;
 }
 
 div.calendar > button.cancel-calendar {
   position: absolute;
-  top: 0;
+  top: 0.5rem;
   margin: .5rem;
+  padding: 0;
   right: 0;
   background-color: transparent;
-  color: #FFFAF0;
+  color: #c05b5b;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,7 +46,7 @@ div.calendar > button.cancel-calendar {
 }
 
 button.cancel-calendar > img.cancel-cal-img {
-  height: 1.5rem;
+  height: 1.75rem;
 }
 
 div.calendar > div.calendar-header {
@@ -97,10 +98,11 @@ div.calendar-body > div.calendar-dates {
   display: grid;
   justify-items: center;
   grid-template-columns: repeat(7, 1fr);
-  row-gap: 20px;
+  row-gap: 16px;
 }
 
 div.calendar-dates > a {
+  border-radius: 6px;
   color: white;
   text-decoration: none;
 }
@@ -111,9 +113,8 @@ div.calendar-dates > a:hover {
 }
 
 div.date-containers {
-  border: 1px solid #D98B22;
-  height: 2.5rem;
-  width: 2.5rem;
+  height: 1.5rem;
+  width: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
