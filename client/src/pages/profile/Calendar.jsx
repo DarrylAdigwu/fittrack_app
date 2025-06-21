@@ -57,7 +57,13 @@ export default function Calendar() {
     const newCalDate = new Date(year, month, day);
     const validDate = !isNaN(newCalDate) ? `?date=${newCalDate}` : null;
     return(
-      <Link to={validDate} key={index} onClick={validDate && handleCloseCalendar} aria-label={`link to schedule for ${validDate}`}>
+      <Link 
+        to={validDate} 
+        key={index} 
+        onClick={validDate && handleCloseCalendar} 
+        aria-label={`link to schedule for ${validDate}`}
+        reloadDocument
+      >
         <div className="date-containers">
           {day}
         </div>

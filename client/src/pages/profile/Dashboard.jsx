@@ -675,9 +675,11 @@ export default function Dashboard() {
 
   function handleCalendar(event) {
     const displayCal = document.getElementById("calendar-container");
+    const actionsMenu = document.querySelector("div.table-actions-menu");
 
     if(event) {
-      displayCal.classList.toggle("active")
+      displayCal.classList.toggle("active");
+      actionsMenu.classList.remove("active");
     }
   }
 
