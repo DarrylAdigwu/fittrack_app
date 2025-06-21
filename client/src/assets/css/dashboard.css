@@ -29,7 +29,7 @@ div.displayDate > button.calendar-button {
 }
 
 button.calendar-button > span {
-  font-size: .875rem;
+  font-size: 1rem;
   color: #FFFFFF;
   min-width: fit-content;
   font-family: "Work Sans";
