@@ -15,7 +15,7 @@ export default function Calendar(props) {
   const datesForUser = [];
 
   // Push dates into new array
-  getAllUserDates.map((date) => datesForUser.push(formatCurrentDate(new Date(date.date))));
+  getAllUserDates.map((date) => datesForUser.push(formatCurrentDate(new Date(date))));
 
   console.log(datesForUser);
   

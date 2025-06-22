@@ -384,9 +384,18 @@ router.route("/calendar")
   // Get all dates where there is a workout
   const getDates = await getAllDates(username);
 
+  // Array for formatted dates
+  const allDates = [];
+
+  // Store formatted dates in allDates array
+  getDates.map((date) => {
+    const formatAllDates = formatDate(new Date(date.date));
+    allDates.push(formatAllDates);
+  })
+
   // Return valid message
   return res.status(200).json({
-    getDates,
+    allDates,
   });
 
 });

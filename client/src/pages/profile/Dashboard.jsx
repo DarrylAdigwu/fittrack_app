@@ -100,7 +100,7 @@ export default function Dashboard() {
   let key = actionData ? Object.keys(actionData).toString() : null;
 
   // Get all workout dates
-  const allUserDates = dashLoader.getDates;
+  const allUserDates = dashLoader.allDates;
 
   // Display previous date
   function prevDate() {
