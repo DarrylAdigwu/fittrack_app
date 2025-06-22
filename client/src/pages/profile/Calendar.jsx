@@ -67,7 +67,7 @@ export default function Calendar(props) {
     const newCalDate = new Date(year, month, day);
     const checkDate = !isNaN(newCalDate) ? formatCurrentDate(newCalDate) : null;
     const validDate = !isNaN(newCalDate) ? `?date=${newCalDate}` : null;
-    
+    console.log(newCalDate)
     const dateContainer = datesForUser.includes(checkDate);
     const goldBorder = dateContainer ? "gold-border" : null;
 
