@@ -112,11 +112,18 @@ div.calendar-dates > a:hover {
   background-color: rgba(217,139,34, .5);
 }
 
-div.date-containers {
-  height: 1.5rem;
-  width: 1.5rem;
+a > div.date-containers {
+  height: 1.75rem;
+  width: 1.75rem;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 6px;
 }
+
+a > div.gold-border {
+  border: 1px solid #D98B22;
+  background-color: rgba(217,139,34, .25);
+  border-radius: 6px;
+  padding: .125rem;
+} 

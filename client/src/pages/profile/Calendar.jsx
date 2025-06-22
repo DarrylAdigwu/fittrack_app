@@ -4,10 +4,18 @@ import leftArr from "../../assets/images/left-arrow.svg";
 import rightArr from "../../assets/images/right-arrow.svg";
 import cancel from "../../assets/images/cancel.svg";
 import "../../assets/css/calendar.css";
+import { formatCurrentDate } from "../../../client-utils";
 
-export default function Calendar() {
+export default function Calendar(props) {
   const [month, setMonth] = React.useState(new Date().getMonth());
   const [year, setYear] = React.useState(new Date().getFullYear());
+  const getAllUserDates = props.allDates;
+
+  // Array to hold dates
+  const datesForUser = [];
+
+  // Push dates into new array
+  getAllUserDates.map((date) => datesForUser.push(formatCurrentDate(new Date(date.date))));
 
   const months = [
     "January", "February", "March", "April", "May", "June",
@@ -55,7 +63,12 @@ export default function Calendar() {
   // Map calendars to div for JSX
   const calendarDays = dateContainer.map((day, index) => {
     const newCalDate = new Date(year, month, day);
+    const checkDate = !isNaN(newCalDate) ? formatCurrentDate(newCalDate) : null;
     const validDate = !isNaN(newCalDate) ? `?date=${newCalDate}` : null;
+    
+    const dateContainer = datesForUser.includes(checkDate);
+    const goldBorder = dateContainer ? "gold-border" : null;
+
     return(
       <Link 
         to={validDate} 
@@ -64,7 +77,7 @@ export default function Calendar() {
         aria-label={`link to schedule for ${validDate}`}
         reloadDocument
       >
-        <div className="date-containers">
+        <div className={`date-containers ${goldBorder}`}>
           {day}
         </div>
       </Link>

@@ -9,12 +9,14 @@ import cancel from "../../assets/images/cancel.svg";
 import leftArr from "../../assets/images/left-arrow.svg";
 import calendar from "../../assets/images/calendar.svg";
 import rightArr from "../../assets/images/right-arrow.svg";
-import {sendUserData, getTodaysWorkout, formatCurrentDate, formatLocalCurrentDate, usersUsername} from "../../../client-utils";
+import { sendUserData, getTodaysWorkout, formatCurrentDate, 
+  formatLocalCurrentDate, usersUsername, getAllDates } from "../../../client-utils";
 import Calendar from "./Calendar.jsx";
 
 
 export async function loader({ request }) {
-  
+  const getDates = await getAllDates();
+  return getDates;
 }
 
 export async function action({ request }) {
@@ -97,6 +99,8 @@ export default function Dashboard() {
   // Get key and make it string if error in form 
   let key = actionData ? Object.keys(actionData).toString() : null;
 
+  // Get all workout dates
+  const allUserDates = dashLoader.getDates;
 
   // Display previous date
   function prevDate() {
@@ -773,7 +777,7 @@ export default function Dashboard() {
           </Form>
         </div>
       </div>
-      <Calendar />
+      <Calendar allDates={allUserDates} />
     </>
   )
 }

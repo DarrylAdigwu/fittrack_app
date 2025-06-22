@@ -252,3 +252,49 @@ export function removeCookies(cookieOne, cookieTwo = null, cookieThree = null) {
     document.cookie = `${cookieThree}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   }
 }
+
+
+// Get all dates for users workouts
+export async function getAllDates() {
+  
+  if(await isTokenExpired()) {
+    sessionStorage.removeItem("authToken");
+    removeCookies("id-token", "user-token", "connect.sid");
+    return window.location.replace("/login");
+  } else {
+    try {
+      // Get value for authToken's token key
+      const getAuthToken = JSON.parse(sessionStorage.getItem("authToken")).token;
+
+      // Send request to server
+      const response = await fetch("https://api.stage.fittracker.us/api/calendar", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${getAuthToken}`
+        }
+      });
+
+      // Logout user if unauthorized
+      if(response.status === 401) {
+        sessionStorage.removeItem("authToken");
+        removeCookies("id-token", "user-token", "connect.sid");
+        return window.location.replace(`/login`)
+      }
+
+      // Get other errors
+      if(!response.ok) {
+        throw new Error(`HTTP ERROR: ${response.status}` )
+      }
+
+      // Get values from server request
+      const responseData = await response.json();
+
+      return responseData;
+
+    } catch(err) {
+      console.error("Error getting dates from db:", err);
+    }
+  }
+}

@@ -302,3 +302,33 @@ export async function deleteWorkouts(user_id, date, exercise_id = null) {
     connection.release();
   }
 }
+
+
+// Get all dates where the are scheduled workouts
+export async function getAllDates(username) {
+  const connection = await db.getConnection();
+
+  try {
+    // Query to get all dates for user
+    let getAllDatesQuery = `SELECT DISTINCT date 
+            FROM workouts
+            WHERE user_name = ?`;
+    
+    // Parameters to add to query
+    let getAllDatesInsert = [username];
+
+    // Format escaped query
+    getAllDatesQuery = mysql.format(getAllDatesQuery, getAllDatesInsert);
+
+    // Send query to database
+    const [getAllDates] = await db.query(getAllDatesQuery);
+
+    // return values
+    return getAllDates;
+
+  } catch(err) {
+    console.error("Error getting dates:", err);
+  } finally {
+    connection.release();
+  }
+};

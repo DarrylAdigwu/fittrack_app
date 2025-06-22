@@ -1,6 +1,7 @@
 import express from "express";
 import { registerUser, getUserByUsername, authLogin, deleteSession, 
-  getUsersExercises, storeExercise, updateUsersWorkouts, deleteWorkouts } from "../database/db.js";
+  getUsersExercises, storeExercise, updateUsersWorkouts, deleteWorkouts,
+  getAllDates } from "../database/db.js";
 import { checkString, generateToken, requireAuth, formatDate, capitalizeFirstLetter } from "../server-utils.js";
 
 // Create Router
@@ -200,9 +201,10 @@ router.route("/dashboard/:username")
 
     // Get Stored workout and return to dashboard
     const getWorkout = await getUsersExercises(user_id, formattedDate);
+
     return res.status(200).json({
-        getWorkout,
-    })
+      getWorkout,
+    });
   }
 })
 .post(requireAuth, async (req, res) => {
@@ -365,5 +367,29 @@ router.route("/dashboard/:username")
     });
   }
 })
+
+
+// Calendar component api
+router.route("/calendar")
+.get(requireAuth, async (req, res) => {
+  if(!req.session) {
+    return res.status(401).json({
+        invalid: "Unauthorized", 
+    });
+  }
+
+  const user_id = req.session.user.id;
+  const username = req.session.user.username;
+
+  // Get all dates where there is a workout
+  const getDates = await getAllDates(username);
+
+  // Return valid message
+  return res.status(200).json({
+    getDates,
+  });
+
+});
+
 
 export default router;
