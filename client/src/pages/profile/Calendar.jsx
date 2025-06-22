@@ -10,7 +10,7 @@ export default function Calendar(props) {
   const [month, setMonth] = React.useState(new Date().getMonth());
   const [year, setYear] = React.useState(new Date().getFullYear());
   const getAllUserDates = props.allDates;
-
+  console.log(getAllUserDates)
   // Array to hold dates
   const datesForUser = [];
 
@@ -18,7 +18,7 @@ export default function Calendar(props) {
   getAllUserDates.map((date) => datesForUser.push(formatCurrentDate(new Date(date.date))));
 
   console.log(datesForUser);
-
+  
   const months = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -67,8 +67,6 @@ export default function Calendar(props) {
     const newCalDate = new Date(year, month, day);
     const checkDate = !isNaN(newCalDate) ? formatCurrentDate(newCalDate) : null;
     const validDate = !isNaN(newCalDate) ? `?date=${newCalDate}` : null;
-    
-    console.log(newCalDate)
     
     const dateContainer = datesForUser.includes(checkDate);
     const goldBorder = dateContainer ? "gold-border" : null;
