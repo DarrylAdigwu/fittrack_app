@@ -98,3 +98,16 @@ export function capitalizeFirstLetter(string) {
     console.error("Error capitalizing string:", err)
   }
 }
+
+
+// Capitalize all letter for checking username without case sensitivity
+export function capitalizeAllLetters(string){
+  try {
+    const arrString = string.split("");
+    const mapString = arrString.map((letter) => letter.toUpperCase());
+    const restring = mapString.toString().replaceAll(",", "");
+    return restring
+  } catch(err) {
+    console.error("Error capitailizing all letters:", err)
+  }
+}

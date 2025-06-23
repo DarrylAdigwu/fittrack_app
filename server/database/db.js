@@ -1,7 +1,7 @@
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";
 import * as argon2 from "argon2";
-import { hashPassword } from "../server-utils.js";
+import { hashPassword, capitalizeAllLetters } from "../server-utils.js";
 
 /* Configure .env files */
 dotenv.config();
@@ -111,7 +111,8 @@ export async function authLogin(username, password) {
     }
   
     // Return boolean based on information
-    if(findUser[0].username === username && hashResult) {
+    if(capitalizeAllLetters(findUser[0].username) === capitalizeAllLetters(username) 
+      && hashResult) {
       return true;
     } else if(!hashResult){
       return "Password does not match";
