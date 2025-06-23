@@ -10,14 +10,12 @@ export default function Calendar(props) {
   const [month, setMonth] = React.useState(new Date().getMonth());
   const [year, setYear] = React.useState(new Date().getFullYear());
   const getAllUserDates = props.allDates;
-  console.log(getAllUserDates)
+  
   // Array to hold dates
   const datesForUser = [];
 
   // Push dates into new array
   getAllUserDates.map((date) => datesForUser.push(dateWithoutTimezone(date)));
-
-  console.log(datesForUser);
   
   const months = [
     "January", "February", "March", "April", "May", "June",
@@ -68,7 +66,7 @@ export default function Calendar(props) {
     const removeDateTimezone = dateWithoutTimezone(newCalDate);
     const checkDate = !isNaN(newCalDate) ? removeDateTimezone : null;
     const validDate = !isNaN(newCalDate) ? `?date=${newCalDate}` : null;
-    console.log(newCalDate)
+   
     const dateContainer = datesForUser.includes(checkDate);
     const goldBorder = dateContainer ? "gold-border" : null;
 

@@ -4,7 +4,7 @@ div.calendar-container {
 
 @keyframes pullUp {
   0% { height: 0vh;}
-  100% { height: 450px;}
+  100% { height: 475px;}
 }
 
 div.calendar-container.active {
@@ -14,7 +14,8 @@ div.calendar-container.active {
   background-color: #1f1f1f;
   position: absolute;
   top: 7rem;
-  height: 450px;
+  height: 475px;
+  width: 100%;
   animation: pullUp 1s ease-in-out 0s;
   overflow: hidden;
 }
@@ -23,12 +24,12 @@ div.calendar-container > div.calendar {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-content: start;
+  height: 80%;
   width: 90%;
   max-width: 500px;
-  height: fit-content;
   background-color: #1f1f1f;
   border-radius: 6px;
+  margin-top: 2rem;
 }
 
 div.calendar > button.cancel-calendar {
@@ -55,6 +56,7 @@ div.calendar > div.calendar-header {
   width: 90%;
   max-width: 500px;
   height: fit-content;
+  margin-bottom: 1.5rem;
 }
 
 div.calendar-header > span {
@@ -74,10 +76,11 @@ button.cal-button > img {
 
 div.calendar > div.calendar-body {
   width: 90%;
+  min-height: 85%;
 }
 
 div.calendar-body > div.calendar-weekdays {
-  margin-block: 1.5rem;
+  margin-bottom: 1.5rem;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -88,7 +91,7 @@ div.calendar-body > div.calendar-weekdays {
 div.calendar-weekdays > span {
   display: flex;
   justify-content: center;
-  width: 2.5rem;
+  width: 2rem;
   border-bottom: 1px solid #FFFAF0;
   font-family: "Work Sans";
 }
