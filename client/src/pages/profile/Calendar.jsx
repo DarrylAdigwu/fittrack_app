@@ -4,7 +4,7 @@ import leftArr from "../../assets/images/left-arrow.svg";
 import rightArr from "../../assets/images/right-arrow.svg";
 import cancel from "../../assets/images/cancel.svg";
 import "../../assets/css/calendar.css";
-import { formatCurrentDate } from "../../../client-utils";
+import { formatCurrentDate, dateWithoutTimezone } from "../../../client-utils";
 
 export default function Calendar(props) {
   const [month, setMonth] = React.useState(new Date().getMonth());
@@ -15,7 +15,7 @@ export default function Calendar(props) {
   const datesForUser = [];
 
   // Push dates into new array
-  getAllUserDates.map((date) => datesForUser.push(formatCurrentDate(new Date(date))));
+  getAllUserDates.map((date) => datesForUser.push(dateWithoutTimezone(date)));
 
   console.log(datesForUser);
   
@@ -65,7 +65,8 @@ export default function Calendar(props) {
   // Map calendars to div for JSX
   const calendarDays = dateContainer.map((day, index) => {
     const newCalDate = new Date(year, month, day);
-    const checkDate = !isNaN(newCalDate) ? formatCurrentDate(newCalDate) : null;
+    const removeDateTimezone = dateWithoutTimezone(newCalDate);
+    const checkDate = !isNaN(newCalDate) ? removeDateTimezone : null;
     const validDate = !isNaN(newCalDate) ? `?date=${newCalDate}` : null;
     console.log(newCalDate)
     const dateContainer = datesForUser.includes(checkDate);
