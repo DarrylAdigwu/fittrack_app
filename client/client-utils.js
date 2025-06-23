@@ -301,6 +301,9 @@ export async function getAllDates() {
 
 // Remove timezones from dates
 export function dateWithoutTimezone(date) {
+    if(date == "Invalid Date") {
+      return null;
+    }
     const parseDate = Date.parse(date)
     const dateUtcFormat = new Date(parseDate).toISOString();
     const removeTimezone = dateUtcFormat.split("T")[0];
