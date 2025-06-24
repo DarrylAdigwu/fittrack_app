@@ -130,3 +130,7 @@ a > div.gold-border {
   border-radius: 6px;
   padding: .125rem;
 } 
+
+a > div.gold-background {
+  background-color: rgba(217,139,34, .35);
+}

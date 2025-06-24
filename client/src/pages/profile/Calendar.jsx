@@ -64,11 +64,13 @@ export default function Calendar(props) {
   const calendarDays = dateContainer.map((day, index) => {
     const newCalDate = new Date(year, month, day);
     const removeDateTimezone = dateWithoutTimezone(newCalDate);
+    const currentDate = dateWithoutTimezone(new Date());
     const checkDate = !isNaN(newCalDate) ? removeDateTimezone : null;
     const validDate = !isNaN(newCalDate) ? `?date=${newCalDate}` : null;
    
     const dateContainer = datesForUser.includes(checkDate);
     const goldBorder = dateContainer ? "gold-border" : null;
+    const goldBackground = removeDateTimezone === currentDate ? "gold-background" : null;
 
     return(
       <Link 
@@ -78,7 +80,7 @@ export default function Calendar(props) {
         aria-label={`link to schedule for ${validDate}`}
         reloadDocument
       >
-        <div className={`date-containers ${goldBorder}`}>
+        <div className={`date-containers ${goldBorder} ${goldBackground}`}>
           {day}
         </div>
       </Link>
