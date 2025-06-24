@@ -27,7 +27,7 @@ div.home-container {
 
 div.home-container > section.home-cta {
   z-index: 3;
-  color: #fffaf0;
+  color: #FFFAF0;
 }
 
 div.home-container > section.home-cta h1 {
@@ -45,9 +45,9 @@ div.home-container > section.home-cta a {
   justify-content: center;
   align-items: center;
   background-color: #D98B22;
-  color: #fffaf0;
+  color: #FFFAF0;
   text-decoration: none;
-  width: 100%;
+  width: 50%;
   height: 50px;
   font-weight: 600;
   border-radius: 5px;

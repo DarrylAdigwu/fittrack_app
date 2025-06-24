@@ -49,7 +49,7 @@ Form.login-form > input {
   padding: 9px 13px;
   border-radius: 5px;
   border: inset rgba(120, 120, 120, .5);
-  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 .invalid {
@@ -72,7 +72,7 @@ Form.login-form > button {
   width: 90%;
   height: 50px;
   background-color: #D98B22;
-  color: #fffaf0;
+  color: #FFFAF0;
   border: none;
   font-weight: 600;
   border-radius: 5px;
