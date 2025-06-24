@@ -9,11 +9,11 @@ export default function Home() {
           <div className="overlay"></div>
         </div>
         <section className="main home-cta">
-          <h1>Tracking is a drag, but let's make tracking look easy</h1>
+        <h1>Make planning feel easy</h1>
           <p>
             FitTrack is your reliable workout partner. Start 
-            recording, timing, and tracking your daily 
-            fitness progress
+            planning and tracking your daily 
+            fitness routines.
           </p>
           <NavLink to="register">Get Started</NavLink>
         </section>
