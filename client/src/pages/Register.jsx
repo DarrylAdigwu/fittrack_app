@@ -53,7 +53,7 @@ export default function Register () {
           {actionData && actionKey == "invalidPassword" ? <span className="invalid">{actionData[actionKey]}</span> : null}
           
           <label htmlFor="confirm-password"/>
-          <input name="confirm-password" type="password" id="confirm-password" placeholder="Password" autoComplete="off" />
+          <input name="confirm-password" type="password" id="confirm-password" placeholder="Confirm Password" autoComplete="off" />
           {actionData && actionKey == "invalidConfirmPass" ? <span className="invalid">{actionData[actionKey]}</span> : null}
           
           <button type="submit">{isSubmitting ? "Submitting..." : "Create account"}</button>
