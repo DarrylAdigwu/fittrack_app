@@ -126,7 +126,6 @@ a > div.date-containers {
 
 a > div.gold-border {
   border: 1px solid #D98B22;
-  background-color: rgba(217,139,34, .25);
   border-radius: 6px;
   padding: .125rem;
 } 
