@@ -22,7 +22,6 @@ div.home-container {
   align-items: center;
   z-index: 3;
   height: 100%;
-  border: 1px solid red;
 }
 
 div.home-container > section.home-cta {
