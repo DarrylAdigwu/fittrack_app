@@ -683,7 +683,9 @@ export default function Dashboard() {
 
     if(event) {
       displayCal.classList.toggle("active");
-      actionsMenu.classList.remove("active");
+      if(actionsMenu && actionsMenu.classList.contains("active")) {
+        actionsMenu.classList.remove("active");
+      }
     }
   }
 
