@@ -44,15 +44,15 @@ export default function Register () {
           <label htmlFor="lastName">Last Name:</label>
           <input name="lastName" type="text" id="lastName" placeholder="Last Name" autoComplete="on"/> 
           */}
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username"/>
           <input name="username" type="text" id="username" placeholder="Username" autoComplete="on" autoFocus  />
           {actionData && actionKey == "invalidUsername" || actionKey == "invalidChar" ? <span className="invalid">{actionData[actionKey]}</span> : null}
           
-          <label htmlFor="reg-password">Password:</label>
+          <label htmlFor="reg-password"/>
           <input name="password" type="password" id="reg-password" placeholder="Password" autoComplete="off" />
           {actionData && actionKey == "invalidPassword" ? <span className="invalid">{actionData[actionKey]}</span> : null}
           
-          <label htmlFor="confirm-password">Confirm Password:</label>
+          <label htmlFor="confirm-password"/>
           <input name="confirm-password" type="password" id="confirm-password" placeholder="Password" autoComplete="off" />
           {actionData && actionKey == "invalidConfirmPass" ? <span className="invalid">{actionData[actionKey]}</span> : null}
           

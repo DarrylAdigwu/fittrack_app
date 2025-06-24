@@ -16,7 +16,7 @@ section.login-main {
   max-width: 500px;
   padding: 2rem;
   border-radius: 6px;
-  background-color: #fffaf0;
+  background-color: #FFFAF0;
 }
 
 section.reg-main h1,
@@ -32,6 +32,7 @@ Form.register-form,
 Form.login-form {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   margin-block: .25rem;
 }
 
@@ -43,7 +44,7 @@ Form.login-form > label {
 
 Form.register-form > input,
 Form.login-form > input {
-  width: 100%;
+  width: 90%;
   height: 50px;
   padding: 9px 13px;
   border-radius: 5px;
@@ -52,14 +53,14 @@ Form.login-form > input {
 }
 
 .invalid {
-  color: #c05b5b;
+  color: #C05B5B;
 }
 
 Form.register-form > span.invalid,
 Form.login-form > span.invalid {
   width: 100%;
   padding: 0 13px;
-  color: #c05b5b;
+  color: #C05B5B;
   margin-block: .5rem;
   font-size: .875rem;
 }
@@ -68,7 +69,7 @@ Form.register-form > button,
 Form.login-form > button {
   margin-top: 1.5rem;
   margin-bottom: 1rem;
-  width: 100%;
+  width: 90%;
   height: 50px;
   background-color: #D98B22;
   color: #fffaf0;
