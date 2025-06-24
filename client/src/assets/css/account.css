@@ -48,7 +48,7 @@ Form.login-form > input {
   height: 50px;
   padding: 9px 13px;
   border-radius: 5px;
-  border: inset rgba(120, 120, 120, .5);
+  border: 1px inset rgba(120, 120, 120, .5);
   margin-top: 1rem;
 }
 
