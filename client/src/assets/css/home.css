@@ -7,12 +7,14 @@ div.home-bg {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  min-width: 240px;
 }
 
 div.home-bg > div.overlay {
   position: absolute;
   height: 100%;
   width: 100%;
+  min-width: 240px;
   background-color: rgba(0,0,0, .65);
   z-index: 2;
 }
@@ -22,11 +24,23 @@ div.home-container {
   align-items: center;
   z-index: 3;
   height: 100%;
+  padding: 0 1rem;
 }
 
 div.home-container > section.home-cta {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  min-width: 240px;
   z-index: 3;
-  color: #FFFAF0;
+  color: #fffaf0;
+  margin-block: 2rem;
+}
+
+section.home-cta > div.cta-texts {
+  width: 100%;
+  max-width: 475px;
+  min-width: 240px;
 }
 
 div.home-container > section.home-cta h1 {
@@ -48,11 +62,60 @@ div.home-container > section.home-cta a {
   text-decoration: none;
   width: 50%;
   height: 50px;
-  font-weight: 600;
-  border-radius: 5px;
+  font-weight: 400;
+  border-radius: 6px;
 }
 
 div.home-container > section.home-cta a:hover {
   background-color: #FFFFFF;
   color: #D98B22;
+}
+
+.mock-img {
+  display: none;
+}
+ 
+
+@media only screen and (min-width: 768px)  {
+
+  div.home-container > section.home-cta {
+    align-items: end;
+    width: 90%;
+    max-width: 700px;
+    gap: 16px;
+  }
+
+  div.home-container > section.home-cta p {
+    max-width: 500px;
+  }
+
+  .mock-img {
+    display: flex;
+    height: 300px;
+  }
+
+  div.mock-img > img {
+    position: relative;
+    z-index: 5;
+    height: 100%;
+  }
+}
+
+@media only screen and (min-width: 1020px)  {
+
+  div.home-container > section.home-cta {
+    max-width: 900px;
+  }
+
+  section.home-cta > div.cta-texts {
+    max-width: 600px;
+  }
+
+  .mock-img {
+    height: 400px;
+  }
+
+  div.home-container > section.home-cta h1 {
+    font-size: 5rem;
+  }
 }
