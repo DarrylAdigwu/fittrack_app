@@ -13,7 +13,7 @@ div.calendar-container.active {
   align-items: center;
   background-color: #1f1f1f;
   position: absolute;
-  top: 90;
+  top: 0;
   height: 475px;
   width: 100%;
   min-width: 240px;
