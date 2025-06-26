@@ -344,6 +344,7 @@ export default function Dashboard() {
       </button>
     </div>
     <div className="table-actions-menu">
+      {plannedWorkout.length < 6 ? <button id="add-workout" onClick={newExerciseForm} type="button">Add</button> : null}
       <span className="action-edit" onClick={handleEditSchedule}>Edit</span>
       <span className="action-delete" onClick={handleDeleteSchedule}>Delete</span>
     </div>
@@ -368,7 +369,6 @@ export default function Dashboard() {
         </Form>
       </div>
     </div>
-    {plannedWorkout.length < 6 ? <button id="add-workout" onClick={newExerciseForm} type="button">Add Workout</button> : null}
   </div> : null;
 
 
@@ -635,7 +635,7 @@ export default function Dashboard() {
     }
   }
 
-
+  // Handles deleting workouts from schedule
   function handleDeleteSchedule(event) {
     const pastDateButton = document.getElementById("past-date");
     const futureDateButton = document.getElementById("future-date");
@@ -676,7 +676,7 @@ export default function Dashboard() {
     }
   }
 
-
+  // Handle drop down calendar
   function handleCalendar(event) {
     const displayCal = document.getElementById("calendar-container");
     const actionsMenu = document.querySelector("div.table-actions-menu");
@@ -688,6 +688,33 @@ export default function Dashboard() {
       }
     }
   }
+
+
+  // Check screen size and remove elements based on screen size
+  function checkScreenSize() {
+    const windowWidth = window.innerWidth;
+    const displayCal = document.getElementById("calendar-container");
+    const calendarButton = document.querySelector(".calendar-button");
+
+    if(windowWidth < 1080) {
+      if(calendarButton) {
+        calendarButton.disabled = false;
+      }
+    }
+
+    if(windowWidth > 1079) {
+      if(displayCal && displayCal.classList.contains("active")) {
+        displayCal.classList.remove("active");
+      }
+
+      if(calendarButton) {
+        calendarButton.disabled = true;
+      }
+    }
+  }
+
+  checkScreenSize();
+  window.addEventListener("resize", checkScreenSize);
 
   return(
     <>
@@ -706,8 +733,10 @@ export default function Dashboard() {
             <img src={rightArr} alt="right button arrow to change date to day after" />
           </button>
         </div>
+
         {noSchedule}
         {showSchedule}
+        <Calendar allDates={allUserDates} />
 
         <div id="workout-form" className="workout-form">
           <div className="cancel-new-exercise">
@@ -779,7 +808,6 @@ export default function Dashboard() {
           </Form>
         </div>
       </div>
-      <Calendar allDates={allUserDates} />
     </>
   )
 }
