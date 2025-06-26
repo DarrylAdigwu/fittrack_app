@@ -336,8 +336,16 @@ export default function Dashboard() {
   const showSchedule = todaysSchedule ? 
   <div id="schedule" className="schedule">
     <div className="table-actions">
-      <button className="threeDotImg" onClick={handleDropDown} aria-label="drop down menu with options for current schedule">
-        <img className="threeDotImg-img" src={threeDot} alt="menu to edit table" />
+      <button 
+        className="threeDotImg" 
+        onClick={handleDropDown} 
+        aria-label="drop down menu with options for current schedule"
+      >
+        <div id="burger" className="threeDotImg-img">
+          <li id="line1"></li>
+          <li id="line2"></li>
+          <li id="line3"></li>
+        </div>
       </button>
       <button className="cancel-edit-button" onClick={handleEditCancel} aria-label="button to exit out of edit or delete form options">
         <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(showDate)}`} className="cancel-edit-img" id="cancel-edit-img" />
