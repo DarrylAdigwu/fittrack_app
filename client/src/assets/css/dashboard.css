@@ -55,9 +55,17 @@ button.calendar-button > img {
   height: 1rem;
 }
 
-/* no schedule container */
-div.dash-container > div.no-schedule {
+/* All Scheduling */
+div.dash-container > div.all-scheduling {
   width: 90%;
+  max-width: 500px;
+  min-width: 300px;
+  margin-top: 2rem;
+}
+
+/* no schedule container */
+div.all-scheduling > div.no-schedule {
+  width: 100%;
   max-width: 500px;
   height: fit-content;
   display: flex;
@@ -66,18 +74,18 @@ div.dash-container > div.no-schedule {
   margin-top: 6.75vh;
 }
 
-div.dash-container > div.no-schedule.inactive {
+div.all-scheduling > div.no-schedule.inactive {
   display: none;
 }
 
-div.dash-container > div.no-schedule h1 {
+div.all-scheduling > div.no-schedule h1 {
   width: 90%;
   text-align: center;
 }
 
-div.dash-container > div.no-schedule button#add-workout {
+div.all-scheduling > div.no-schedule button#add-workout {
   height: 50px;
-  width: 90%;
+  width: 80%;
   max-width: 500px;
   background-color: #D98B22;
   border: none;
@@ -90,7 +98,7 @@ div.schedule button#add-workout.inactive {
   display: none;
 }
 
-div.dash-container > div.no-schedule button:active {
+div.all-scheduling > div.no-schedule button:active {
   background-color: #FFFFFF;
   color: #D98B22;
   border: 1px solid #D98B22;
@@ -103,7 +111,7 @@ div.schedule {
   flex-wrap: wrap;
   position: relative;
   justify-content: center;
-  width: 90%;
+  width: 100%;
   max-width: 500px;
   min-width: 300px;
 }
@@ -145,7 +153,7 @@ button.threeDotImg > div.threeDotImg-img {
 }
 
 div#burger > li {
-  height: .45rem;
+  height: .35rem;
   aspect-ratio: 1/1;
   margin: 0;
   padding: 0;
@@ -190,36 +198,39 @@ div.schedule > .table-actions-menu.active {
   justify-content: center;
   align-items: center;
   position: absolute;
-  right: 5%;
-  top: 1.75rem;
+  right: 7.5%;
+  top: 1.25rem;
   border-radius: 6px;
   border: 1px solid #1f1f1f;
   background-color: #FFFAF0;
   box-shadow: -1px 4px 6px 2px rgba(159,154,154, .5);
   z-index: 5;
 }
-
-.table-actions-menu > span {
-  width: 100%;
-  padding: 1rem .25rem;
-  text-align: center;
-  font-family: "Work Sans";
-}
-
-.table-actions-menu.active > button#add-workout {
+.table-actions-menu.active > button {
   width: 100%;
   padding: 1rem .25rem;
   text-align: center;
   font-family: "Work Sans";
   background-color: #FFFAF0;
   border: none;
+}
+
+.table-actions-menu > button#add-workout {
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
   border-bottom: 1px solid rgba(0, 0, 0, .25);
 }
 
-.table-actions-menu > span.action-edit {
+.table-actions-menu > button.action-edit {
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
   border-bottom: 1px solid rgba(0, 0, 0, .25);
+}
+
+.table-actions-menu > button.action-delete {
+  border-bottom: 1px solid rgba(0, 0, 0, .25);
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
 }
 
 .table-actions-menu.active > button#add-workout:hover {
@@ -230,28 +241,18 @@ div.schedule > .table-actions-menu.active {
   border-top-left-radius: 6px;
 }
 
-.table-actions-menu.active > span.action-edit:hover {
+.table-actions-menu.active > button.action-edit:hover {
   background-color: rgba(217, 139, 34, 1);
   color: #FFFAF0;
   cursor: pointer;
 }
 
-.table-actions-menu.active > span.action-delete:hover {
+.table-actions-menu.active > button.action-delete:hover {
   background-color: rgba(217, 139, 34, 1);
   color: #FFFAF0;
   cursor: pointer;
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
 }
 
-.workout-actions {
-  border: 1px solid red;
-  width: 80%;
-}
-
-.workout-actions > td.action-edit {
-  border-right: 1px solid red;
-}
 
 div.schedule > div.workout-table {
   display: flex;
@@ -462,15 +463,15 @@ Form > #delete-all-exercises.active:active {
 }
 
 /* Workout form */
-div.dash-container > div.workout-form {
+div.all-scheduling > div.workout-form {
   display: none;
 }
 
-div.dash-container > div.workout-form.active {
+div.all-scheduling > div.workout-form.active {
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  width: 90%;
+  width: 100%;
   max-width: 500px;
   height: fit-content;
   flex-wrap: wrap;
@@ -621,37 +622,54 @@ div.workout-form > Form > #submit-exercise:active {
 
 /* For screen sizes 1080px & above */
 @media only screen and (min-width: 1080px) {
-  button.calendar-button > img {
-    display: none;
+  div.dash-container {
+    display: grid;
+    grid-template: 
+      "a a"
+      "b c"
+      "b d";
   }
 
-  div.dash-container > div.no-schedule {
+  div.dash-container > div.displayDate {
+    grid-area: a;
+  }
+
+  div.all-scheduling > div.no-schedule {
     align-items: center;
-    width: 90%;
+    width: 100%;
     max-width: 450px;
     height: 200px;
     padding: 0 2rem;
     border-top: 1px solid #1f1f1f;
     border-bottom: 1px solid #1f1f1f;
     margin-right: 2rem;
-    margin-top: 2rem;
+    margin-top: 0;
+    grid-area: b;
+  }
+  
+  button.calendar-button > img {
+    display: none;
   }
 
-  div.dash-container > div.no-schedule h1 {
+  div.all-scheduling > div.no-schedule h1 {
     margin-top: 0;
   }
 
-  div.dash-container > div.schedule {
+  div.all-scheduling > div.schedule {
     max-width: 450px;
     height: fit-content;
     padding: 0;
     margin-right: 2rem;
-    margin-top: 2rem;
     align-content: start;
+    grid-area: b;
   }
-
+  
   div.schedule > .table-actions {
     padding: 0 5%;
+  }
+
+  div.schedule > .table-actions-menu.active {
+    right: 2.5%;
   }
 
   div.schedule > div.workout-table {

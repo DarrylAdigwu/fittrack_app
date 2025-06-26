@@ -353,8 +353,8 @@ export default function Dashboard() {
     </div>
     <div className="table-actions-menu">
       {plannedWorkout.length < 6 ? <button id="add-workout" onClick={newExerciseForm} type="button">Add</button> : null}
-      <span className="action-edit" onClick={handleEditSchedule}>Edit</span>
-      <span className="action-delete" onClick={handleDeleteSchedule}>Delete</span>
+      <button className="action-edit" onClick={handleEditSchedule} type="button">Edit</button>
+      <button className="action-delete" onClick={handleDeleteSchedule} type="button">Delete</button>
     </div>
     <div className="workout-table" role="table" aria-label={`Workouts planned for ${showDate}`}>
       <div className="workout-thead-section" role="rowgroup">
@@ -602,6 +602,7 @@ export default function Dashboard() {
     const threeDotButton = document.querySelector("button.threeDotImg");
     const actionsMenu = document.querySelector("div.table-actions-menu")
     const submitEdit = document.getElementById("submit-edit-exercise");
+    const addWorkoutForm = document.getElementById("workout-form");
     const addWorkoutButton = document.getElementById("add-workout");
 
     if(event) {
@@ -625,6 +626,11 @@ export default function Dashboard() {
       // Hide add workout button
       if(addWorkoutButton) {
         addWorkoutButton.classList.add("inactive");
+      }
+
+      // Hide add workout form if visible
+      if(addWorkoutForm && addWorkoutForm.classList.contains("active")) {
+        addWorkoutForm.classList.remove("active")
       }
       
       // Hide menu button
@@ -652,6 +658,7 @@ export default function Dashboard() {
     const threeDotButton = document.querySelector("button.threeDotImg");
     const actionsMenu = document.querySelector("div.table-actions-menu")
     const submitDelete= document.getElementById("delete-all-exercises");
+    const addWorkoutForm = document.getElementById("workout-form");
     const addWorkoutButton = document.getElementById("add-workout");
     const slideDelete = document.querySelectorAll("div.workout-tbody-row");
 
@@ -664,9 +671,15 @@ export default function Dashboard() {
       formFocus.forEach((inputElement) => {
         inputElement.classList.add("active-delete");
       })
-
+      
+      // Hide add workout button
       if(addWorkoutButton) {
         addWorkoutButton.classList.add("inactive");
+      }
+
+      // Hide add workout form if visible
+      if(addWorkoutForm && addWorkoutForm.classList.contains("active")) {
+        addWorkoutForm.classList.remove("active")
       }
 
       //Hide menu button

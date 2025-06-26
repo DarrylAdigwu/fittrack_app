@@ -38,7 +38,7 @@ div.calendar > button.cancel-calendar {
   top: 0.5rem;
   margin: .5rem;
   padding: 0;
-  right: .5rem;
+  right: 1.75rem;
   background-color: transparent;
   color: #c05b5b;
   display: flex;
