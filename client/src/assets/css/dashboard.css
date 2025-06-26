@@ -75,8 +75,7 @@ div.dash-container > div.no-schedule h1 {
   text-align: center;
 }
 
-div.dash-container > div.no-schedule button#add-workout,
-div.dash-container > div.schedule button#add-workout {
+div.dash-container > div.no-schedule button#add-workout {
   height: 50px;
   width: 90%;
   max-width: 500px;

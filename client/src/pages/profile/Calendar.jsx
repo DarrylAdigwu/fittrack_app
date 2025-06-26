@@ -4,7 +4,7 @@ import leftArr from "../../assets/images/left-arrow.svg";
 import rightArr from "../../assets/images/right-arrow.svg";
 import cancel from "../../assets/images/cancel.svg";
 import "../../assets/css/calendar.css";
-import { formatCurrentDate, dateWithoutTimezone } from "../../../client-utils";
+import { dateWithoutTimezone } from "../../../client-utils";
 
 export default function Calendar(props) {
   const [month, setMonth] = React.useState(new Date().getMonth());
