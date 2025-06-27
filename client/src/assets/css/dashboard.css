@@ -656,6 +656,7 @@ div.workout-form > Form > #submit-exercise:active {
   }
 
   div.all-scheduling > div.schedule {
+    width: 100%;
     max-width: 450px;
     height: fit-content;
     padding: 0;
