@@ -159,7 +159,6 @@ div#burger > li {
   border: 1px solid #1f1f1f;
   background-color: #1f1f1f;
   border-radius: 6px;
-
 }
   
 div.table-actions > button.cancel-edit-button {
@@ -201,7 +200,6 @@ div.schedule > .table-actions-menu.active {
   right: 2.5%;
   top: 1.5rem;
   border-radius: 6px;
-  border: 1px solid #1f1f1f;
   background-color: #FFFAF0;
   box-shadow: -1px 4px 6px 2px rgba(159,154,154, .5);
   z-index: 5;
@@ -209,7 +207,6 @@ div.schedule > .table-actions-menu.active {
 
 .table-actions-menu.active > button {
   width: 100%;
-  padding: 1rem .25rem;
   text-align: center;
   font-family: "Work Sans";
   background-color: #FFFAF0;
@@ -341,7 +338,6 @@ div.workout-table-tbody > Form > div.workout-tbody-row.delete {
 div.workout-tbody-row > input.workout-rows {
   height: 100%;
   border: none;
-  border-radius: 0px;
 }
 
 div.workout-tbody-row > input.workout-rows:focus {
