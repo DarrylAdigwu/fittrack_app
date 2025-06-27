@@ -106,12 +106,12 @@ div.all-scheduling > div.no-schedule button:active {
 }
 
 /* Todays Schedule container */
-div.schedule {
+div.all-scheduling > div.schedule {
   display: flex;
   flex-wrap: wrap;
   position: relative;
   justify-content: center;
-  width: 100%;
+  width: 90%;
   max-width: 500px;
   min-width: 300px;
 }
@@ -125,14 +125,13 @@ div.schedule > .table-actions {
   justify-content: right;
   align-items: center;
   width: 100%;
-  padding: 0 10%;
+  padding: 0 5%;
   margin-bottom: 1rem;
 }
 
 
 .table-actions > button.threeDotImg {
   height: fit-content;
-  padding: 0 .25rem;
   width: fit-content;
   background-color: transparent;
   border: none;
@@ -160,6 +159,7 @@ div#burger > li {
   border: 1px solid #1f1f1f;
   background-color: #1f1f1f;
   border-radius: 6px;
+
 }
   
 div.table-actions > button.cancel-edit-button {
@@ -198,14 +198,15 @@ div.schedule > .table-actions-menu.active {
   justify-content: center;
   align-items: center;
   position: absolute;
-  right: 7.5%;
-  top: 1.25rem;
+  right: 2.5%;
+  top: 1.5rem;
   border-radius: 6px;
   border: 1px solid #1f1f1f;
   background-color: #FFFAF0;
   box-shadow: -1px 4px 6px 2px rgba(159,154,154, .5);
   z-index: 5;
 }
+
 .table-actions-menu.active > button {
   width: 100%;
   padding: 1rem .25rem;
@@ -213,6 +214,8 @@ div.schedule > .table-actions-menu.active {
   font-family: "Work Sans";
   background-color: #FFFAF0;
   border: none;
+  padding-block: 1rem;
+  padding-inline: 0;
 }
 
 .table-actions-menu > button#add-workout {
@@ -225,6 +228,7 @@ div.schedule > .table-actions-menu.active {
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
   border-bottom: 1px solid rgba(0, 0, 0, .25);
+  padding-inline: 1rem;
 }
 
 .table-actions-menu > button.action-delete {
@@ -257,7 +261,7 @@ div.schedule > .table-actions-menu.active {
 div.schedule > div.workout-table {
   display: flex;
   flex-wrap: wrap;
-  width: 90%;
+  width: 100%;
   border-radius: 6px;
   overflow: hidden;
   height: fit-content;
@@ -306,6 +310,7 @@ div.workout-thead-row > div.exercise {
 div.workout-table > div.workout-table-tbody {
   height: fit-content;
   width: 100%;
+  border-right: 1px solid rgba(159,154,154, .125);
 }
 
 div.workout-table-tbody > Form > div.workout-tbody-row {
@@ -317,7 +322,7 @@ div.workout-table-tbody > Form > div.workout-tbody-row {
   padding: 0;
   margin: 0;
   right: 20%;
-  border-top: 1px solid rgba(159,154,164, .25);
+  border-bottom: 1px solid rgba(159,154,164, .125);
 }
 
 @keyframes slideLeft {
@@ -361,7 +366,6 @@ div.workout-tbody-row > input.workout-rows.active-delete {
 
 div.workout-tbody-row > input.sets-row {
   width: 15%;
-  border-right: 1px solid rgba(159,154,164, .25);
 }
 
 div.workout-tbody-row > input.reps-row {
@@ -374,8 +378,6 @@ div.workout-tbody-row > input.exercise-row {
 }
 
 div.workout-tbody-row > input.focus-row {
-  border-left: 1px solid rgba(217, 139, 34, .5);
-  border-right: 1px solid rgba(159,154,164, .25);
   width: 30%;
 }
 
@@ -471,12 +473,11 @@ div.all-scheduling > div.workout-form.active {
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  max-width: 500px;
+  width: 90%;
   height: fit-content;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 4rem 0;
+  padding: 2rem 0;
   background-color: #FFFFFF;
   border-radius: 6px;
 }
@@ -642,7 +643,6 @@ div.workout-form > Form > #submit-exercise:active {
     padding: 0 2rem;
     border-top: 1px solid #1f1f1f;
     border-bottom: 1px solid #1f1f1f;
-    margin-right: 2rem;
     margin-top: 0;
     grid-area: b;
   }
@@ -659,7 +659,6 @@ div.workout-form > Form > #submit-exercise:active {
     max-width: 450px;
     height: fit-content;
     padding: 0;
-    margin-right: 2rem;
     align-content: start;
     grid-area: b;
   }
