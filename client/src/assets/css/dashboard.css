@@ -674,4 +674,9 @@ div.workout-form > Form > #submit-exercise:active {
   div.schedule > div.workout-table {
     width: 100%;
   }
+
+  div.all-scheduling > div.workout-form.active {
+    width: 100%;
+    max-width: 450px;
+  }
 }
