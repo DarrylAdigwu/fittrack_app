@@ -289,19 +289,19 @@ div.workout-thead-row > div.th {
 }
 
 div.workout-thead-row > div.reps {
-  width: 15%;
+  width: 17.5%;
 }
 
 div.workout-thead-row > div.sets {
-  width: 15%;
+  width: 17.5%;
 }
 
 div.workout-thead-row > div.focus {
-  width: 30%;
+  width: 27%;
 }
 
 div.workout-thead-row > div.exercise {
-  width: 40%;
+  width: 42%;
 }
 
 div.workout-table > div.workout-table-tbody {
@@ -361,11 +361,11 @@ div.workout-tbody-row > input.workout-rows.active-delete {
 }
 
 div.workout-tbody-row > input.sets-row {
-  width: 15%;
+  width: 17.5%;
 }
 
 div.workout-tbody-row > input.reps-row {
-  width: 15%;
+  width: 17.5%;
 }
 
 div.workout-tbody-row > input.exercise-row {
@@ -374,7 +374,7 @@ div.workout-tbody-row > input.exercise-row {
 }
 
 div.workout-tbody-row > input.focus-row {
-  width: 30%;
+  width: 27%;
 }
 
 div.workout-tbody-row > input {
