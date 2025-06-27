@@ -476,6 +476,7 @@ div.all-scheduling > div.workout-form.active {
   padding: 2rem 0;
   background-color: #FFFFFF;
   border-radius: 6px;
+  margin-bottom: 1.5rem;
 }
 
 div.workout-form > div.cancel-new-exercise {
@@ -629,6 +630,11 @@ div.workout-form > Form > #submit-exercise:active {
 
   div.dash-container > div.displayDate {
     grid-area: a;
+  }
+
+  div.dash-container > div.all-scheduling {
+    max-height: 500px;
+    overflow: auto;
   }
 
   div.all-scheduling > div.no-schedule {

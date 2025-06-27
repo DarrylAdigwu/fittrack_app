@@ -716,6 +716,7 @@ export default function Dashboard() {
     const windowWidth = window.innerWidth;
     const displayCal = document.getElementById("calendar-container");
     const calendarButton = document.querySelector(".calendar-button");
+    const scroll = document.querySelector(".all-scheduling");
 
     if(windowWidth < 1080) {
       if(calendarButton) {
@@ -730,6 +731,10 @@ export default function Dashboard() {
 
       if(calendarButton) {
         calendarButton.disabled = true;
+      }
+
+      if(scroll) {
+        scroll.scrollTop = 0;
       }
     }
   }
@@ -755,9 +760,6 @@ export default function Dashboard() {
           </button>
         </div>
         <div className="all-scheduling">
-          {noSchedule}
-          {showSchedule}
-
           <div id="workout-form" className="workout-form">
             <div className="cancel-new-exercise">
               <img src={cancel} alt={`Exit new exercise form for ${formatCurrentDate(showDate)}`} className="cancel-new-exercise-img" onClick={handleNewExerciseCancel}/>
@@ -827,6 +829,10 @@ export default function Dashboard() {
               <button id="submit-exercise" type="submit">{isLoading ? "Submitting..." : "Submit"}</button>
             </Form>
           </div>
+
+          {noSchedule}
+          {showSchedule}
+          
         </div>
         <Calendar allDates={allUserDates} />
       </div>
