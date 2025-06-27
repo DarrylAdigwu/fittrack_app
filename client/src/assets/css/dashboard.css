@@ -57,6 +57,9 @@ button.calendar-button > img {
 
 /* All Scheduling */
 div.dash-container > div.all-scheduling {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   width: 90%;
   max-width: 500px;
   min-width: 300px;
@@ -66,7 +69,6 @@ div.dash-container > div.all-scheduling {
 /* no schedule container */
 div.all-scheduling > div.no-schedule {
   width: 100%;
-  max-width: 500px;
   height: fit-content;
   display: flex;
   flex-wrap: wrap;
@@ -112,8 +114,6 @@ div.all-scheduling > div.schedule {
   position: relative;
   justify-content: center;
   width: 90%;
-  max-width: 500px;
-  min-width: 300px;
 }
 
 div.schedule.inactive {
