@@ -11,16 +11,6 @@ html, body {
   min-width: 300px;
 }
 
-@font-face {
-  font-family: Work Sans;
-  src: url(/Work_Sans/WorkSans-VariableFont_wght.ttf);
-}
-
-@font-face {
-  font-family: Merriweather;
-  src: url(/Merriweather/Merriweather-Regular.ttf);
-}
-
 h1 {
   font-size: 2rem;
 }
