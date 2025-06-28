@@ -114,9 +114,7 @@ nav.off-screen.active {
   position: absolute;
   background-color: #D98B22;
   height: fit-content;
-  width: 100vw;
-  /* max-width: 300px;
-  min-width: 200px; */
+  width: 12rem;
   right: 0;
   color: white;
   z-index: 5;

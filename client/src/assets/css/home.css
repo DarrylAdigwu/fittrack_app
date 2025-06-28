@@ -20,14 +20,17 @@ div.home-bg > div.overlay {
 }
 
 div.home-container {
-  position: static;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   z-index: 3;
   height: 100%;
-  padding: 0 1rem;
+  padding-top: 2rem;
 }
 
 div.home-container > section.home-cta {
+  /* border: 1px solid blue; */
   display: flex;
   justify-content: center;
   width: 90%;
@@ -43,17 +46,17 @@ section.home-cta > div.cta-texts {
   min-width: 240px;
 }
 
-div.home-container > section.home-cta h1 {
+div.cta-texts > h1 {
   margin: 0;
   font-size: 4rem;
 }
 
-div.home-container > section.home-cta p {
+div.cta-texts > p {
   margin-block: 1.5rem;
   font-family: Merriweather;
 }
 
-div.home-container > section.home-cta a {
+div.cta-texts > a {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,7 +69,7 @@ div.home-container > section.home-cta a {
   border-radius: 6px;
 }
 
-div.home-container > section.home-cta a:hover {
+div.cta-texts > a:hover {
   background-color: #FFFFFF;
   color: #D98B22;
 }
@@ -74,34 +77,104 @@ div.home-container > section.home-cta a:hover {
 .mock-img {
   display: none;
 }
- 
+
+/* About container   */
+div.about-container {
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+  width: 100vw;
+  background-color: #FFFAF0;
+  min-width: 300px;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 4rem 0;
+}
+
+
+section.about-cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 90%;
+  min-width: 240px;
+}
+
+section.about-cta > div.banner {
+  display: none;
+  background-image: url("../images/dead-lift.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+section.about-cta > div.about-text {
+  max-width: 475px;
+  width: 100%;
+}
+
+section.about-cta h1 {
+  color: #D98B22;
+  font-size: 3rem;
+  margin: 0;
+}
 
 @media only screen and (min-width: 768px)  {
+  div.home-container > section.home-cta {
+    justify-content: space-between;
+  }
+  
+  section.home-cta > div.cta-texts {
+    max-width: 525px;
+    min-width: 240px;
+  }
 
   div.home-container > section.home-cta {
     align-items: end;
-    width: 90%;
     max-width: 700px;
     gap: 16px;
   }
-
-  div.home-container > section.home-cta p {
-    max-width: 500px;
+  
+  div.home-container > section.home-cta h1 {
+    margin: 0;
+    font-size: 4.5rem;
   }
 
   .mock-img {
     display: flex;
     height: 300px;
   }
-
+/* 
   div.mock-img > img {
     position: relative;
     z-index: 5;
     height: 100%;
+  } */
+
+  /* About container   */
+  section.about-cta {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    max-width: 700px;
+    gap: 1rem;
+  }
+  
+  section.about-cta > div.banner {
+    display: flex;
+    height: 400px;
+    width: 55%;
+    max-width: 400px;
+    border-radius: 6px;
+  }
+  
+  section.about-cta > div.about-text {
+    width: 50%; 
+    max-width: 400px;
   }
 }
 
-@media only screen and (min-width: 1020px)  {
+@media only screen and (min-width: 1080px)  {
 
   div.home-container > section.home-cta {
     max-width: 900px;
@@ -117,5 +190,18 @@ div.home-container > section.home-cta a:hover {
 
   div.home-container > section.home-cta h1 {
     font-size: 5rem;
+  }
+
+  /* About container   */
+  section.about-cta {
+    max-width: 900px;
+  }
+
+  section.about-cta > div.about-text {
+    max-width: 500px;
+  }
+
+  section.about-cta > div.banner {
+    max-width: 500px;
   }
 }

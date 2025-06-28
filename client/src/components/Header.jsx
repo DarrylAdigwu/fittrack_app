@@ -40,12 +40,6 @@ export default function Header(props) {
     <>
       <header>
         <Link to="." className="logo">FitTrack</Link>
-        <hr/>
-        <nav>
-          <Link to=".">home</Link>
-          <Link to="about">about</Link>
-          <Link to={`dashboard/:${props.user_name}`}>dash</Link>
-        </nav>
         <img src={profileIcon} alt="person icon" className="profile" onClick={handleProfile}/>
       </header>
       <nav className="off-screen">
