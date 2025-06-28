@@ -1,6 +1,7 @@
 import React from 'react';
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, redirect } from 'react-router';
 import Layout from './components/Layout.jsx';
+import Error from './pages/Error.jsx';
 import Home from './pages/Home.jsx';
 import Register, { action as registerAction } from './pages/Register.jsx';
 import Login, { action as loginAction } from './pages/Login.jsx';
