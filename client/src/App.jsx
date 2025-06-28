@@ -51,10 +51,10 @@ const router = createBrowserRouter(createRoutesFromElements(
       </Route>
     </Route>
     {/* Error page */} 
-    {/* <Route 
+    <Route 
       path="*"
       element={<Error />}
-    /> */}
+    />
   </Route>
 ));
 
