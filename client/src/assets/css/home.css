@@ -41,6 +41,10 @@ div.home-container > section.home-cta {
 }
 
 section.home-cta > div.cta-texts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
   width: 100%;
   max-width: 475px;
   min-width: 240px;
@@ -111,6 +115,7 @@ section.about-cta > div.banner {
 section.about-cta > div.about-text {
   max-width: 475px;
   width: 100%;
+  text-align: center;
 }
 
 section.about-cta h1 {
@@ -125,6 +130,8 @@ section.about-cta h1 {
   }
   
   section.home-cta > div.cta-texts {
+    display: block;
+    text-align: left;
     max-width: 525px;
     min-width: 240px;
   }
@@ -171,6 +178,7 @@ section.about-cta h1 {
   section.about-cta > div.about-text {
     width: 50%; 
     max-width: 400px;
+    text-align: left;
   }
 }
 
