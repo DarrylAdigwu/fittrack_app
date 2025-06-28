@@ -2,12 +2,11 @@ import React from 'react';
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route, redirect } from 'react-router';
 import Layout from './components/Layout.jsx';
 import Home from './pages/Home.jsx';
-import About from './pages/About.jsx';
 import Register, { action as registerAction } from './pages/Register.jsx';
 import Login, { action as loginAction } from './pages/Login.jsx';
 import DashboardLayout from './components/DashboardLayout.jsx';
 import Dashboard, { loader as dashboardLoader, action as dashboardAction } from './pages/profile/Dashboard.jsx';
-import { authUser, usersUsername } from '../client-utils.js';
+import { usersUsername } from '../client-utils.js';
 import Calendar from './pages/profile/Calendar.jsx';
 
 
@@ -16,10 +15,6 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route 
       index 
       element={<Home />} 
-    />
-    <Route 
-      path="about"
-      element={<About />}
     />
     <Route
       path="register"
