@@ -27,6 +27,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route
       path="login"
       element={<Login />}
+      errorElement={<ErrorBoundary />}
       action={loginAction}
     />
 
