@@ -40,7 +40,7 @@ header {
   height: 7rem;
   width: 100vw;
   min-width: 300px;
-  padding: 0 4rem;
+  padding: 0 1rem;
   z-index: 100;
   border-bottom: 1px solid #D98B22;
 }
@@ -233,6 +233,10 @@ footer a {
 }
 
 @media only screen and (min-width: 768px) {
+  header {
+    padding: 0 4rem;
+  }
+  
   header > div.header-container {
     justify-content: space-between;
     max-width: none;
@@ -244,7 +248,6 @@ footer a {
 
   div.header-container > img.profile {
     position: relative;
-    right: 0;
   }
 }
 
