@@ -11,6 +11,7 @@ html, body {
   min-width: 300px;
 }
 
+
 h1 {
   font-size: 2rem;
 }
@@ -34,25 +35,47 @@ div#content-wrapper {
 header {
   position: relative;
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   height: 7rem;
   width: 100vw;
-  padding: 0 5%;
+  min-width: 300px;
+  padding: 0 4rem;
   z-index: 100;
   border-bottom: 1px solid #D98B22;
-  min-width: 300px;
 }
 
-header > a.logo {
+header > div.header-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  min-width: inherit;
+}
+
+div.header-container > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: fit-content;
+  gap: 6px;
+}
+
+div.header-container > a > .img-logo {
+  height: 1.75rem;
+}
+
+div.header-container > a.logo {
   color: #FFFAF0;
   font-size: 1.5rem;
   font-weight: 700;
   text-decoration: none;
 }
 
+/* 
 header > hr {
   width: 150px;
   max-width: 500px;
@@ -73,16 +96,15 @@ header > nav a {
 header > nav a:hover, header > nav a:active, header > nav a:focus {
   text-decoration: underline;
   color: #fffaf0;
-}
+} */
 
-header > img.profile {
+div.header-container > img.profile {
   position: absolute;
-  top: 3rem;
   right: 5%;
   height: 1.5rem;
 }
 
-header > img.profile:hover {
+div.header-container > img.profile:hover {
   cursor: pointer;
 }
 
@@ -105,9 +127,12 @@ nav.off-screen.active {
   background-color: #D98B22;
   height: fit-content;
   width: 12rem;
+  /* max-width: 300px;
+  min-width: 200px; */
   right: 0;
   color: white;
   z-index: 5;
+  border-bottom-left-radius: 6px;
 }
 
 nav.off-screen.active a {
@@ -205,4 +230,26 @@ footer a {
   text-decoration: none;
   font-weight: 700;
   font-size: 1rem;
+}
+
+@media only screen and (min-width: 768px) {
+  header > div.header-container {
+    justify-content: space-between;
+    max-width: none;
+  }
+
+  div.header-container > a > img.img-logo {
+    height: 2.25rem;
+  }
+
+  div.header-container > img.profile {
+    position: relative;
+    right: 0;
+  }
+}
+
+@media only screen and (min-width: 1080px) {
+  header > div.header-container {
+    justify-content: space-between;
+  }
 }

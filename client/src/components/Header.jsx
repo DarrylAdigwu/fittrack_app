@@ -1,6 +1,7 @@
 import React  from "react";
 import { Link } from "react-router";
-import profileIcon from "../assets/images/profile-icon.svg"
+import profileIcon from "../assets/images/profile-icon.svg";
+import logo from "../assets/images/fittracklogo.png";
 
 export default function Header(props) {
   // Toggle drop down nav
@@ -30,7 +31,6 @@ export default function Header(props) {
       props.removeCookies("connect.sid");
       props.removeCookies("user-token");
       props.removeCookies("id-token");
-      //props.removeCookies("recoverToken");
       sessionStorage.removeItem("authToken");
       return window.location.replace(".");
     }
@@ -39,8 +39,13 @@ export default function Header(props) {
   return (
     <>
       <header>
-        <Link to="." className="logo">FitTrack</Link>
-        <img src={profileIcon} alt="person icon" className="profile" onClick={handleProfile}/>
+        <div className="header-container">
+          <Link to="." className="logo">
+            <img src={logo} alt="Fit track logo and link to homepage" className="img-logo" />
+            FitTrack
+          </Link>
+          <img src={profileIcon} alt="person icon" className="profile" onClick={handleProfile}/>
+        </div>
       </header>
       <nav className="off-screen">
         <Link to={props.user_name ? `dashboard/:${props.user_name}` : `login`} >
