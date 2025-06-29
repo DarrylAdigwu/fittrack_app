@@ -25,6 +25,7 @@ div.calendar-container > div.calendar {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   height: 80%;
   width: 90%;
   max-width: 500px;
@@ -69,6 +70,10 @@ div.calendar-header > span {
 div.calendar-header > button.cal-button {
   background-color: transparent;
   border: none;
+}
+
+div.calendar-header > button.cal-button:hover {
+  cursor: pointer;
 }
 
 button.cal-button > img {

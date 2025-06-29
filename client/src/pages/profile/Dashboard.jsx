@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, useActionData, useLoaderData, useSearchParams } from "react-router";
+import { Form, useActionData, useLoaderData, useNavigation, useSearchParams } from "react-router";
 import "../../assets/css/dashboard.css";
 import plusIcon from "../../assets/images/plusIcon.svg";
 import minusIcon from "../../assets/images/minusIcon.svg";
@@ -90,8 +90,11 @@ export default function Dashboard() {
   const [searchParams, setSearchParams] = useSearchParams(`?date=${new Date()}`);
   const [showDate, setShowDate] = React.useState();
   const [plannedWorkout, setPlannedWorkout] = React.useState();
-  const [isLoading, setIsLoading] = React.useState(false);
+  const navigation = useNavigation();
   const refCount = React.useRef(1);
+
+  // Submitting state 
+  const isSubmitting = navigation.state === "submitting";
 
   // Get value for date search param state
   const dateParam = searchParams.get("date");
@@ -369,10 +372,10 @@ export default function Dashboard() {
         <Form method="PUT" className="edit-exercise-form" action={`/dashboard/:${usersUsername}`}>
           {todaysSchedule}
           <button id="submit-edit-exercise" type="submit">
-            {isLoading ? "Submitting..." : "Submit Edit"}
+            {isSubmitting ? "Submitting..." : "Submit Edit"}
           </button>
           <button id="delete-all-exercises" type="submit" formMethod="DELETE">
-            {isLoading ? "Deleting..." : "Delete All Workouts"}
+            {isSubmitting? "Deleting..." : "Delete All Workouts"}
           </button>
         </Form>
       </div>
@@ -825,8 +828,8 @@ export default function Dashboard() {
                 </div>
               </div>
               <span id="warning-key" aria-label="workout limit message">Daily Limit: 6 workouts</span>
-              {actionData && key.startsWith("invalid") ? <span className="invalidDash">{actionData[key]}</span> : null}
-              <button id="submit-exercise" type="submit">{isLoading ? "Submitting..." : "Submit"}</button>
+              {actionData && key.startsWith("invalid") ? <span className="invalidDash" aria-label={actionData[key]}>{actionData[key]}</span> : null}
+              <button id="submit-exercise" type="submit">{isSubmitting ? "Submitting..." : "Submit"}</button>
             </Form>
           </div>
 
