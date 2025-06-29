@@ -86,6 +86,15 @@ Form.login-form > button:hover {
   cursor: pointer;
 }
 
+Form.register-form > button:disabled,
+Form.login-form > button:disabled {
+  background-color: #FFFFFF;
+  color: #D98B22;
+  color: rgba(217,139,34, .5);
+  border: 1px solid #D98B22;
+  cursor:wait;
+}
+
 section.reg-main > aside, 
 section.login-main > aside {
   color: #1F1F1F;

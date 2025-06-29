@@ -34,6 +34,7 @@ export function getCookie(cookieStr) {
   }
 }
 
+/* Users name */
 export const usersUsername = getCookie("user-token");
 
 

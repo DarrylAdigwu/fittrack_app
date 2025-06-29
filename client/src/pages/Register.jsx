@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, NavLink, redirect, useActionData, useNavigate } from "react-router";
+import { Form, NavLink, redirect, useActionData, useNavigation } from "react-router";
 import "../assets/css/account.css";
 import { sendData } from "../../client-utils";
 
@@ -26,8 +26,8 @@ export async function action({ request }) {
 /** React Component **/
 export default function Register () {
   const actionData = useActionData();
-  const navigate = useNavigate();
-  const isSubmitting = navigate.state === 'submitting'; 
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting'; 
 
   const actionKey = actionData ? Object.keys(actionData) : null;
  
@@ -56,7 +56,7 @@ export default function Register () {
           <input name="confirm-password" type="password" id="confirm-password" placeholder="Confirm Password" autoComplete="off" />
           {actionData && actionKey == "invalidConfirmPass" ? <span className="invalid">{actionData[actionKey]}</span> : null}
           
-          <button type="submit">{isSubmitting ? "Submitting..." : "Create account"}</button>
+          <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Submitting..." : "Create account"}</button>
         </Form>
         <aside>Already have an account? <NavLink to="/login">Log in</NavLink></aside>
       </section>

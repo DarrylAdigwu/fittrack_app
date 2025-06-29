@@ -20,8 +20,7 @@ export async function action({ request }) {
 
 export default function Login() {
   const actionData = useActionData();
-  const navigate = useNavigate();
-  const isLogging = navigate.state === 'submitting';
+  const isSubmitting = navigate.state === 'submitting';
 
   const actionKey = actionData ? Object.keys(actionData) : null;
   
@@ -38,7 +37,7 @@ export default function Login() {
           <input name="password" type="password" id="login-password" placeholder="Password" autoComplete="off" />
           {actionData && actionKey == "invalidPassword" || actionKey == "unauthPassword" ? <span className="invalid">{actionData[actionKey]}</span> : null}
 
-          <button type="submit">{isLogging ? "Logging in..." : "Log in"}</button>
+          <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Logging in..." : "Log in"}</button>
         </Form>
         <aside>Don't have an account? <NavLink to="/register">Register here</NavLink></aside>
       </section>
