@@ -13,11 +13,14 @@ import Calendar from './pages/profile/Calendar.jsx';
 
 
 const router = createBrowserRouter(createRoutesFromElements(
-  <Route path="/" element={<Layout />}>
+  <Route 
+    path="/" 
+    element={<Layout />} 
+    errorElement={<ErrorBoundary />}
+  >
     <Route 
       index 
       element={<Home />}
-      errorElement={<ErrorBoundary />}
     />
     <Route
       path="register"
@@ -27,14 +30,12 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route
       path="login"
       element={<Login />}
-      errorElement={<ErrorBoundary />}
       action={loginAction}
     />
 
     <Route
       path="dashboard"
       element={<DashboardLayout />}
-      errorElement={<ErrorBoundary />}
     >
       <Route
         index
