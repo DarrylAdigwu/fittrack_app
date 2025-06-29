@@ -33,6 +33,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route
       path="dashboard"
       element={<DashboardLayout />}
+      errorElement={<ErrorBoundary />}
     >
       <Route
         index
