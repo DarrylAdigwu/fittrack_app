@@ -9,8 +9,8 @@ import cancel from "../../assets/images/cancel.svg";
 import leftArr from "../../assets/images/left-arrow.svg";
 import calendar from "../../assets/images/calendar.svg";
 import rightArr from "../../assets/images/right-arrow.svg";
-import { sendUserData, getTodaysWorkout, formatCurrentDate, 
-  formatLocalCurrentDate, usersUsername, getAllDates } from "../../../client-utils";
+import { sendUserData, getTodaysWorkout, formatCurrentDate,
+   usersUsername, getAllDates } from "../../../client-utils";
 import Calendar from "./Calendar.jsx";
 
 
@@ -747,22 +747,22 @@ export default function Dashboard() {
       <div className="container dash-container">
         <div className="displayDate">
           <button id="past-date" onClick={() => prevDate()}>
-            <img src={leftArr} alt="left button arrow to change date to day before" />
+            <img src={leftArr} alt="left button arrow to change date to day before" aria-roledescription="button"/>
           </button>
 
           <button className="calendar-button" onClick={handleCalendar}>
-            <span>{formatCurrentDate(showDate, "none")}</span>
-            <img src={calendar} alt="button to drop down calendar" />
+            <span aria-label="date">{formatCurrentDate(showDate, "none")}</span>
+            <img src={calendar} alt="button to drop down calendar" aria-roledescription="button"/>
           </button>
 
           <button id="future-date" onClick={() => nextDate()}>
-            <img src={rightArr} alt="right button arrow to change date to day after" />
+            <img src={rightArr} alt="right button arrow to change date to day after" aria-roledescription="button"/>
           </button>
         </div>
         <div className="all-scheduling">
           <div id="workout-form" className="workout-form">
             <div className="cancel-new-exercise">
-              <img src={cancel} alt={`Exit new exercise form for ${formatCurrentDate(showDate)}`} className="cancel-new-exercise-img" onClick={handleNewExerciseCancel}/>
+              <img src={cancel} alt={`Exit new exercise form for ${formatCurrentDate(showDate)}`} className="cancel-new-exercise-img" onClick={handleNewExerciseCancel} aria-roledescription="button"/>
             </div>
             <h1>Add Workouts</h1>
             <Form method="post" id="exercise-form">
@@ -782,7 +782,7 @@ export default function Dashboard() {
                   name="workoutInput1" 
                   placeholder="Workout" 
                   aria-label="Input name of exercise number one"
-                  />
+                />
 
                 <label htmlFor="muscleGroupInput1"></label>
                 <input className="muscleGroupInput" 
@@ -790,7 +790,7 @@ export default function Dashboard() {
                   name="muscleGroupInput1" 
                   placeholder="Focus"
                   aria-label="Input muscle group for exercise number one"
-                  />
+                />
 
                 <label htmlFor="setInput1"></label>
                 <input className="setInput"
@@ -801,7 +801,7 @@ export default function Dashboard() {
                   aria-label="Input sets for exercise number one"
                   step="1"
                   min="1"
-                  />
+                />
 
                 <label htmlFor="repInput1"></label>
                 <input className="repInput"
@@ -812,19 +812,19 @@ export default function Dashboard() {
                   aria-label="Input reps for exercise number one"
                   step="1"
                   min="1"
-                  />
+                />
               </div>
               <div className="exercise-btn-container">
-                <div id="add-exercise" onClick={newExercise} aria-label="add exercise input">
+                <div id="add-exercise" onClick={newExercise} aria-label="add new exercise input">
                   <img src={plusIcon} alt="plus sign" />
                   Add
                 </div>
-                <div id="remove-exercise" onClick={removeExercise} aria-label="remove exercise input">
+                <div id="remove-exercise" onClick={removeExercise} aria-label="remove previsouly added exercise input">
                   <img src={minusIcon} alt="minus sign" />
                   Remove
                 </div>
               </div>
-              <span id="warning-key">Daily Limit: 6 workouts</span>
+              <span id="warning-key" aria-label="workout limit message">Daily Limit: 6 workouts</span>
               {actionData && key.startsWith("invalid") ? <span className="invalidDash">{actionData[key]}</span> : null}
               <button id="submit-exercise" type="submit">{isLoading ? "Submitting..." : "Submit"}</button>
             </Form>
