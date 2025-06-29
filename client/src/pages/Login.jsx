@@ -1,5 +1,5 @@
 import React from "react";
-import { useActionData, Form, NavLink, useNavigate } from "react-router";
+import { useActionData, Form, NavLink, useNavigation } from "react-router";
 import "../assets/css/account.css";
 import { sendData } from "../../client-utils";
 
@@ -20,7 +20,8 @@ export async function action({ request }) {
 
 export default function Login() {
   const actionData = useActionData();
-  const isSubmitting = navigate.state === 'submitting';
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
 
   const actionKey = actionData ? Object.keys(actionData) : null;
   
