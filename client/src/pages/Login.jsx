@@ -30,12 +30,12 @@ export default function Login() {
         <h1>Log In</h1>
         <Form method="post" className="login-form">
           <label htmlFor="username"/>
-          <input name="username" type="text" id="username" placeholder="Username" autoComplete="on" autoFocus />
-          {actionData && actionKey == "invalidUsername" || actionKey == "unauthUsername" ? <span className="invalid">{actionData[actionKey]}</span> : null}
+          <input name="username" type="text" id="username" placeholder="Username" autoComplete="on" aria-label="Enter username" aria-required="true" autoFocus />
+          {actionData && actionKey == "invalidUsername" || actionKey == "unauthUsername" ? <span className="invalid" aria-label={actionData[actionKey]}>{actionData[actionKey]}</span> : null}
           
           <label htmlFor="login-password"/>
-          <input name="password" type="password" id="login-password" placeholder="Password" autoComplete="off" />
-          {actionData && actionKey == "invalidPassword" || actionKey == "unauthPassword" ? <span className="invalid">{actionData[actionKey]}</span> : null}
+          <input name="password" type="password" id="login-password" placeholder="Password" autoComplete="off" aria-label="Enter your case-sensitive password" aria-required="true" />
+          {actionData && actionKey == "invalidPassword" || actionKey == "unauthPassword" ? <span className="invalid" aria-label={actionData[actionKey]}>{actionData[actionKey]}</span> : null}
 
           <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Logging in..." : "Log in"}</button>
         </Form>

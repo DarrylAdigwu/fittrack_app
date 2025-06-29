@@ -45,16 +45,16 @@ export default function Register () {
           <input name="lastName" type="text" id="lastName" placeholder="Last Name" autoComplete="on"/> 
           */}
           <label htmlFor="username"/>
-          <input name="username" type="text" id="username" placeholder="Username" autoComplete="on" autoFocus  />
-          {actionData && actionKey == "invalidUsername" || actionKey == "invalidChar" ? <span className="invalid">{actionData[actionKey]}</span> : null}
+          <input name="username" type="text" id="username" placeholder="Username" autoComplete="on" aria-label="Create a username" aria-required="true" autoFocus  />
+          {actionData && actionKey == "invalidUsername" || actionKey == "invalidChar" ? <span className="invalid" aria-label={actionData[actionKey]}>{actionData[actionKey]}</span> : null}
           
           <label htmlFor="reg-password"/>
-          <input name="password" type="password" id="reg-password" placeholder="Password" autoComplete="off" />
-          {actionData && actionKey == "invalidPassword" ? <span className="invalid">{actionData[actionKey]}</span> : null}
+          <input name="password" type="password" id="reg-password" placeholder="Password" autoComplete="off" aria-label="Create a password" aria-required="true" />
+          {actionData && actionKey == "invalidPassword" ? <span className="invalid" aria-label={actionData[actionKey]}>{actionData[actionKey]}</span> : null}
           
           <label htmlFor="confirm-password"/>
-          <input name="confirm-password" type="password" id="confirm-password" placeholder="Confirm Password" autoComplete="off" />
-          {actionData && actionKey == "invalidConfirmPass" ? <span className="invalid">{actionData[actionKey]}</span> : null}
+          <input name="confirm-password" type="password" id="confirm-password" placeholder="Confirm Password" autoComplete="off" aria-label="Re-enter the password you created" aria-required="true" />
+          {actionData && actionKey == "invalidConfirmPass" ? <span className="invalid" aria-label={actionData[actionKey]}>{actionData[actionKey]}</span> : null}
           
           <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Submitting..." : "Create account"}</button>
         </Form>

@@ -44,14 +44,14 @@ export default function Header(props) {
             <img src={logo} alt="Fit track logo and link to homepage" className="img-logo" />
             FitTrack
           </Link>
-          <img src={profileIcon} alt="person icon" className="profile" onClick={handleProfile}/>
+          <img src={profileIcon} alt="icon of person and button for drop down menu" className="profile" aria-roledescription="button" onClick={handleProfile}/>
         </div>
       </header>
       <nav className="off-screen">
         <Link to={props.user_name ? `dashboard/:${props.user_name}` : `login`} >
           {props.user_name === "" ? "Log In" : "Dashboard"}
         </Link>
-        {props.user_name !== "" && <Link onClick={handleLogout}>Logout</Link>}
+        {props.user_name !== "" && <Link onClick={handleLogout} aria-label="button and link to logout user and send to homepage">Logout</Link>}
       </nav>
     </>
   )
