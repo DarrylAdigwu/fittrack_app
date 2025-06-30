@@ -67,7 +67,7 @@ export default function Header(props) {
           <img src={profileIcon} alt="icon of person and button for drop down menu" className="profile" aria-roledescription="button" onClick={handleProfile}/>
         </div>
       </header>
-      <nav className="off-screen">
+      <nav className="off-screen" ref={headerRef}>
         <Link to={props.user_name ? `dashboard/:${props.user_name}` : `login`} >
           {props.user_name === "" ? "Log In" : "Dashboard"}
         </Link>
