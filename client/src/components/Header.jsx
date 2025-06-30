@@ -4,14 +4,34 @@ import profileIcon from "../assets/images/profile-icon.svg";
 import logo from "../assets/images/fittracklogo.png";
 
 export default function Header(props) {
+  const headerRef = React.useRef();
+
   // Toggle drop down nav
   function handleProfile(event) {
     const profile = document.querySelector("nav.off-screen");
 
     if(event) {
-      profile.classList.toggle("active")
+      profile.classList.toggle("active");
     }
   }
+
+  // Hide Dropdown if not clicked
+  React.useEffect(() => { 
+    function hideDropDown(event) {
+      if(headerRef.current && !headerRef.current.contains(event.target) 
+        && !event.target.classList.contains("profile")) {
+        headerRef.current.classList.remove("active");
+      }
+    }
+
+    // Listen to entire document for click event
+    document.body.addEventListener("click", hideDropDown);
+   
+    // Remove event listener
+    return () => {
+      document.body.removeEventListener("click", hideDropDown);
+    }
+  }, [])
 
   // Logout User
   async function handleLogout() {
