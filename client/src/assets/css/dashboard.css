@@ -424,11 +424,12 @@ Form > #submit-edit-exercise.active:hover {
   cursor: pointer;
 }
 
-Form > #submit-edit-exercise.active:active {
+Form > #submit-edit-exercise.active:disabled {
   background-color: #FFFFFF;
-  color:#D98B22;
+  color: #D98B22;
+  color: rgba(217,139,34, .5);
   border: 1px solid #D98B22;
-  cursor: pointer;
+  cursor:wait;
 }
 
 Form > #delete-all-exercises {
@@ -453,11 +454,12 @@ Form > #delete-all-exercises.active:hover {
   cursor: pointer;
 }
 
-Form > #delete-all-exercises.active:active {
+Form > #delete-all-exercises.active:disabled {
   background-color: #FFFFFF;
-  color:#D98B22;
-  border: 1px solid #D98B22;
-  cursor: pointer;
+  color: #c05b5b;
+  color: rgba(192,91,91 .5);
+  border: 1px solid #c05b5b;
+  cursor:wait;
 }
 
 /* Workout form */
@@ -609,12 +611,12 @@ div.workout-form > Form > #submit-exercise:hover {
   cursor: pointer;
 }
 
-
-div.workout-form > Form > #submit-exercise:active {
+div.workout-form > Form > #submit-exercise:disabled {
   background-color: #FFFFFF;
-  color:#D98B22;
-  border: 1px solid #D98B22;
-  cursor: pointer;
+  color: #c05b5b;
+  color: rgba(192,91,91 .5);
+  border: 1px solid #c05b5b;
+  cursor:wait;
 }
 
 

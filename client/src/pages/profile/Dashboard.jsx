@@ -371,10 +371,10 @@ export default function Dashboard() {
       <div className="workout-table-tbody">
         <Form method="PUT" className="edit-exercise-form" action={`/dashboard/:${usersUsername}`}>
           {todaysSchedule}
-          <button id="submit-edit-exercise" type="submit">
+          <button id="submit-edit-exercise" type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Submitting..." : "Submit Edit"}
           </button>
-          <button id="delete-all-exercises" type="submit" formMethod="DELETE">
+          <button id="delete-all-exercises" type="submit" disabled={isSubmitting} formMethod="DELETE">
             {isSubmitting? "Deleting..." : "Delete All Workouts"}
           </button>
         </Form>
@@ -829,7 +829,9 @@ export default function Dashboard() {
               </div>
               <span id="warning-key" aria-label="workout limit message">Daily Limit: 6 workouts</span>
               {actionData && key.startsWith("invalid") ? <span className="invalidDash" aria-label={actionData[key]}>{actionData[key]}</span> : null}
-              <button id="submit-exercise" type="submit">{isSubmitting ? "Submitting..." : "Submit"}</button>
+              <button id="submit-exercise" type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Submitting..." : "Submit"}
+              </button>
             </Form>
           </div>
 
