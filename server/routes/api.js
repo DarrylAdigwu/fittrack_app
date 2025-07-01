@@ -7,6 +7,17 @@ import { checkString, generateToken, requireAuth, formatDate, capitalizeFirstLet
 // Create Router
 const router = express.Router();
 
+
+// Route to handle cron job
+router.route("/ping")
+.get( async (req, res) => {
+  console.log("Server pinged at:", new Date().toLocaleString());
+  res.send({
+    "check": "Server running"
+  })
+});
+
+
 /* Register route */
 router.route("/register")
 .post( async (req, res) => {

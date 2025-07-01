@@ -32,11 +32,10 @@ export function getCookie(cookieStr) {
   } else {
     return null
   }
-}
+};
 
 /* Users name */
 export const usersUsername = getCookie("user-token");
-
 
 /* Send form data to server */
 export async function sendData(route, allData, prevUrl = null) {
@@ -79,7 +78,7 @@ export async function sendData(route, allData, prevUrl = null) {
   console.error("Error sending data:", err)
   throw err;
   }
-}
+};
 
 
 // Send data from Dashboard page
@@ -119,7 +118,7 @@ export async function sendUserData(route, allData, method) {
     console.error("Error sending user data:", err)
     throw err;
   }
-}
+};
 
 
 /* Authenticate user */
@@ -158,7 +157,7 @@ export async function authUser(request) {
       console.error("Error with authentication:", err)
     }
   }
-}
+};
 
 
 /* Get Current Dates workouts */
@@ -203,7 +202,7 @@ export async function getTodaysWorkout(date = "null") {
   } catch(err) {
     console.error("Error getting workout:", err)
   }
-}
+};
 
 
 // Check if token is expired
@@ -216,7 +215,7 @@ export async function isTokenExpired() {
   const authTokenData = JSON.parse(authTokenString);
   const expirationDate = new Date(authTokenData.expiresAt);
   return new Date() > expirationDate;
-}
+};
 
 
 // Format current date
@@ -239,7 +238,7 @@ export function formatCurrentDate(date, none = null) {
   }
 
   return new Intl.DateTimeFormat(undefined, options).format(date);
-}
+};
 
 
 export function removeCookies(cookieOne, cookieTwo = null, cookieThree = null) {
@@ -252,7 +251,7 @@ export function removeCookies(cookieOne, cookieTwo = null, cookieThree = null) {
   if(cookieThree) {
     document.cookie = `${cookieThree}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   }
-}
+};
 
 
 // Get all dates for users workouts
@@ -298,7 +297,7 @@ export async function getAllDates() {
       console.error("Error getting dates from db:", err);
     }
   }
-}
+};
 
 // Remove timezones from dates
 export function dateWithoutTimezone(date) {
@@ -309,4 +308,4 @@ export function dateWithoutTimezone(date) {
     const dateUtcFormat = new Date(parseDate).toISOString();
     const removeTimezone = dateUtcFormat.split("T")[0];
     return removeTimezone;
-}
+};

@@ -57,6 +57,28 @@ server.use(session({
   },
 }));
 
+// Schedule cron job
+cron.schedule("*/14 * * * *", async () => {
+  try {
+    const response = await fetch(`${process.env.SERVER_DOMAIN}/api/ping`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+
+    if(!response.ok) {
+      throw new Error(`HTTP ERROR: ${response.status}`)
+    }
+
+    const responseData = await response.json();
+    return responseData;
+
+  } catch(err) {
+    console.error("Error pingin server:", err)
+  }
+});
+
 // API routes
 server.use("/api", apiRouter);
 
