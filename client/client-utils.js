@@ -92,7 +92,7 @@ export async function sendUserData(route, allData, method) {
   const getAuthToken = JSON.parse(sessionStorage.getItem("authToken")).token;
 
   try {
-    const response = await fetch(`/${route}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/${route}`, {
       method: `${method}`,
       credentials: "include",
       headers: {
@@ -136,7 +136,7 @@ export async function authUser(request) {
     // Get value for authToken's token key
     const getAuthToken = JSON.parse(sessionStorage.getItem("authToken")).token;
 
-    const response = await fetch(`https://api.stage.fittracker.us/api${pathname}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}${pathname}`, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
