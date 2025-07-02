@@ -35,7 +35,7 @@ export default function Header(props) {
 
   // Logout User
   async function handleLogout() {
-    const response = await fetch(`https://api.stage.fittracker.us/api/logout`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/logout`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
