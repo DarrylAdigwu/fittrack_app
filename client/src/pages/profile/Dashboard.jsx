@@ -52,34 +52,24 @@ export async function action({ request }) {
 
   // Send server data to delete
   if(request.method === "DELETE") {
+    // Object to hold deleted data id's
+    let dataDelete = {};
 
-    // Check if user selected a specific workout
-    if(formData.get("submit-individual")) {
-      const submitIndividual = formData.get("submit-individual");
-      const date = formData.get("displayDate");
-
-      const individualData = {
-        "submitIndividual": submitIndividual,
-        "workoutDate": date
-      }
-
-      const sendSingleWorkout = await sendUserData(`dashboard/${usersUsername}`, individualData, "DELETE");
-
-      if(sendSingleWorkout.serverCheck) {
-        return window.location.reload();
+    // loop through form data object and get id's and push to dataDelet obj
+    for(const [key, value] of Object.entries(allData)) {
+      if(key.startsWith("checkbox") || key.startsWith("displayDate")) {
+         dataDelete[`${key}`] = value;
       }
     }
-
-    // Check if user wants all workouts for a day
-    if(!formData.get("submit-individual")) {
-      // Send data to server
-      const deleteAllWorkoutsFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "DELETE");
-  
-      if(deleteAllWorkoutsFormData.serverCheck.valid) {
-        return window.location.reload();
-      }
+    
+    // Send dataDelete obj to server
+    const sendWorkouts = await sendUserData(`dashboard/${usersUsername}`, dataDelete, "DELETE");
+    
+    // refresh page when workouts are deleted
+    if(sendWorkouts.serverCheck.valid) {
+      return window.location.reload()
     }
-
+    
   }
 }
 
@@ -262,9 +252,9 @@ export default function Dashboard() {
   plannedWorkout.map((workouts) => {
     return (                                                                                                                                                                    
       <div key={workouts.id} className={`workout-tbody-row workout-tbody-row-${refCount.current = refCount.current + 1}`}>
-        <button className="workout-actions" formMethod="DELETE" name={`submit-individual`} value={workouts.id} aria-label={`delete button for ${workouts.exercise}`}>
+        {/* <button className="workout-actions" formMethod="DELETE" name={`submit-individual`} value={workouts.id} aria-label={`delete button for ${workouts.exercise}`}>
           <img src={trash} alt="trash can to delete exercise" className="delete-action-img" />
-        </button>
+        </button> */}
 
         <label htmlFor="displayDate"/>
         <input
@@ -274,6 +264,15 @@ export default function Dashboard() {
           placeholder=""
           type="hidden"
           value={formatCurrentDate(new Date(dateParam))}
+        />
+
+        <label htmlFor={`checkbox-${refCount.current}`}/>
+        <input 
+          type="checkbox"
+          id={`checkbox-${refCount.current}`}
+          name={`checkbox-${refCount.current}`}
+          value={workouts.id}
+          className="checkboxes"
         />
 
         <label htmlFor="exerciseId"/>
