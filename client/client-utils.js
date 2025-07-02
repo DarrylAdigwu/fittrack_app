@@ -47,7 +47,7 @@ export async function sendData(route, allData, prevUrl = null) {
   }
 
   try {
-    const response = await fetch(`https://api.stage.fittracker.us/api/${route}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/${route}`, {
     method: "POST",
     credentials: "include",
     headers: {
