@@ -92,7 +92,7 @@ export async function sendUserData(route, allData, method) {
   const getAuthToken = JSON.parse(sessionStorage.getItem("authToken")).token;
 
   try {
-    const response = await fetch(`https://api.stage.fittracker.us/api/${route}`, {
+    const response = await fetch(`/${route}`, {
       method: `${method}`,
       credentials: "include",
       headers: {
