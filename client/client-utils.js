@@ -164,8 +164,8 @@ export async function authUser(request) {
 export async function getTodaysWorkout(date = "null") {
 
   const fetchUrl = date ? 
-  `https://${import.meta.env.VITE_API_URL}/dashboard/${usersUsername}?date=${date}` : 
-  `https://${import.meta.env.VITE_API_URL}/dashboard/${usersUsername}`;
+  `${import.meta.env.VITE_API_URL}/dashboard/${usersUsername}?date=${date}` : 
+  `${import.meta.env.VITE_API_URL}/dashboard/${usersUsername}`;
 
   if(await isTokenExpired()) {
     sessionStorage.removeItem("authToken");
