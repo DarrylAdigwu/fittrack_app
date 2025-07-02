@@ -164,8 +164,8 @@ export async function authUser(request) {
 export async function getTodaysWorkout(date = "null") {
 
   const fetchUrl = date ? 
-  `https://api.stage.fittracker.us/api/dashboard/${usersUsername}?date=${date}` : 
-  `https://api.stage.fittracker.us/api/dashboard/${usersUsername}`;
+  `https://${import.meta.env.VITE_API_URL}/dashboard/${usersUsername}?date=${date}` : 
+  `https://${import.meta.env.VITE_API_URL}/dashboard/${usersUsername}`;
 
   if(await isTokenExpired()) {
     sessionStorage.removeItem("authToken");
@@ -267,7 +267,7 @@ export async function getAllDates() {
       const getAuthToken = JSON.parse(sessionStorage.getItem("authToken")).token;
 
       // Send request to server
-      const response = await fetch("https://api.stage.fittracker.us/api/calendar", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/calendar`, {
         method: "GET",
         credentials: "include",
         headers: {
