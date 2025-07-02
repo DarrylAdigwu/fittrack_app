@@ -355,21 +355,14 @@ router.route("/dashboard/:username")
   const allDeleteData = req.body.allData;
   const username = req.session.user.username;
   const user_id = req.session.user.id;
-  const numOfWorkouts = (Object.entries(allDeleteData).length - 1) / 5;
+  const numOfWorkouts = Object.entries(allDeleteData).length - 1;
   const date = allDeleteData.displayDate;
   const newDateFormat = formatDate(date);
-  const firstExercise_id = Number(Object.entries(allDeleteData)[1][0].split("_")[1]);
-  
-  const singleWorkoutId = allDeleteData.submitIndividual;
-  const singleWorkoutDate = allDeleteData.workoutDate;
 
   if(req.method === "DELETE") {
-    if(singleWorkoutId) {
-      // Delete single workout
-      await deleteWorkouts(user_id, formatDate(singleWorkoutDate), singleWorkoutId);
-    } else {
-      // Delete all workouts from given date
-      await deleteWorkouts(user_id, newDateFormat);
+    for(let i = 0; i < numOfWorkouts; i++) {
+      const workoutId = Number(Object.entries(allDeleteData)[i + 1][1]);
+      await deleteWorkouts(user_id, newDateFormat, workoutId)
     }
 
     // Return valid message
