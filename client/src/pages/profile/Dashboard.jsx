@@ -6,12 +6,10 @@ import minusIcon from "../../assets/images/minusIcon.svg";
 import threeDot from "../../assets/images/three-dot-menu.svg";
 import trash from "../../assets/images/trash.svg";
 import cancel from "../../assets/images/cancel.svg";
-import leftArr from "../../assets/images/left-arrow.svg";
-import calendar from "../../assets/images/calendar.svg";
-import rightArr from "../../assets/images/right-arrow.svg";
 import { sendUserData, getTodaysWorkout, formatCurrentDate,
    usersUsername, getAllDates } from "../../../client-utils";
 import Calendar from "./Calendar.jsx";
+import DateDisplay from "./DateDisplay.jsx";
 
 
 export async function loader({ request }) {
@@ -95,129 +93,129 @@ export default function Dashboard() {
   // Get all workout dates
   const allUserDates = dashLoader.allDates;
 
-  // Display previous date
-  function prevDate() {
-    // Document elements
-    const showContainer = document.getElementById("workout-form");
-    const noScheduleContainer = document.getElementById("no-schedule");
-    const scheduleContainer = document.getElementById("schedule");
-    const firstInputBoxes = document.getElementById("exercise-form");
-    const firstInputBoxesContainers = firstInputBoxes.querySelectorAll(".inputBoxes");
-    const firstInputBoxesChildren = firstInputBoxes.querySelectorAll("input");
+  // // Display previous date
+  // function prevDate() {
+  //   // Document elements
+  //   const showContainer = document.getElementById("workout-form");
+  //   const noScheduleContainer = document.getElementById("no-schedule");
+  //   const scheduleContainer = document.getElementById("schedule");
+  //   const firstInputBoxes = document.getElementById("exercise-form");
+  //   const firstInputBoxesContainers = firstInputBoxes.querySelectorAll(".inputBoxes");
+  //   const firstInputBoxesChildren = firstInputBoxes.querySelectorAll("input");
 
-    // Remove schedule, hide workout form, if no planne workout show no schedule container
-    if(scheduleContainer && !scheduleContainer.classList.contains("inactive") && plannedWorkout === null) {
-      scheduleContainer.classList.add("inactive");
-    }
-    if(showContainer && showContainer.classList.contains("active")) {
-      showContainer.classList.remove("active");
-    }
-    if(noScheduleContainer && noScheduleContainer.classList.contains("inactive") && !plannedWorkout) {
-      noScheduleContainer.classList.remove("inactive")
-    }
+  //   // Remove schedule, hide workout form, if no planne workout show no schedule container
+  //   if(scheduleContainer && !scheduleContainer.classList.contains("inactive") && plannedWorkout === null) {
+  //     scheduleContainer.classList.add("inactive");
+  //   }
+  //   if(showContainer && showContainer.classList.contains("active")) {
+  //     showContainer.classList.remove("active");
+  //   }
+  //   if(noScheduleContainer && noScheduleContainer.classList.contains("inactive") && !plannedWorkout) {
+  //     noScheduleContainer.classList.remove("inactive")
+  //   }
 
-    // Clear former inputs and input containers
-    firstInputBoxesChildren.forEach((input) => {
-      input.value = ""
-    });
+  //   // Clear former inputs and input containers
+  //   firstInputBoxesChildren.forEach((input) => {
+  //     input.value = ""
+  //   });
 
-    firstInputBoxesContainers.forEach((child) => {
-      if(child !== document.getElementById("inputBoxes1")) {
-        firstInputBoxes.removeChild(child)
-      }
-    });
+  //   firstInputBoxesContainers.forEach((child) => {
+  //     if(child !== document.getElementById("inputBoxes1")) {
+  //       firstInputBoxes.removeChild(child)
+  //     }
+  //   });
 
-    setExerciseCount(() => 2);
-    refCount.current = 1;
+  //   setExerciseCount(() => 2);
+  //   refCount.current = 1;
 
-    if(dateParam) {
-      setSearchParams((prev) => {
-        const prevParam = new Date(prev.get("date"));
-        const prevDate = prevParam.setDate(prevParam.getDate() - 1);
-        return { "date": formatCurrentDate(prevDate)}
-      });
-    }
+  //   if(dateParam) {
+  //     setSearchParams((prev) => {
+  //       const prevParam = new Date(prev.get("date"));
+  //       const prevDate = prevParam.setDate(prevParam.getDate() - 1);
+  //       return { "date": formatCurrentDate(prevDate)}
+  //     });
+  //   }
 
-    if(!dateParam) {
-      setShowDate((prev) => {
-        const currentDate = new Date(prev);
-        const prevDate = currentDate.setDate(currentDate.getDate() - 1);
-        return prevDate;
-      });
+  //   if(!dateParam) {
+  //     setShowDate((prev) => {
+  //       const currentDate = new Date(prev);
+  //       const prevDate = currentDate.setDate(currentDate.getDate() - 1);
+  //       return prevDate;
+  //     });
 
-      setSearchParams({"date": formatCurrentDate(showDate)});
-    }
-  };
+  //     setSearchParams({"date": formatCurrentDate(showDate)});
+  //   }
+  // };
 
   // Display next date
-  function nextDate() {
-    // Document elements
-    const showContainer = document.getElementById("workout-form");
-    const noScheduleContainer = document.getElementById("no-schedule");
-    const scheduleContainer = document.getElementById("schedule");
-    const firstInputBoxes = document.getElementById("exercise-form");
-    const firstInputBoxesContainers = firstInputBoxes.querySelectorAll(".inputBoxes");
-    const firstInputBoxesChildren = firstInputBoxes.querySelectorAll("input");
+  // function nextDate() {
+  //   // Document elements
+  //   const showContainer = document.getElementById("workout-form");
+  //   const noScheduleContainer = document.getElementById("no-schedule");
+  //   const scheduleContainer = document.getElementById("schedule");
+  //   const firstInputBoxes = document.getElementById("exercise-form");
+  //   const firstInputBoxesContainers = firstInputBoxes.querySelectorAll(".inputBoxes");
+  //   const firstInputBoxesChildren = firstInputBoxes.querySelectorAll("input");
 
-    // Remove schedule, hide workout form, if no planne workout show no schedule container
-    if(scheduleContainer && !scheduleContainer.classList.contains("inactive") && plannedWorkout === null) {
-      scheduleContainer.classList.toggle("inactive");
-    }
-    if(showContainer && showContainer.classList.contains("active")) {
-      showContainer.classList.toggle("active");
-    }
-    if(noScheduleContainer && noScheduleContainer.classList.contains("inactive") && !plannedWorkout) {
-      noScheduleContainer.classList.toggle("inactive")
-    }
+  //   // Remove schedule, hide workout form, if no planne workout show no schedule container
+  //   if(scheduleContainer && !scheduleContainer.classList.contains("inactive") && plannedWorkout === null) {
+  //     scheduleContainer.classList.toggle("inactive");
+  //   }
+  //   if(showContainer && showContainer.classList.contains("active")) {
+  //     showContainer.classList.toggle("active");
+  //   }
+  //   if(noScheduleContainer && noScheduleContainer.classList.contains("inactive") && !plannedWorkout) {
+  //     noScheduleContainer.classList.toggle("inactive")
+  //   }
 
-    // Clear former inputs and input containers
-    firstInputBoxesChildren.forEach((input) => {
-      input.value = ""
-    });
+  //   // Clear former inputs and input containers
+  //   firstInputBoxesChildren.forEach((input) => {
+  //     input.value = ""
+  //   });
 
-    firstInputBoxesContainers.forEach((child) => {
-      if(child !== document.getElementById("inputBoxes1")) {
-        firstInputBoxes.removeChild(child)
-      }
-    });
+  //   firstInputBoxesContainers.forEach((child) => {
+  //     if(child !== document.getElementById("inputBoxes1")) {
+  //       firstInputBoxes.removeChild(child)
+  //     }
+  //   });
 
-    setExerciseCount(() => 2);
-    refCount.current = 1;
+  //   setExerciseCount(() => 2);
+  //   refCount.current = 1;
 
-    if(dateParam) {
-      setSearchParams((prev) => {
-        const nextParam = new Date(prev.get("date"));
-        const nextDate = nextParam.setDate(nextParam.getDate() + 1);
-        return { "date": formatCurrentDate(nextDate)}
-      });
-    }
+  //   if(dateParam) {
+  //     setSearchParams((prev) => {
+  //       const nextParam = new Date(prev.get("date"));
+  //       const nextDate = nextParam.setDate(nextParam.getDate() + 1);
+  //       return { "date": formatCurrentDate(nextDate)}
+  //     });
+  //   }
 
-    if(dateParam === null) {
-      setShowDate((prev) => {
-        const currentDate = new Date(prev);
-        const nextDate = currentDate.setDate(currentDate.getDate() + 1);
-        return nextDate;
-      });
+  //   if(dateParam === null) {
+  //     setShowDate((prev) => {
+  //       const currentDate = new Date(prev);
+  //       const nextDate = currentDate.setDate(currentDate.getDate() + 1);
+  //       return nextDate;
+  //     });
 
-      setSearchParams({"date": formatCurrentDate(showDate)});
-    }
-  };
+  //     setSearchParams({"date": formatCurrentDate(showDate)});
+  //   }
+  // };
 
 
   // Set date based on search params
-  React.useEffect(() => {
-      if(dateParam) {
-        try {
-          const paramDate = new Date(dateParam);
-          if(!isNaN(paramDate)) {
-            setShowDate(paramDate)
-            setSearchParams({ "date": formatCurrentDate(paramDate)})
-          }
-        } catch(err) {
-          console.error("Error parsing date", err)
-        }
-      } 
-  }, [dateParam])
+  // React.useEffect(() => {
+  //     if(dateParam) {
+  //       try {
+  //         const paramDate = new Date(dateParam);
+  //         if(!isNaN(paramDate)) {
+  //           setShowDate(paramDate)
+  //           setSearchParams({ "date": formatCurrentDate(paramDate)})
+  //         }
+  //       } catch(err) {
+  //         console.error("Error parsing date", err)
+  //       }
+  //     } 
+  // }, [dateParam]);
 
 
   // Load for current dates workout using show date
@@ -700,17 +698,17 @@ export default function Dashboard() {
   }
 
   // Handle drop down calendar
-  function handleCalendar(event) {
-    const displayCal = document.getElementById("calendar-container");
-    const actionsMenu = document.querySelector("div.table-actions-menu");
+  // function handleCalendar(event) {
+  //   const displayCal = document.getElementById("calendar-container");
+  //   const actionsMenu = document.querySelector("div.table-actions-menu");
 
-    if(event) {
-      displayCal.classList.toggle("active");
-      if(actionsMenu && actionsMenu.classList.contains("active")) {
-        actionsMenu.classList.remove("active");
-      }
-    }
-  }
+  //   if(event) {
+  //     displayCal.classList.toggle("active");
+  //     if(actionsMenu && actionsMenu.classList.contains("active")) {
+  //       actionsMenu.classList.remove("active");
+  //     }
+  //   }
+  // }
 
 
   // Check screen size and remove elements based on screen size
@@ -747,7 +745,7 @@ export default function Dashboard() {
   return(
     <>
       <div className="container dash-container">
-        <div className="displayDate">
+        {/* <div className="displayDate">
           <button id="past-date" onClick={() => prevDate()}>
             <img src={leftArr} alt="left button arrow to change date to day before" aria-roledescription="button"/>
           </button>
@@ -760,7 +758,19 @@ export default function Dashboard() {
           <button id="future-date" onClick={() => nextDate()}>
             <img src={rightArr} alt="right button arrow to change date to day after" aria-roledescription="button"/>
           </button>
-        </div>
+        </div> */}
+        <DateDisplay 
+          showDate={showDate} 
+          setShowDate={setShowDate} 
+          exerciseCount={exerciseCount} 
+          setExerciseCount={setExerciseCount} 
+          refCount={refCount} 
+          dateParam={dateParam} 
+          searchParams={searchParams} 
+          setSearchParams={setSearchParams} 
+          plannedWorkout={plannedWorkout} 
+          setPlannedWorkout={setPlannedWorkout}
+        />
         <div className="all-scheduling">
           <div id="workout-form" className="workout-form">
             <div className="cancel-new-exercise">
