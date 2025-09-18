@@ -841,14 +841,14 @@ export default function Dashboard() {
             </Form>
           </div>
 
-          {/* <PlannedWorkouts
+          <PlannedWorkouts
             showDate={showDate} 
             plannedWorkout={plannedWorkout} 
             refCount={refCount} 
             isSubmitting={isSubmitting} 
             dateParam={dateParam} 
             newExerciseForm={newExerciseForm}
-          /> */}
+          />
           {noSchedule}
           
         </div>
