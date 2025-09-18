@@ -16,7 +16,6 @@ export default function PlannedWorkouts(props) {
     }
   }
 
-
   // Display form for planned workout
   const todaysSchedule = props.plannedWorkout ? 
   props.plannedWorkout.map((workouts) => {
@@ -155,7 +154,7 @@ export default function PlannedWorkouts(props) {
       window.location.reload();
     }
   };
-  
+
 
   // Toggle schedule and edit form
   function handleEditSchedule(event) {
