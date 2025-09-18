@@ -7,7 +7,7 @@ import Home from './pages/Home.jsx';
 import Register, { action as registerAction } from './pages/Register.jsx';
 import Login, { action as loginAction } from './pages/Login.jsx';
 import DashboardLayout from './components/DashboardLayout.jsx';
-import Dashboard, { loader as dashboardLoader, action as dashboardAction } from './pages/profile/Dashboard.jsx';
+import Dashboard, { loader as dashboardLoader, action as dashboardAction } from './pages/dashboard/Dashboard.jsx';
 import { usersUsername } from '../client-utils.js';
 import Calendar from './pages/profile/Calendar.jsx';
 
