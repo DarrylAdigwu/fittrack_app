@@ -61,13 +61,12 @@ export default function DateDisplay(props) {
     }
   };
 
+
   // Display next date
   function nextDate() {
     // Document elements
     const showContainer = document.getElementById("workout-form");
     const noScheduleContainer = document.getElementById("no-schedule");
-    const scheduleContainer = document.getElementById("schedule");
-    const editScheduleForm = document.getElementById("edit-exercise-form-section");
     const firstInputBoxes = document.getElementById("exercise-form");
     const firstInputBoxesContainers = firstInputBoxes.querySelectorAll(".inputBoxes");
     const firstInputBoxesChildren = firstInputBoxes.querySelectorAll("input");
@@ -152,40 +151,17 @@ export default function DateDisplay(props) {
 
   return(
     <div className="displayDate">
-      <button 
-        id="past-date" 
-        onClick={() => prevDate()}
-      >
-        <img 
-          src={leftArr} 
-          alt="left button arrow to change date to day before" 
-          aria-roledescription="button"
-        />
+      <button id="past-date" onClick={() => prevDate()}>
+        <img src={leftArr} alt="left button arrow to change date to day before" aria-roledescription="button"/>
       </button>
 
-      <button 
-        className="calendar-button" 
-        onClick={handleCalendar} 
-      >
-        <span aria-label="date">
-          {formatCurrentDate(props.showDate, "none")}
-        </span>
-        <img 
-          src={calendar} 
-          alt="button to drop down calendar" 
-          aria-roledescription="button"
-        />
+      <button className="calendar-button" onClick={handleCalendar} >
+        <span aria-label="date">{formatCurrentDate(props.showDate, "none")}</span>
+        <img src={calendar} alt="button to drop down calendar" aria-roledescription="button"/>
       </button>
 
-      <button 
-        id="future-date" 
-        onClick={() => nextDate()}
-      >
-        <img 
-          src={rightArr} 
-          alt="right button arrow to change date to day after" 
-          aria-roledescription="button"
-        />
+      <button id="future-date" onClick={() => nextDate()}>
+        <img src={rightArr} alt="right button arrow to change date to day after" aria-roledescription="button"/>
       </button>
     </div>
   )
