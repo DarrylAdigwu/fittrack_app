@@ -11,6 +11,7 @@ import { sendUserData, getTodaysWorkout, formatCurrentDate,
 import Calendar from "./Calendar.jsx";
 import DateDisplay from "./DateDisplay.jsx";
 import PlannedWorkouts from "./PlannedWorkouts.jsx";
+import CreateWorkout from "./CreateWorkout.jsx";
 
 
 export async function loader({ request }) {
@@ -89,7 +90,7 @@ export default function Dashboard() {
   const dateParam = searchParams.get("date");
 
   // Get key and make it string if error in form 
-  let key = actionData ? Object.keys(actionData).toString() : null;
+  let errorKey = actionData ? Object.keys(actionData).toString() : null;
 
   // Get all workout dates
   const allUserDates = dashLoader.allDates;
@@ -378,11 +379,11 @@ export default function Dashboard() {
 
 
   // No schedule display and new exercise form button
-  const noSchedule = plannedWorkout === null ?
-  <div className="no-schedule" id="no-schedule">
-    <h1>No workout schedule for today</h1>
-    <button id="add-workout" onClick={newExerciseForm} type="button">Add Workout</button>
-  </div>: null;
+  // const noSchedule = plannedWorkout === null ?
+  // <div className="no-schedule" id="no-schedule">
+  //   <h1>No workout schedule for today</h1>
+  //   <button id="add-workout" onClick={newExerciseForm} type="button">Add Workout</button>
+  // </div>: null;
 
 
   // Create form for new workout
@@ -404,188 +405,188 @@ export default function Dashboard() {
   
 
   // Cancel new exercise form
-  function handleNewExerciseCancel(event) {
-    // Document elements
-    const showContainer = document.getElementById("workout-form");
-    const noScheduleContainer = document.getElementById("no-schedule");
-    const firstInputBoxes = document.getElementById("exercise-form");
-    const firstInputBoxesContainers = firstInputBoxes.querySelectorAll(".inputBoxes");
-    const firstInputBoxesChildren = firstInputBoxes.querySelectorAll("input");
-    const scheduleContainer = document.getElementById("schedule");
-    const addWorkoutButton = document.getElementById("add-workout");
+  // function handleNewExerciseCancel(event) {
+  //   // Document elements
+  //   const showContainer = document.getElementById("workout-form");
+  //   const noScheduleContainer = document.getElementById("no-schedule");
+  //   const firstInputBoxes = document.getElementById("exercise-form");
+  //   const firstInputBoxesContainers = firstInputBoxes.querySelectorAll(".inputBoxes");
+  //   const firstInputBoxesChildren = firstInputBoxes.querySelectorAll("input");
+  //   const scheduleContainer = document.getElementById("schedule");
+  //   const addWorkoutButton = document.getElementById("add-workout");
 
-    if(event) {
-      if(showContainer && showContainer.classList.contains("active")) {
-      showContainer.classList.toggle("active");
-      }
+  //   if(event) {
+  //     if(showContainer && showContainer.classList.contains("active")) {
+  //     showContainer.classList.toggle("active");
+  //     }
       
-      if(noScheduleContainer && noScheduleContainer.classList.contains("inactive") && !plannedWorkout) {
-        noScheduleContainer.classList.toggle("inactive")
-      }
+  //     if(noScheduleContainer && noScheduleContainer.classList.contains("inactive") && !plannedWorkout) {
+  //       noScheduleContainer.classList.toggle("inactive")
+  //     }
 
-      if(scheduleContainer) {
-        addWorkoutButton.classList.toggle("inactive")
-      }
+  //     if(scheduleContainer) {
+  //       addWorkoutButton.classList.toggle("inactive")
+  //     }
 
-      firstInputBoxesChildren.forEach((input) => {
-        input.value = ""
-      });
+  //     firstInputBoxesChildren.forEach((input) => {
+  //       input.value = ""
+  //     });
       
-      firstInputBoxesContainers.forEach((child) => {
-        if(child !== document.getElementById("inputBoxes1")) {
-          firstInputBoxes.removeChild(child)
-        }
-      });
+  //     firstInputBoxesContainers.forEach((child) => {
+  //       if(child !== document.getElementById("inputBoxes1")) {
+  //         firstInputBoxes.removeChild(child)
+  //       }
+  //     });
 
-      setExerciseCount(() => 2)
-    }
-  }
+  //     setExerciseCount(() => 2)
+  //   }
+  // }
 
   
   // Create new exercise inputs
-  function newExercise() {
+  // function newExercise() {
 
-    const warningKey = document.getElementById("warning-key");
+  //   const warningKey = document.getElementById("warning-key");
 
-    if(exerciseCount > 6) {
-     return warningKey.classList.add("inactive")
-    } 
+  //   if(exerciseCount > 6) {
+  //    return warningKey.classList.add("inactive")
+  //   } 
     
-    if(plannedWorkout && (exerciseCount + plannedWorkout.length) > 6) {
-      return warningKey.classList.add("inactive")
-    }
+  //   if(plannedWorkout && (exerciseCount + plannedWorkout.length) > 6) {
+  //     return warningKey.classList.add("inactive")
+  //   }
 
-    const prevWorkoutInput = document.getElementById(`workoutInput${exerciseCount - 1}`);
-    const prevMuscleGroupInput = document.getElementById(`muscleGroupInput${exerciseCount - 1}`);
-    const prevSetInput = document.getElementById(`setInput${exerciseCount - 1}`);
-    const prevRepInput = document.getElementById(`repInput${exerciseCount - 1}`);
+  //   const prevWorkoutInput = document.getElementById(`workoutInput${exerciseCount - 1}`);
+  //   const prevMuscleGroupInput = document.getElementById(`muscleGroupInput${exerciseCount - 1}`);
+  //   const prevSetInput = document.getElementById(`setInput${exerciseCount - 1}`);
+  //   const prevRepInput = document.getElementById(`repInput${exerciseCount - 1}`);
     
-    if(!prevWorkoutInput.value) {
-      return prevWorkoutInput.style.backgroundColor = "#d56d6a";
-    } else {
-      prevWorkoutInput.style.backgroundColor = "transparent";
-    }
+  //   if(!prevWorkoutInput.value) {
+  //     return prevWorkoutInput.style.backgroundColor = "#d56d6a";
+  //   } else {
+  //     prevWorkoutInput.style.backgroundColor = "transparent";
+  //   }
 
-    if(!prevMuscleGroupInput.value) {
-      return prevMuscleGroupInput.style.backgroundColor = "#d56d6a";
-    } else {
-      prevMuscleGroupInput.style.backgroundColor = "transparent";
-    }
+  //   if(!prevMuscleGroupInput.value) {
+  //     return prevMuscleGroupInput.style.backgroundColor = "#d56d6a";
+  //   } else {
+  //     prevMuscleGroupInput.style.backgroundColor = "transparent";
+  //   }
     
-    if(!prevSetInput.value || isNaN(prevSetInput.value)) {
-      return prevSetInput.style.backgroundColor = "#d56d6a";
-    }else {
-      prevSetInput.style.backgroundColor = "transparent";
-    }
+  //   if(!prevSetInput.value || isNaN(prevSetInput.value)) {
+  //     return prevSetInput.style.backgroundColor = "#d56d6a";
+  //   }else {
+  //     prevSetInput.style.backgroundColor = "transparent";
+  //   }
 
-    if(!prevRepInput.value || isNaN(prevRepInput.value)) {
-      return prevRepInput.style.backgroundColor = "#d56d6a";
-    }else {
-      prevRepInput.style.backgroundColor = "transparent";
-    }
+  //   if(!prevRepInput.value || isNaN(prevRepInput.value)) {
+  //     return prevRepInput.style.backgroundColor = "#d56d6a";
+  //   }else {
+  //     prevRepInput.style.backgroundColor = "transparent";
+  //   }
 
-    // Creating new inputs for exercise form
-    if(document.getElementById(`workoutInput${exerciseCount - 1}`).value && 
-    document.getElementById(`muscleGroupInput${exerciseCount - 1}`).value &&
-    document.getElementById(`setInput${exerciseCount - 1}`).value &&
-    document.getElementById(`repInput${exerciseCount - 1}`).value) {
+  //   // Creating new inputs for exercise form
+  //   if(document.getElementById(`workoutInput${exerciseCount - 1}`).value && 
+  //   document.getElementById(`muscleGroupInput${exerciseCount - 1}`).value &&
+  //   document.getElementById(`setInput${exerciseCount - 1}`).value &&
+  //   document.getElementById(`repInput${exerciseCount - 1}`).value) {
       
-      if(exerciseCount <= 6) {
-        warningKey.classList.remove("inactive")
-      } 
+  //     if(exerciseCount <= 6) {
+  //       warningKey.classList.remove("inactive")
+  //     } 
     
-      if(plannedWorkout || plannedWorkout && (exerciseCount + plannedWorkout.length) < 6) {
-        warningKey.classList.remove("inactive")
-      }
+  //     if(plannedWorkout || plannedWorkout && (exerciseCount + plannedWorkout.length) < 6) {
+  //       warningKey.classList.remove("inactive")
+  //     }
 
-      prevWorkoutInput.style.backgroundColor = "transparent";
-      prevMuscleGroupInput.style.backgroundColor = "transparent";
-      prevSetInput.style.backgroundColor = "transparent";
-      prevRepInput.style.backgroundColor = "transparent";
+  //     prevWorkoutInput.style.backgroundColor = "transparent";
+  //     prevMuscleGroupInput.style.backgroundColor = "transparent";
+  //     prevSetInput.style.backgroundColor = "transparent";
+  //     prevRepInput.style.backgroundColor = "transparent";
     
-      // Chaging state of exercise count
-      setExerciseCount(prevCount => prevCount + 1);
+  //     // Chaging state of exercise count
+  //     setExerciseCount(prevCount => prevCount + 1);
       
 
-      // Previous input box
-      const prevInputBox = document.getElementById(`inputBoxes${exerciseCount - 1}`)
+  //     // Previous input box
+  //     const prevInputBox = document.getElementById(`inputBoxes${exerciseCount - 1}`)
       
-      // create div
-      const inputBoxes = document.createElement("div");
-      inputBoxes.setAttribute("class", "inputBoxes");
-      inputBoxes.setAttribute("id", `inputBoxes${exerciseCount}`);
+  //     // create div
+  //     const inputBoxes = document.createElement("div");
+  //     inputBoxes.setAttribute("class", "inputBoxes");
+  //     inputBoxes.setAttribute("id", `inputBoxes${exerciseCount}`);
       
-      /* Create labels and inputs */ 
+  //     /* Create labels and inputs */ 
 
-      // Workout input
-      const newExerciseLabel = document.createElement("label");
-      newExerciseLabel.setAttribute("for", `workoutInput${exerciseCount}`);
+  //     // Workout input
+  //     const newExerciseLabel = document.createElement("label");
+  //     newExerciseLabel.setAttribute("for", `workoutInput${exerciseCount}`);
       
-      const newExerciseInput = document.createElement("input");
-      newExerciseInput.setAttribute("class", "workoutInput");
-      newExerciseInput.setAttribute("id", `workoutInput${exerciseCount}`);
-      newExerciseInput.setAttribute("name", `workoutInput${exerciseCount}`);
-      newExerciseInput.setAttribute("placeholder", "Workout");
-      newExerciseInput.setAttribute("aria-label", `Input name of exercise number ${exerciseCount}`);
+  //     const newExerciseInput = document.createElement("input");
+  //     newExerciseInput.setAttribute("class", "workoutInput");
+  //     newExerciseInput.setAttribute("id", `workoutInput${exerciseCount}`);
+  //     newExerciseInput.setAttribute("name", `workoutInput${exerciseCount}`);
+  //     newExerciseInput.setAttribute("placeholder", "Workout");
+  //     newExerciseInput.setAttribute("aria-label", `Input name of exercise number ${exerciseCount}`);
       
-      // Muscle Group input
-      const newMuscleGroupLabel = document.createElement("label");
-      newMuscleGroupLabel.setAttribute("for", `muscleGroupInput${exerciseCount}`);
+  //     // Muscle Group input
+  //     const newMuscleGroupLabel = document.createElement("label");
+  //     newMuscleGroupLabel.setAttribute("for", `muscleGroupInput${exerciseCount}`);
       
-      const newMuscleGroupInput = document.createElement("input");
-      newMuscleGroupInput.setAttribute("class", "muscleGroupInput");
-      newMuscleGroupInput.setAttribute("id", `muscleGroupInput${exerciseCount}`);
-      newMuscleGroupInput.setAttribute("name", `muscleGroupInput${exerciseCount}`);
-      newMuscleGroupInput.setAttribute("placeholder", "Focus");
-      newMuscleGroupInput.setAttribute("aria-label", `Input muscle group for exercise number ${exerciseCount}`);
+  //     const newMuscleGroupInput = document.createElement("input");
+  //     newMuscleGroupInput.setAttribute("class", "muscleGroupInput");
+  //     newMuscleGroupInput.setAttribute("id", `muscleGroupInput${exerciseCount}`);
+  //     newMuscleGroupInput.setAttribute("name", `muscleGroupInput${exerciseCount}`);
+  //     newMuscleGroupInput.setAttribute("placeholder", "Focus");
+  //     newMuscleGroupInput.setAttribute("aria-label", `Input muscle group for exercise number ${exerciseCount}`);
       
-      // Sets input
-      const newSetLabel = document.createElement("label");
-      newSetLabel.setAttribute("for", `setInput${exerciseCount}` );
+  //     // Sets input
+  //     const newSetLabel = document.createElement("label");
+  //     newSetLabel.setAttribute("for", `setInput${exerciseCount}` );
       
-      const newSetInput = document.createElement("input");
-      newSetInput.setAttribute("class", "setInput");
-      newSetInput.setAttribute("id", `setInput${exerciseCount}`);
-      newSetInput.setAttribute("name", `setInput${exerciseCount}`);
-      newSetInput.setAttribute("placeholder", "Sets");
-      newExerciseInput.setAttribute("aria-label", `Input sets for exercise number ${exerciseCount}`);
+  //     const newSetInput = document.createElement("input");
+  //     newSetInput.setAttribute("class", "setInput");
+  //     newSetInput.setAttribute("id", `setInput${exerciseCount}`);
+  //     newSetInput.setAttribute("name", `setInput${exerciseCount}`);
+  //     newSetInput.setAttribute("placeholder", "Sets");
+  //     newExerciseInput.setAttribute("aria-label", `Input sets for exercise number ${exerciseCount}`);
 
-      // Reps input
-      const newRepLabel = document.createElement("label");
-      newRepLabel.setAttribute("for", `repInput${exerciseCount}` );
+  //     // Reps input
+  //     const newRepLabel = document.createElement("label");
+  //     newRepLabel.setAttribute("for", `repInput${exerciseCount}` );
       
-      const newRepInput = document.createElement("input");
-      newRepInput.setAttribute("class", "repInput");
-      newRepInput.setAttribute("id", `repInput${exerciseCount}`);
-      newRepInput.setAttribute("name", `repInput${exerciseCount}`);
-      newRepInput.setAttribute("placeholder", "Reps");
-      newExerciseInput.setAttribute("aria-label", `Input reps for exercise number ${exerciseCount}`);
+  //     const newRepInput = document.createElement("input");
+  //     newRepInput.setAttribute("class", "repInput");
+  //     newRepInput.setAttribute("id", `repInput${exerciseCount}`);
+  //     newRepInput.setAttribute("name", `repInput${exerciseCount}`);
+  //     newRepInput.setAttribute("placeholder", "Reps");
+  //     newExerciseInput.setAttribute("aria-label", `Input reps for exercise number ${exerciseCount}`);
 
-      // append child nodes
-      inputBoxes.appendChild(newExerciseLabel);
-      inputBoxes.appendChild(newExerciseInput);
-      inputBoxes.appendChild(newMuscleGroupLabel);
-      inputBoxes.appendChild(newMuscleGroupInput);
-      inputBoxes.appendChild(newSetLabel);
-      inputBoxes.appendChild(newSetInput);
-      inputBoxes.appendChild(newRepLabel);
-      inputBoxes.appendChild(newRepInput);
+  //     // append child nodes
+  //     inputBoxes.appendChild(newExerciseLabel);
+  //     inputBoxes.appendChild(newExerciseInput);
+  //     inputBoxes.appendChild(newMuscleGroupLabel);
+  //     inputBoxes.appendChild(newMuscleGroupInput);
+  //     inputBoxes.appendChild(newSetLabel);
+  //     inputBoxes.appendChild(newSetInput);
+  //     inputBoxes.appendChild(newRepLabel);
+  //     inputBoxes.appendChild(newRepInput);
       
-      // append div
-      prevInputBox.after(inputBoxes)
+  //     // append div
+  //     prevInputBox.after(inputBoxes)
 
-    }
-  }
+  //   }
+  // }
 
   // Remove latest new exercise input
-  function removeExercise() {
-    const firstInputBox = document.getElementById(`inputBoxes1`);
-    const lastInputBox = document.getElementById(`inputBoxes${exerciseCount - 1}`);
-    if(lastInputBox != firstInputBox) {
-      lastInputBox.remove();
-      setExerciseCount(prevCount => prevCount - 1)
-    };
-  }
+  // function removeExercise() {
+  //   const firstInputBox = document.getElementById(`inputBoxes1`);
+  //   const lastInputBox = document.getElementById(`inputBoxes${exerciseCount - 1}`);
+  //   if(lastInputBox != firstInputBox) {
+  //     lastInputBox.remove();
+  //     setExerciseCount(prevCount => prevCount - 1)
+  //   };
+  // }
 
 
   // Toggle schedule and edit form
@@ -769,7 +770,7 @@ export default function Dashboard() {
           setPlannedWorkout={setPlannedWorkout}
         />
         <div className="all-scheduling">
-          <div id="workout-form" className="workout-form">
+          {/* <div id="workout-form" className="workout-form">
             <div className="cancel-new-exercise">
               <img src={cancel} alt={`Exit new exercise form for ${formatCurrentDate(showDate)}`} className="cancel-new-exercise-img" onClick={handleNewExerciseCancel} aria-roledescription="button"/>
             </div>
@@ -839,8 +840,17 @@ export default function Dashboard() {
                 {isSubmitting ? "Submitting..." : "Submit"}
               </button>
             </Form>
-          </div>
-
+          </div> */}
+          <CreateWorkout 
+            plannedWorkout={plannedWorkout} 
+            showDate={showDate} 
+            exerciseCount={exerciseCount} 
+            setExerciseCount={setExerciseCount} 
+            newExerciseForm={newExerciseForm} 
+            actionData={actionData} 
+            errorKey={errorKey} 
+            isSubmitting={isSubmitting}
+          />
           <PlannedWorkouts
             showDate={showDate} 
             plannedWorkout={plannedWorkout} 
@@ -849,8 +859,6 @@ export default function Dashboard() {
             dateParam={dateParam} 
             newExerciseForm={newExerciseForm}
           />
-          {noSchedule}
-          
         </div>
         <Calendar allDates={allUserDates} />
       </div>
