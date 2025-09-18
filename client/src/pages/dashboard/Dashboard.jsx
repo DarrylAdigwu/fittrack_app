@@ -2,7 +2,7 @@ import React from "react";
 import { useActionData, useLoaderData, useNavigation, useSearchParams } from "react-router";
 import "../../assets/css/dashboard.css";
 import { sendUserData, getTodaysWorkout, formatCurrentDate,
-   usersUsername, getAllDates } from "../../../client-utils";
+   usersUsername, getAllDates } from "../../../client-utils.js";
 import Calendar from "./Calendar.jsx";
 import DateDisplay from "./DateDisplay.jsx";
 import PlannedWorkouts from "./PlannedWorkouts.jsx";
@@ -103,7 +103,6 @@ export default function Dashboard() {
     
     loadTodaysWorkout();
   }, [showDate]);
-
 
   // Create form for new workout
   function newExerciseForm(e) {
