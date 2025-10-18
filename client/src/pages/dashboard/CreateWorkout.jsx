@@ -208,27 +208,6 @@ export default function CreateWorkout(props) {
               aria-label="Input muscle group for exercise number one"
             />
 
-            <label htmlFor="setInput1"></label>
-            <input className="setInput"
-              type="number" 
-              id="setInput1" 
-              name="setInput1" 
-              placeholder="Sets" 
-              aria-label="Input sets for exercise number one"
-              step="1"
-              min="1"
-            />
-
-            <label htmlFor="repInput1"></label>
-            <input className="repInput"
-              type="number" 
-              id="repInput1" 
-              name="repInput1" 
-              placeholder="Reps" 
-              aria-label="Input reps for exercise number one"
-              step="1"
-              min="1"
-            />
           </div>
           {/* Container for add and remove buttons */}
           <div className="exercise-btn-container">
@@ -254,14 +233,15 @@ export default function CreateWorkout(props) {
           {/* Warning key for exercise limit */}
           <span id="warning-key" aria-label="workout limit message">Daily Limit Hit: 6 workouts</span>
           {/* Error key for submitting invalid inputs */}
-          {props.actionData && props.errorKey.startsWith("invalid") ? 
+          {
+            props.actionData && props.errorKey.startsWith("invalid") ? 
             <span 
               className="invalidDash" 
               aria-label={props.actionData[props.errorKey]}
             >
               {props.actionData[props.errorKey]}
-            </span> : 
-            null
+            </span> 
+            : null
           }
           {/* Submit exercise button */}
           <button 
