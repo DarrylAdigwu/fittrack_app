@@ -43,6 +43,7 @@ export default function PlannedWorkouts(props) {
     
     // Error key element
     const setsWarningKey = document.getElementById(`sets-warning-key-${currentWorkoutId}`);
+    console.log(setsWarningKey);
 
     // Check if there are more than 6 sets created
     if(props.setsCount > 6) {
@@ -215,7 +216,7 @@ export default function PlannedWorkouts(props) {
   };
 
   // Display form for planned workouts and starting form for new inputs
-  const todaysSchedule = props.plannedWorkout ?
+  const todaysSchedule = props.plannedWorkout ? 
     props.plannedWorkout.map((workouts) => {
       const amountOfSets = props.plannedSets && props.plannedSets.filter((sets) => sets.workout_id === workouts.id);
       const currentSetNumber = props.plannedSets && amountOfSets.length + (props.setsCount - 1);
@@ -360,7 +361,7 @@ export default function PlannedWorkouts(props) {
               aria-label={`Input muscle group for ${workouts.exercise}`}
               readOnly
             />
-            
+
             {/* Button to drop sets form */}
             <button 
               className="dropSetsButton dropSets" 
@@ -383,7 +384,7 @@ export default function PlannedWorkouts(props) {
             </button>
           </div>
 
-          {/* Display sets for planned workouts if edit/delete execise form is not active */}
+          {/* Display sets for planned workouts */}
           {!props.isActive &&
             <Form method="post" id={`setsForm-${workouts.id}`} className={`setsForm`} action={`/dashboard/:${usersUsername}`}>
               {/* Planned sets Header */}
@@ -453,7 +454,7 @@ export default function PlannedWorkouts(props) {
               {/* Display planned sets for current exercise */}
               {createPlannedSets}
 
-              {/* Create starting form field for users to add sets to exercise */}
+              {/* Empty and fillable set form fields */}
               {currentSetNumber <= 6 ?
                 <div className="setBoxes" id={`setBoxes${workouts.id}-1`}>
                   <input 
@@ -622,7 +623,7 @@ export default function PlannedWorkouts(props) {
   <div id="schedule" className="schedule">
     {/* Buttons for workouts menu */}
     <div className="table-actions">
-      {/* Drop down menu button and menu cancel button */}
+      {/* Drop down menu button */}
       <button 
         className="threeDotImg" 
         onClick={handleDropDown} 
@@ -649,10 +650,10 @@ export default function PlannedWorkouts(props) {
       {/* Header for planned workouts table */}
       <div className="workout-thead-section" role="rowgroup">
         <div className="workout-thead-row" role="row">
+          <div className="th blank"role="cell"></div>
           <div className="th exercise"role="cell">Exercise</div>
           <div className="th focus"role="cell">Focus</div>
-          <div className="th sets"role="cell">Sets</div>
-          <div className="th reps"role="cell">Reps</div>
+          <button className="blank-btn"></button>
         </div>
       </div>
       {/* Table body for planned workouts */}
@@ -873,7 +874,7 @@ export default function PlannedWorkouts(props) {
       formDrop.style.display = "flex";
       formDrop.style.flexWrap = "wrap";
     }
-
+    
     // Actions if caret up button is pressed
     if(event.target.parentElement.classList.contains("liftSets")) {
       const setsFormDropButtonId = event.target.parentElement.previousSibling.id;
@@ -892,7 +893,7 @@ export default function PlannedWorkouts(props) {
     if(event){
       currentSetDropMenu.classList.toggle("active");
     }
-  };
+  }
 
   // Actions and events for editing and deleting sets
   function handleSetsMenu(event) {
@@ -967,7 +968,7 @@ export default function PlannedWorkouts(props) {
 
       currentTheadRow.classList.add("delete");
     }
-  };
+  }
 
   // Actions and events when canceling potential edits
   function handleCancelSetsMenu(event) {
@@ -1022,7 +1023,7 @@ export default function PlannedWorkouts(props) {
       currentTheadRow.classList.remove("delete");
     }
   }
-  
+
   return (
     <>
       {showSchedule}
