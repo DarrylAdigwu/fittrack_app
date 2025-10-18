@@ -26,7 +26,6 @@ export default function PlannedWorkouts(props) {
 
   // Create inputs for add sets form
   function newSets(event) {
-    // console.log(event)
     const currentExerciseDivId = event.target.parentElement.parentElement.id;
     const currentWorkoutId = currentExerciseDivId.split("-")[1];
     const currentSetsForm = document.getElementById(`setsForm-${currentWorkoutId}`)
