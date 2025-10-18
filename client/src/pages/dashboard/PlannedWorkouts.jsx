@@ -26,7 +26,6 @@ export default function PlannedWorkouts(props) {
 
   // Create inputs for add sets form
   function newSets(event) {
-    // console.log(event)
     const currentExerciseDivId = event.target.parentElement.parentElement.id;
     const currentWorkoutId = currentExerciseDivId.split("-")[1];
     const currentSetsForm = document.getElementById(`setsForm-${currentWorkoutId}`)
@@ -43,6 +42,7 @@ export default function PlannedWorkouts(props) {
     
     // Error key element
     const setsWarningKey = document.getElementById(`sets-warning-key-${currentWorkoutId}`);
+    console.log(setsWarningKey);
 
     // Check if there are more than 6 sets created
     if(props.setsCount > 6) {
@@ -55,8 +55,10 @@ export default function PlannedWorkouts(props) {
     }
 
     const prevSetNumDisplay = document.getElementById(`setNumDisplay${currentWorkoutId}-${props.setsCount - 1}`);
+    const prevSetNumber = document.getElementById(`setNumber${currentWorkoutId}-${props.setsCount - 1}`);
     const prevWeightInput = document.getElementById(`weightInput${currentWorkoutId}-${props.setsCount - 1}`);
     const prevRepInput = document.getElementById(`repInput${currentWorkoutId}-${props.setsCount - 1}`);
+    const checkcase = currentExerciseDiv.querySelector(`#setNumber${currentWorkoutId}-${props.setsCount - 1}`);
     
     
     // Check to see if previous inputs have values
@@ -198,6 +200,7 @@ export default function PlannedWorkouts(props) {
       
       // append div
       prevSetBox.after(setBoxes);
+
     }
   };
 
@@ -214,407 +217,386 @@ export default function PlannedWorkouts(props) {
     };
   };
 
-  // Display form for planned workouts and starting form for new inputs
-  const todaysSchedule = props.plannedWorkout ?
 
-    props.plannedWorkout.map((workouts) => {
-      const amountOfSets = props.plannedSets && props.plannedSets.filter((sets) => sets.workout_id === workouts.id);
-      const currentSetNumber = props.plannedSets && amountOfSets.length + (props.setsCount - 1);
-      const checkWorkoutHasSets =  props.plannedSets && props.plannedSets.some((set) => set.workout_id === workouts.id);
+  // Display form for planned workout
+  const todaysSchedule = props.plannedWorkout ? 
+  props.plannedWorkout.map((workouts) => {
+    
+    let counter = 0;
+    const amountOfSets = props.plannedSets && props.plannedSets.filter((sets) => sets.workout_id === workouts.id);
+    const currentSetNumber = props.plannedSets && amountOfSets.length + (props.setsCount - 1);
+    const checkWorkoutHasSets =  props.plannedSets && props.plannedSets.some((set) => set.workout_id === workouts.id);
 
-      /* Variable for display sets that are already created */
-      const createPlannedSets = props.plannedSets && props.plannedSets.map((sets) => {
-        if(sets.workout_id === workouts.id) {
-          return(
-            <div key={sets.id} className="plannedSetsForm" id={`plannedSetsForm-${workouts.id}`}>
-              <input
-                className="setIdInput planned"
-                id={`setIdInput-${sets.workout_id}-${sets.set_number}`}
-                name={`setIdInput-${sets.workout_id}-${sets.set_number}`}
-                placeholder=""
-                type="hidden"
-                value={sets.id}
-              />
-
-              <input 
-                className="deleteSetCheckboxes planned"
-                type="checkbox"
-                id={`deleteSetCheckbox-${sets.workout_id}-${sets.set_number}`}
-                name={`deleteSetCheckbox-${sets.workout_id}-${sets.set_number}`}
-                value={sets.id}
-              />
-
-              <input
-                className="plannedSetNumber planned"
-                id={`plannedSetNumber${sets.workout_id}-${sets.set_number}`}
-                name={`plannedSetNumber${sets.workout_id}-${sets.set_number}`}
-                value={sets.set_number}
-                readOnly
-                aria-label="Set number"
-              />
-
-              <input
-                className="plannedWeight planned"
-                id={`plannedWeight${sets.workout_id}-${sets.set_number}`}
-                name={`plannedWeight${sets.workout_id}-${sets.set_number}`}
-                defaultValue={sets.weight}
-                readOnly
-                aria-label={`Weight for set ${sets.set_number} on exercise number ${sets.workout_id}`}
-              />
-              <input
-                className="plannedReps planned"
-                id={`plannedReps${sets.workout_id}-${sets.set_number}`}
-                name={`plannedReps${sets.workout_id}-${sets.set_number}`}
-                defaultValue={sets.reps}
-                readOnly
-                aria-label={`Reps for set ${sets.set_number} on exercise number ${sets.workout_id}`}
-              />
-
-              <input
-                type="hidden" 
-                className="plannedCheckboxes planned"
-                id={`plannedCheckboxes${sets.workout_id}-${sets.set_number}`}
-                name={`plannedCheckboxes${sets.workout_id}-${sets.set_number}`}
-                aria-label={`Send info for incomplete set ${sets.set_number} on exercise number ${sets.workout_id}`}
-                value={0}
-              />
-
-              <input
-                type="checkbox"
-                className="plannedCheckboxes planned"
-                id={`plannedCheckboxes${sets.workout_id}-${sets.set_number}`}
-                name={`plannedCheckboxes${sets.workout_id}-${sets.set_number}`}
-                value={1}
-                aria-label={`Show completion for set ${sets.set_number} on exercise number ${sets.workout_id}`}
-                disabled
-                defaultChecked={sets.completed === 1 && true}
-              />
-
-              {/* Placeholder to match header row menu button */}
-              <button 
-                className="plannedSpaceHolder planned" 
-                type="button" 
-                disabled
-              >
-              </button>
-            </div>
-          )
-        }
-      })
-
-      return (
-        /* Workout table-body row */
-        <div 
-          key={workouts.id} 
-          className={`workout-tbody-row workout-tbody-row-${props.refCount.current = props.refCount.current + 1}`} 
-          id={`workout-tbody-row${workouts.id}`}
-        >
-          {/* Container for for the current exercise */}
-          <div className={`tbody-row-exercise-container`} id={`tbody-row-exercise-container${workouts.id}`}>
-            <label htmlFor="displayDate"/>
+    const createPlannedSets = props.plannedSets && props.plannedSets.map((sets) => {
+      if(sets.workout_id === workouts.id) {
+        return(
+          <div key={sets.id} className="plannedSetsForm" id={`plannedSetsForm-${workouts.id}`}>
             <input
-              id="displayDate"
-              name="displayDate"
-              className="displayDate"
+              className="setIdInput planned"
+              id={`setIdInput-${sets.workout_id}-${sets.set_number}`}
+              name={`setIdInput-${sets.workout_id}-${sets.set_number}`}
               placeholder=""
               type="hidden"
-              value={formatCurrentDate(new Date(props.dateParam))}
+              value={sets.id}
             />
 
-            <label htmlFor={`checkbox-${props.refCount.current}`}/>
             <input 
+              className="deleteSetCheckboxes planned"
               type="checkbox"
-              id={`checkbox-${props.refCount.current}`}
-              name={`checkbox-${props.refCount.current}`}
-              value={workouts.id}
-              className="checkboxes"
+              id={`deleteSetCheckbox-${sets.workout_id}-${sets.set_number}`}
+              name={`deleteSetCheckbox-${sets.workout_id}-${sets.set_number}`}
+              value={sets.id}
             />
 
-            <label htmlFor="exerciseId"/>
             <input
-              id="exerciseId"
-              className="exerciseId"
-              name={`idInput_${props.refCount.current}`}
-              placeholder=""
-              type="hidden"
-              value={workouts.id}
-            />
-
-            <label htmlFor={`workoutInput${props.refCount.current}`}/>
-            <input
-              className="exercise-row workout-rows"
-              id={`workoutInput${props.refCount.current}`}
-              name={`workoutInput${props.refCount.current}`} 
-              defaultValue={workouts.exercise}
-              aria-label={`Input name of ${workouts.exercise}`}
+              className="plannedSetNumber planned"
+              id={`plannedSetNumber${sets.workout_id}-${sets.set_number}`}
+              name={`plannedSetNumber${sets.workout_id}-${sets.set_number}`}
+              value={sets.set_number}
               readOnly
-              autoFocus
+              aria-label="Set number"
             />
 
-            <label htmlFor={`muscleGroupInput${props.refCount.current}`}/>
             <input
-              className="focus-row workout-rows"
-              id={`muscleGroupInput${props.refCount.current}`}
-              name={`muscleGroupInput${props.refCount.current}`} 
-              defaultValue={workouts.muscle_group}
-              aria-label={`Input muscle group for ${workouts.exercise}`}
+              className="plannedWeight planned"
+              id={`plannedWeight${sets.workout_id}-${sets.set_number}`}
+              name={`plannedWeight${sets.workout_id}-${sets.set_number}`}
+              defaultValue={sets.weight}
               readOnly
+              aria-label={`Weight for set ${sets.set_number} on exercise number ${sets.workout_id}`}
             />
-            
-            {/* Button to drop sets form */}
-            <button 
-              className="dropSetsButton dropSets" 
-              id={`dropSets${workouts.id}`}
-              type="button"
-              onClick={handleSetsFormDropDown} 
-              aria-label="drop down list of sets for current workouts"
-              >
-              <img src={caretDown} id={`setsCaretDown-${workouts.id}`}/>
-            </button>
-            {/* Button to lift sets form */}
-            <button 
-              className="dropSetsButton liftSets" 
-              id={`liftSets${workouts.id}`}
-              type="button"
-              onClick={handleSetsFormDropDown} 
-              aria-label="lift up list of sets for current workout"
-              >
-              <img src={caretUp} id={`setsCaretUp-${workouts.id}`}/>
+            <input
+              className="plannedReps planned"
+              id={`plannedReps${sets.workout_id}-${sets.set_number}`}
+              name={`plannedReps${sets.workout_id}-${sets.set_number}`}
+              defaultValue={sets.reps}
+              readOnly
+              aria-label={`Reps for set ${sets.set_number} on exercise number ${sets.workout_id}`}
+            />
+
+            <input
+              type="hidden" 
+              className="plannedCheckboxes planned"
+              id={`plannedCheckboxes${sets.workout_id}-${sets.set_number}`}
+              name={`plannedCheckboxes${sets.workout_id}-${sets.set_number}`}
+              aria-label={`Send info for incomplete set ${sets.set_number} on exercise number ${sets.workout_id}`}
+              value={0}
+            />
+
+            <input
+              type="checkbox"
+              className="plannedCheckboxes planned"
+              id={`plannedCheckboxes${sets.workout_id}-${sets.set_number}`}
+              name={`plannedCheckboxes${sets.workout_id}-${sets.set_number}`}
+              value={1}
+              aria-label={`Show completion for set ${sets.set_number} on exercise number ${sets.workout_id}`}
+              disabled
+              defaultChecked={sets.completed === 1 && true}
+            />
+
+            <button className="plannedSpaceHolder planned" type="button" disabled>
             </button>
           </div>
+        )
+      }
+    })
 
-          {/* Display sets for planned workouts if edit/delete execise form is not active */}
-          {!props.isActive &&
-            <Form method="post" id={`setsForm-${workouts.id}`} className={`setsForm`} action={`/dashboard/:${usersUsername}`}>
-              {/* Planned sets Header */}
-              <div className="sets-thead-section" role="rowgroup">
-                <div className="sets-thead-row" id={`sets-thead-row-${workouts.id}`} role="row">
-                  <img src={trash} alt="" className="theadSpaceHolder" />
-                  <div className="th set"role="cell">Set</div>
-                  <div className="th weight"role="cell">Weight</div>
-                  <div className="th reps"role="cell">Reps</div>
-                  <div className="th checkbox"role="cell">&#10003;</div>
-                  {/* Menu and cancel buttons for sets */}
-                  <button
-                    className="edit-setsButton"
-                    id={`edit-set-${workouts.id}`}
-                    onClick={handleSetMenuDropDown}
-                    type="button"
-                  >
-                    <img 
-                      src={threeDotVert} 
-                      alt={`menu for ${workouts.exercise} exercise`}
-                    />
-                  </button>
-                  <button
-                    className="cancel-setsButton"
-                    id={`cancel-set-${workouts.id}`}
-                    onClick={handleCancelSetsMenu}
-                    type="button"
-                  >
-                    <img 
-                      src={cancel} 
-                      alt={`cancel menu for ${workouts.exercise} exercise`}
-                    />
-                  </button>
-                </div>
-                {/* Drop down menu for deleting and editing sets */}
-                <div className="setsDropMenu" id={`setsDropMenu-${workouts.id}`}>
-                  {checkWorkoutHasSets ?
-                    <>
-                      <button 
-                      className="setsDropMenu-edit"
-                      id={`setsDropMenu-edit-${workouts.id}`} 
-                      type="button"
-                      onClick={handleSetsMenu}
-                      >
-                        Edit
-                      </button>
-                      <button 
-                        className="setsDropMenu-delete"
-                        id={`setsDropMenu-delete-${workouts.id}`}
-                        type="button"
-                        onClick={handleSetsMenu}
-                      >
-                        Delete
-                      </button>
-                    </> :
-                    <button 
-                      type="button" 
-                      disabled 
-                      className="setsDropMenu-noSets"
-                    >
-                      Create sets for this workout
-                    </button>
-                  }
-                </div>
-              </div>
+    return (  
+      <div 
+        key={workouts.id} 
+        className={`workout-tbody-row workout-tbody-row-${props.refCount.current = props.refCount.current + 1}`} 
+        id={`workout-tbody-row${workouts.id}`}
+      >
+        <div className={`tbody-row-exercise-container`} id={`tbody-row-exercise-container${workouts.id}`}>
+          <label htmlFor="displayDate"/>
+          <input
+            id="displayDate"
+            name="displayDate"
+            className="displayDate"
+            placeholder=""
+            type="hidden"
+            value={formatCurrentDate(new Date(props.dateParam))}
+          />
 
-              {/* Display planned sets for current exercise */}
-              {createPlannedSets}
+          <label htmlFor={`checkbox-${props.refCount.current}`}/>
+          <input 
+            type="checkbox"
+            id={`checkbox-${props.refCount.current}`}
+            name={`checkbox-${props.refCount.current}`}
+            value={workouts.id}
+            className="checkboxes"
+          />
 
-              {/* Create starting form field for users to add sets to exercise */}
-              {currentSetNumber <= 6 ?
-                <div className="setBoxes" id={`setBoxes${workouts.id}-1`}>
-                  <input 
-                    id="displayDate" 
-                    className="displayDate" 
-                    name="displayDate" 
-                    placeholder="" 
-                    type="hidden" 
-                    value={formatCurrentDate(props.showDate)}
-                    />
+          <label htmlFor="exerciseId"/>
+          <input
+            id="exerciseId"
+            className="exerciseId"
+            name={`idInput_${props.refCount.current}`}
+            placeholder=""
+            type="hidden"
+            value={workouts.id}
+          />
 
-                  <input
-                    className="workoutIdInput"
-                    id={`workoutIdInput_${props.refCount.current}`}
-                    name={`workoutIdInput_${props.refCount.current}`}
-                    placeholder=""
-                    type="hidden"
-                    value={workouts.id}
-                  />
+          <label htmlFor={`workoutInput${props.refCount.current}`}/>
+          <input
+            className="exercise-row workout-rows"
+            id={`workoutInput${props.refCount.current}`}
+            name={`workoutInput${props.refCount.current}`} 
+            defaultValue={workouts.exercise}
+            aria-label={`Input name of ${workouts.exercise}`}
+            readOnly
+            autoFocus
+          />
 
-                  <input
-                    className="workoutName"
-                    id={`workoutName_${props.refCount.current}`}
-                    name={`workoutName_${props.refCount.current}`} 
-                    defaultValue={workouts.exercise}
-                    type="hidden"
-                  />
-                  
-                  {/* Placeholder to match planned sets delete checkbox */}
-                  <input
-                    type="checkbox"
-                    className="setBoxDeletePlaceholder"
-                    id={`setBoxDeletePlaceholder${workouts.id}-1`}
-                    disabled
-                  />
+          <label htmlFor={`muscleGroupInput${props.refCount.current}`}/>
+          <input
+            className="focus-row workout-rows"
+            id={`muscleGroupInput${props.refCount.current}`}
+            name={`muscleGroupInput${props.refCount.current}`} 
+            defaultValue={workouts.muscle_group}
+            aria-label={`Input muscle group for ${workouts.exercise}`}
+            readOnly
+          />
 
-                  <input 
-                    className="setNumDisplay"
-                    type="text" 
-                    id={`setNumDisplay${workouts.id}-1`} 
-                    name={`setNumDisplay${workouts.id}-1`}  
-                    placeholder=""
-                    defaultValue={props.plannedSets ? currentSetNumber : props.setsCount - 1}
-                    readOnly
-                    aria-label="Set number"
-                    />
+          <button 
+            className="dropSetsButton dropSets" 
+            id={`dropSets${workouts.id}`}
+            type="button"
+            onClick={handleSetsFormDropDown} 
+            aria-label="drop down list of sets for current workouts"
+            >
+            <img src={caretDown} id={`setsCaretDown-${workouts.id}`}/>
+          </button>
+          <button 
+            className="dropSetsButton liftSets" 
+            id={`liftSets${workouts.id}`}
+            type="button"
+            onClick={handleSetsFormDropDown} 
+            aria-label="lift up list of sets for current workout"
+            >
+            <img src={caretUp} id={`setsCaretUp-${workouts.id}`}/>
+          </button>
+        </div>
 
-                  <input 
-                    className="weightInput"
-                    type="number" 
-                    id={`weightInput${workouts.id}-1`} 
-                    name={`weightInput${workouts.id}-1`} 
-                    placeholder="0" 
-                    autoFocus
-                    aria-label="Input weight for set one on exercise number one"
-                    />
-
-                  <input 
-                    className="repInput"
-                    type="number" 
-                    id={`repInput${workouts.id}-1`} 
-                    name={`repInput${workouts.id}-1`} 
-                    placeholder="0" 
-                    aria-label="Input reps for exercise number one"
-                    step="1"
-                    min="1" 
-                  />
-
-                  {/* Checkboxes to check if set is complete or not */}
-                  <input
-                    type="hidden" 
-                    className="setCheckbox"
-                    id={`setCheckbox${workouts.id}-1`}
-                    name={`setCheckbox${workouts.id}-1`} 
-                    aria-label={`Checkbox to show completion of set 1`}
-                    value={0}
-                  />
-
-                  <input 
-                    type="checkbox" 
-                    className="setCheckbox"
-                    id={`setCheckbox${workouts.id}-1`}
-                    name={`setCheckbox${workouts.id}-1`} 
-                    aria-label={`Checkbox to show completion of set 1`}
-                    value={1}
-                  />
-                  {/* Placeholder to match header row menu button  */}
-                  <button className="setBoxesSpaceHolder" type="button"> 
-                  </button>
-                </div> : null
-              }
-
-              {/* Max set warning key */}
-              <span 
-                id={`sets-warning-key-${workouts.id}`}
-                className="sets-warning-key" 
-                aria-label="workout limit message">Exercise Limit Hit: 6 sets
-              </span>
-              
-              {/* Visible line separator */}
-              <hr />
-
-              {/* Container for remove and add sets buttons */}
-              { currentSetNumber <= 6 &&
-                <div 
-                  className="sets-btn-container" 
-                  id={`sets-btn-container${workouts.id}`}
+        {!props.isActive &&
+          <Form method="post" id={`setsForm-${workouts.id}`} className={`setsForm`} action={`/dashboard/:${usersUsername}`}>
+            <div className="sets-thead-section" role="rowgroup">
+              <div className="sets-thead-row" id={`sets-thead-row-${workouts.id}`} role="row">
+                <img src={trash} alt="" className="theadSpaceHolder" />
+                <div className="th set"role="cell">Set</div>
+                <div className="th weight"role="cell">Weight</div>
+                <div className="th reps"role="cell">Reps</div>
+                <div className="th checkbox"role="cell">&#10003;</div>
+                <button
+                  className="edit-setsButton"
+                  id={`edit-set-${workouts.id}`}
+                  onClick={handleSetMenuDropDown}
+                  type="button"
                 >
-                  <div 
-                    id="add-set" 
-                    onClick={newSets} 
-                    aria-label="add new set input"
-                  >
-                    Add
-                  </div>
-                  <div 
-                    id="remove-set" 
-                    onClick={removeSet} 
-                    aria-label="remove previously set input"
-                  >
-                    Remove
-                  </div>
-                  <button
-                    className="add-sets-btn"
-                    type="submit"
-                  >
-                    Submit
-                  </button>
-                </div>
-              }
-              {/* Button for submiting edit and delete forms */}
-              <div className="editButtons-container" id={`editButtons-container-${workouts.id}`}>
-                <button 
-                  className="submit-edit-sets" 
-                  id={`submit-edit-sets-${workouts.id}`}
-                  formMethod="PUT"
-                >
-                  Submit
-                </button>
-                <button 
-                  className="submit-delete-sets" 
-                  id={`submit-delete-sets-${workouts.id}`}
-                  formMethod="DELETE"
-                >
-                  Delete Selected Sets
+                  <img 
+                    src={threeDotVert} 
+                    alt={`menu for ${workouts.exercise} exercise`}
+                  />
                 </button>
                 <button
-                  className="cancel-setsButton big-cancel-setsButton"
-                  id={`big-cancel-set-${workouts.id}`}
+                  className="cancel-setsButton"
+                  id={`cancel-set-${workouts.id}`}
                   onClick={handleCancelSetsMenu}
                   type="button"
                 >
-                  Cancel
+                  <img 
+                    src={cancel} 
+                    alt={`cancel menu for ${workouts.exercise} exercise`}
+                  />
                 </button>
               </div>
-            </Form>
-          }
-        </div>
-      )
-    }) : null
-  
+              <div className="setsDropMenu" id={`setsDropMenu-${workouts.id}`}>
+                {checkWorkoutHasSets ?
+                  <>
+                    <button 
+                    className="setsDropMenu-edit"
+                    id={`setsDropMenu-edit-${workouts.id}`} 
+                    type="button"
+                    onClick={handleSetsMenu}
+                    >
+                      Edit
+                    </button>
+                    <button 
+                      className="setsDropMenu-delete"
+                      id={`setsDropMenu-delete-${workouts.id}`}
+                      type="button"
+                      onClick={handleSetsMenu}
+                    >
+                      Delete
+                    </button>
+                  </> :
+                  <button 
+                    type="button" 
+                    disabled 
+                    className="setsDropMenu-noSets"
+                  >
+                    Create sets for this workout
+                  </button>
+                }
+              </div>
+            </div>
+
+            {createPlannedSets}
+
+            {currentSetNumber <= 6 ?
+              <div className="setBoxes" id={`setBoxes${workouts.id}-1`}>
+                <input 
+                  id="displayDate" 
+                  className="displayDate" 
+                  name="displayDate" 
+                  placeholder="" 
+                  type="hidden" 
+                  value={formatCurrentDate(props.showDate)}
+                  />
+
+                <input
+                  className="workoutIdInput"
+                  id={`workoutIdInput_${props.refCount.current}`}
+                  name={`workoutIdInput_${props.refCount.current}`}
+                  placeholder=""
+                  type="hidden"
+                  value={workouts.id}
+                />
+
+                <input
+                  className="workoutName"
+                  id={`workoutName_${props.refCount.current}`}
+                  name={`workoutName_${props.refCount.current}`} 
+                  defaultValue={workouts.exercise}
+                  type="hidden"
+                />
+                
+                <input
+                  type="checkbox"
+                  className="setBoxDeletePlaceholder"
+                  id={`setBoxDeletePlaceholder${workouts.id}-1`}
+                  disabled
+                />
+
+                <input 
+                  className="setNumDisplay"
+                  type="text" 
+                  id={`setNumDisplay${workouts.id}-1`} 
+                  name={`setNumDisplay${workouts.id}-1`}  
+                  placeholder=""
+                  defaultValue={props.plannedSets ? currentSetNumber : props.setsCount - 1}
+                  readOnly
+                  aria-label="Set number"
+                  />
+
+                <input 
+                  className="weightInput"
+                  type="number" 
+                  id={`weightInput${workouts.id}-1`} 
+                  name={`weightInput${workouts.id}-1`} 
+                  placeholder="0" 
+                  autoFocus
+                  aria-label="Input weight for set one on exercise number one"
+                  />
+
+                <input 
+                  className="repInput"
+                  type="number" 
+                  id={`repInput${workouts.id}-1`} 
+                  name={`repInput${workouts.id}-1`} 
+                  placeholder="0" 
+                  aria-label="Input reps for exercise number one"
+                  step="1"
+                  min="1" 
+                />
+
+                <input
+                  type="hidden" 
+                  className="setCheckbox"
+                  id={`setCheckbox${workouts.id}-1`}
+                  name={`setCheckbox${workouts.id}-1`} 
+                  aria-label={`Checkbox to show completion of set 1`}
+                  value={0}
+                />
+
+                <input 
+                  type="checkbox" 
+                  className="setCheckbox"
+                  id={`setCheckbox${workouts.id}-1`}
+                  name={`setCheckbox${workouts.id}-1`} 
+                  aria-label={`Checkbox to show completion of set 1`}
+                  value={1}
+                />
+
+                <button className="setBoxesSpaceHolder" type="button"> 
+                </button>
+              </div> : null
+            }
+
+            <span 
+              id={`sets-warning-key-${workouts.id}`}
+              className="sets-warning-key" 
+              aria-label="workout limit message">Exercise Limit Hit: 6 sets
+            </span>
+            
+            <hr />
+
+            { currentSetNumber <= 6 &&
+              <div 
+                className="sets-btn-container" 
+                id={`sets-btn-container${workouts.id}`}
+              >
+                <div 
+                  id="add-set" 
+                  onClick={newSets} 
+                  aria-label="add new set input"
+                >
+                  Add
+                </div>
+                <div 
+                  id="remove-set" 
+                  onClick={removeSet} 
+                  aria-label="remove previously set input"
+                >
+                  Remove
+                </div>
+                <button
+                  className="add-sets-btn"
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </div>
+            }
+            <div className="editButtons-container" id={`editButtons-container-${workouts.id}`}>
+              <button 
+                className="submit-edit-sets" 
+                id={`submit-edit-sets-${workouts.id}`}
+                formMethod="PUT"
+              >
+                Submit
+              </button>
+              <button 
+                className="submit-delete-sets" 
+                id={`submit-delete-sets-${workouts.id}`}
+                formMethod="DELETE"
+              >
+                Delete Selected Sets
+              </button>
+              <button
+                className="cancel-setsButton big-cancel-setsButton"
+                id={`big-cancel-set-${workouts.id}`}
+                onClick={handleCancelSetsMenu}
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
+          </Form>
+        }
+      </div>
+    )
+  }) : null
   
   // Show no schedule or schedule depending on loaderData
   const showSchedule = todaysSchedule ? 
@@ -625,7 +607,6 @@ export default function PlannedWorkouts(props) {
         onClick={handleDropDown} 
         aria-label="drop down menu with options for current schedule"
       >
-        {/* <img  src={threeDot} alt="menu to edit table" /> */}
         <div id="burger" className="threeDotImg-img">
           <li id="line1"></li>
           <li id="line2"></li>
@@ -644,34 +625,44 @@ export default function PlannedWorkouts(props) {
     <div className="workout-table" role="table" aria-label={`Workouts planned for ${props.showDate}`}>
       <div className="workout-thead-section" role="rowgroup">
         <div className="workout-thead-row" role="row">
+          <div className="th blank"role="cell"></div>
           <div className="th exercise"role="cell">Exercise</div>
           <div className="th focus"role="cell">Focus</div>
-          <div className="th sets"role="cell">Sets</div>
-          <div className="th reps"role="cell">Reps</div>
+          <button className="blank-btn"></button>
         </div>
       </div>
       <div className="workout-table-tbody">
-        <Form method="PUT" className="edit-exercise-form" action={`/dashboard/:${usersUsername}`}>
-          {todaysSchedule}
-          <button id="submit-edit-exercise" type="submit" disabled={props.isSubmitting}>
-            {props.isSubmitting ? "Submitting..." : "Submit Edit"}
-          </button>
-          <button id="delete-all-exercises" type="submit" disabled={props.isSubmitting} formMethod="DELETE" >
-            {props.isSubmitting ? "Deleting..." : "Delete All Workouts"}
-          </button>
-        </Form>
+        {props.isActive ? 
+          <Form method="PUT" className="edit-exercise-form" action={`/dashboard/:${usersUsername}`}>
+            {todaysSchedule}
+            <button id="submit-edit-exercise" type="submit" disabled={props.isSubmitting}>
+              {props.isSubmitting ? "Submitting..." : "Submit Edit"}
+            </button>
+            <button id="delete-all-exercises" type="submit" disabled={props.isSubmitting} formMethod="DELETE" >
+              {props.isSubmitting ? "Deleting..." : "Delete All Workouts"}
+            </button>
+          </Form> : 
+          <div className="edit-exercise-form">
+            {todaysSchedule}
+            <button id="submit-edit-exercise" type="submit" disabled={props.isSubmitting}>
+              {props.isSubmitting ? "Submitting..." : "Submit Edit"}
+            </button>
+            <button id="delete-all-exercises" type="submit" disabled={props.isSubmitting} formMethod="DELETE" >
+              {props.isSubmitting ? "Deleting..." : "Delete All Workouts"}
+            </button>
+          </div>
+        }
       </div>
     </div>
   </div> : null;
 
-
-  // Edit cancel button
+// Edit cancel button
   function handleEditCancel(event) {
     if(event) {
+      props.setIsActive(false);
       window.location.reload();
     }
-  };
-
+  }
 
   // Toggle schedule and edit form
   function handleEditSchedule(event) {
@@ -686,11 +677,13 @@ export default function PlannedWorkouts(props) {
     const submitEdit = document.getElementById("submit-edit-exercise");
     const addWorkoutForm = document.getElementById("workout-form");
     const addWorkoutButton = document.getElementById("add-workout");
+    const buttonDropSet = document.querySelectorAll("button.dropSets");
 
     if(event) {
       // Hide display date buttons
       pastDateButton.classList.toggle("inactive");
       futureDateButton.classList.toggle("inactive");
+      buttonDropSet.forEach((button) => button.classList.add("inactive"));
 
       // Make Form editable
       editAllWorkoutRows.forEach((inputRow) => {
@@ -725,7 +718,6 @@ export default function PlannedWorkouts(props) {
     }
   };
 
-
   function handleDeleteSchedule(event) {
     const pastDateButton = document.getElementById("past-date");
     const futureDateButton = document.getElementById("future-date");
@@ -736,7 +728,7 @@ export default function PlannedWorkouts(props) {
     const submitDelete = document.getElementById("delete-all-exercises");
     const addWorkoutForm = document.getElementById("workout-form");
     const addWorkoutButton = document.getElementById("add-workout");
-    const slideDelete = document.querySelectorAll("div.workout-tbody-row");
+    const slideDelete = document.querySelectorAll("div.tbody-row-exercise-container");
 
     if(event) {
       // Hide display date buttons
@@ -773,6 +765,232 @@ export default function PlannedWorkouts(props) {
     }
   };
 
+  function handleSetsFormDropDown(event) {
+    const workoutId = event.target.id.split("-")[1];
+    const setsFormId = event.target.offsetParent.nextSibling.id;
+    const currentSetsFormButtonId = event.target.parentElement.id;
+    const formDrop = document.getElementById(`${setsFormId}`);
+    const currentSetsFormButton = document.getElementById(`${currentSetsFormButtonId}`);
+    const allRepInputs = document.querySelectorAll("input.repInput");
+    const allWeightInputs = document.querySelectorAll("input.weightInput");
+    const allNewSets = document.querySelectorAll("div.createdSetBox");
+    const allSetsForms = document.querySelectorAll("Form.setsForm");
+    const editSubmitSets = document.querySelectorAll("button.submit-edit-sets");
+    const setsButtonContainer = document.querySelectorAll(".sets-btn-container");
+    const AllSetsWarningKeys = document.getElementsByClassName("sets-warning-key");
+
+    if(event.target.parentElement.classList.contains("dropSets")) {
+
+      const exerciseContainer = document.getElementById(`tbody-row-exercise-container${workoutId}`).id;
+      const setsFormLiftButtonId = event.target.parentElement.nextSibling.id;
+      const setsFormLiftButton = document.getElementById(`${setsFormLiftButtonId}`);
+
+      // Check if latest drop down event matches previous drop down event
+      if(dropDownCheck === null) {
+        // Set dropDownCheck state to target exercise container id
+        setDropDownCheck(exerciseContainer);
+      } else if (dropDownCheck !== exerciseContainer) {
+        // Set dropDownCheck state to target exercise container id
+        setDropDownCheck(exerciseContainer);
+
+        // Remove all submit button for editing sets
+        editSubmitSets.forEach((button) => {
+          button.classList.remove("active");
+        })
+
+        // Add sets button container if needed
+        if(setsButtonContainer) {
+          setsButtonContainer.forEach((container) => container.classList.remove("inactive"))
+        }
+
+        // Set rep values to zero
+        allRepInputs.forEach((repInput) => {
+          repInput.value = null
+        });
+
+        // Set weight values to zero
+        allWeightInputs.forEach((weightInput) => {
+          weightInput.value = null
+        });
+
+        // Remove all added set divs
+        allNewSets.forEach((newSet) => {
+          newSet.remove();
+        });
+
+        // Go through all setForms
+        allSetsForms.forEach((setForm) => {
+          // Get ID of current setForm div
+          const newSetFormId = document.getElementById(`${setForm.id}`);
+
+          // Check all divs that are not current target element
+          if(newSetFormId !== setsFormId) {
+            // Get sibling to current div Form and access the dropDown and liftUp buttons
+            const currentSetButtonParent = newSetFormId.previousSibling;
+            const currentDropSetButton = currentSetButtonParent.querySelector("button.dropSets");
+            const currentLiftSetButton = currentSetButtonParent.querySelector("button.liftSets");
+            
+            // Change the buttons to proper display
+            currentLiftSetButton.classList.remove("active");
+            currentDropSetButton.classList.remove("inactive");
+
+            // Close all setForm divs that are not currently target
+            newSetFormId.style.display = "none";
+          }
+        });
+        // Reset setCount to 2
+        props.setSetsCount(2);
+      }
+
+      currentSetsFormButton.classList.add("inactive");
+      setsFormLiftButton.classList.add("active");
+      formDrop.style.display = "flex";
+      formDrop.style.flexWrap = "wrap";
+    }
+
+    if(event.target.parentElement.classList.contains("liftSets")) {
+      const setsFormDropButtonId = event.target.parentElement.previousSibling.id;
+      const setsFormDropButton = document.getElementById(`${setsFormDropButtonId}`);
+      currentSetsFormButton.classList.remove("active");
+      setsFormDropButton.classList.remove("inactive");
+      formDrop.style.display = "none";
+    }
+  };
+
+  function handleSetMenuDropDown(event) {
+    const workoutId = event.target.parentElement.id.split("-")[2];
+    const currentSetDropMenu = document.getElementById(`setsDropMenu-${workoutId}`);
+
+    if(event){
+      currentSetDropMenu.classList.toggle("active");
+    }
+  }
+
+  function handleSetsMenu(event) {
+    const workoutId = event.target.id.split("-")[2];
+    const currentEditSetsButton = document.getElementById(`edit-set-${workoutId}`);
+    const currentCancelSetsButton = document.getElementById(`cancel-set-${workoutId}`);
+    const currentSetDropMenu = document.getElementById(`setsDropMenu-${workoutId}`);
+    const submitEditSetsButton = document.getElementById(`submit-edit-sets-${workoutId}`);
+    const submitDeleteSetsButton = document.getElementById(`submit-delete-sets-${workoutId}`);
+    const bigCancelSetsButton = document.getElementById(`big-cancel-set-${workoutId}`);
+    const setsButtonContainer = document.getElementById(`sets-btn-container${workoutId}`);
+    const currentSetsFormId = event.target.parentElement.parentElement.parentElement.id;
+    const currentSetsForm = document.getElementById(`${currentSetsFormId}`);
+    const allCurrentFormInputs = currentSetsForm.querySelectorAll("input");
+    const currentTheadRow = document.getElementById(`sets-thead-row-${workoutId}`);
+    const plannedSetsForm = currentSetsForm.querySelectorAll("div.plannedSetsForm");
+
+    // Actions for all events
+    if(event) {
+      // Remove menu from screen
+      currentSetDropMenu.classList.remove("active")
+
+      // Remove menu button and add cancel button
+      currentEditSetsButton.classList.add("inactive");
+      currentCancelSetsButton.classList.add("active");
+
+      // Hide add, remove, and submit buttons for sets
+      if(setsButtonContainer) {
+        setsButtonContainer.classList.add("inactive");
+      }
+
+      // Change input style and attributes
+      allCurrentFormInputs.forEach((input) => {
+        // Disable all non planned inputs
+        if(!input.classList.contains("planned")) {
+          input.setAttribute("disabled", "disabled");
+          input.setAttribute("readonly", "readonly");
+        }
+      })
+    };
+
+    // Actions for editing a workout's sets
+    if(event.target.classList.contains("setsDropMenu-edit")) {
+      // Display submit button
+      submitEditSetsButton.classList.add("active");
+      
+      // Change input style and attributes
+      allCurrentFormInputs.forEach((input) => {
+        // Add border to all inputs except set number
+        if(input.classList.contains("planned") && 
+          !input.classList.contains("plannedSetNumber")) {
+            input.style.border = "1px solid rgba(217, 139, 34, .5)";
+            input.removeAttribute("disabled");
+            input.removeAttribute("readonly");
+        }
+      })
+    };
+
+    // Actions for deleting a workout's sets
+    if(event.target.classList.contains("setsDropMenu-delete")) {
+
+      // Display submit button for deleting
+      submitDeleteSetsButton.classList.add("active");
+
+      // Show check box for canceling action
+      bigCancelSetsButton.classList.add("active");
+
+      // Show checkbox for deleting planned sets
+      plannedSetsForm.forEach((input) => {
+        input.classList.add("delete");
+      });
+
+      currentTheadRow.classList.add("delete");
+    }
+  }
+
+  function handleCancelSetsMenu(event) {
+    const workoutId = event.target.parentElement.id.split("-")[2];
+    const currentSetsForm = document.getElementById(`setsForm-${workoutId}`);
+    const allCurrentFormInputs = currentSetsForm.querySelectorAll("input");
+    const currentCancelSetsButton = document.getElementById(`cancel-set-${workoutId}`);
+    const currentEditSetsButton = document.getElementById(`edit-set-${workoutId}`);
+    const submitEditSetsButton = document.getElementById(`submit-edit-sets-${workoutId}`);
+    const submitDeleteSetsButton = document.getElementById(`submit-delete-sets-${workoutId}`);
+    const bigCancelSetsButton = document.getElementById(`big-cancel-set-${workoutId}`);
+    const setsButtonContainer = document.getElementById(`sets-btn-container${workoutId}`);
+    const currentTheadRow = document.getElementById(`sets-thead-row-${workoutId}`);
+    const plannedSetsForm = currentSetsForm.querySelectorAll(`div.plannedSetsForm`);
+
+    if(event) {
+      // Revert inputs back to saved state
+      allCurrentFormInputs.forEach((input) => {
+        // Remove disable and readonly for all non planned inputs
+        if(!input.classList.contains("planned")) {
+          input.removeAttribute("disabled");
+          input.removeAttribute("readonly");
+        }
+
+        if(input.classList.value.startsWith("planned")) {
+          input.style.border = "none";
+          input.setAttribute("readonly", "readonly");
+          input.setAttribute("disabled", "disabled");
+        }
+      });
+
+      // Hide cancel button and add edit button
+      currentCancelSetsButton.classList.remove("active");
+      currentEditSetsButton.classList.remove("inactive");
+
+      // Remove submit button for editing sets
+      submitEditSetsButton.classList.remove("active");
+      submitDeleteSetsButton.classList.remove("active");
+      bigCancelSetsButton.classList.remove("active")
+
+      // Display add, remove, and submit buttons for sets
+      if(setsButtonContainer && setsButtonContainer.classList.contains('inactive')) {
+        setsButtonContainer.classList.remove("inactive");
+      }
+
+      // Shift thead-row and planned sets forms back to left
+      plannedSetsForm.forEach((input) => {
+        input.classList.remove("delete");
+      });
+
+      currentTheadRow.classList.remove("delete");
+    }
+  }
 
   return (
     <>
