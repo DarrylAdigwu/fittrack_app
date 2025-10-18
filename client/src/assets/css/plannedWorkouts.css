@@ -1,0 +1,756 @@
+/* Todays Schedule container */
+div.all-scheduling > div.schedule {
+  display: flex;
+  position: relative;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+div.schedule.inactive {
+  display: none;
+}
+
+div.schedule > .table-actions {
+  display: flex;
+  justify-content: right;
+  width: 100%;
+  padding: 0 5%;
+  margin-bottom: 1rem;
+}
+
+.table-actions > button.threeDotImg {
+  height: fit-content;
+  width: fit-content;
+  background-color: transparent;
+  border: none;
+}
+
+.table-actions > button.threeDotImg.inactive {
+  display: none;
+}
+
+button.threeDotImg > div.threeDotImg-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+  width: 2rem;
+  list-style: none;
+  gap: 3px;
+}
+
+div#burger > li {
+  height: .35rem;
+  aspect-ratio: 1/1;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #1f1f1f;
+  background-color: #1f1f1f;
+  border-radius: 6px;
+}
+
+
+div.table-actions > button.cancel-edit-button {
+  display: none;
+}
+
+div.table-actions > button.cancel-edit-button.active {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  height: 100%;
+}
+
+button.cancel-edit-button > img.cancel-edit-img {
+  height: 1.75rem;
+}
+
+button.cancel-edit-button > 
+img.cancel-edit-img.active:hover {
+  border-bottom: 1px solid #c05b5b;
+}
+
+/* .table-actions > img.threeDotImg.active {
+  padding: 0 .25rem;
+  background-color: #FFFAF0;
+  border: 1px solid #1f1f1f;
+  border-bottom: none;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+} */
+
+.table-actions > button:hover {
+  cursor: pointer;
+}
+
+div.schedule > .table-actions-menu {
+  display: none;
+}
+
+div.schedule > .table-actions-menu.active {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 2.5%;
+  top: 1.5rem;
+  border-radius: 6px;
+  background-color: #FFFAF0;
+  box-shadow: -1px 4px 6px 2px rgba(159,154,154, .5);
+  z-index: 5;
+}
+
+
+.table-actions-menu.active > button {
+  width: 100%;
+  text-align: center;
+  font-family: "Work Sans";
+  background-color: #FFFAF0;
+  border: none;
+  padding-block: 1rem;
+  padding-inline: 0;
+}
+
+.table-actions-menu > button#add-workout {
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, .25);
+}
+
+.table-actions-menu > button.action-edit {
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, .25);
+  padding-inline: 1rem;
+}
+
+.table-actions-menu > button.action-delete {
+  border-bottom: 1px solid rgba(0, 0, 0, .25);
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+.table-actions-menu.active > button#add-workout:hover {
+  background-color: rgba(217, 139, 34, 1);
+  color: #FFFAF0;
+  cursor: pointer;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+}
+
+.table-actions-menu.active > button.action-edit:hover {
+  background-color: rgba(217, 139, 34, 1);
+  color: #FFFAF0;
+  cursor: pointer;
+}
+
+.table-actions-menu.active > button.action-delete:hover {
+  background-color: rgba(217, 139, 34, 1);
+  color: #FFFAF0;
+  cursor: pointer;
+}
+
+div.schedule > div.workout-table {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  border-radius: 6px;
+  overflow: hidden;
+  /* border: 1px solid rgba(159,154,154, .5); */
+  height: fit-content;
+  margin-bottom: 2rem;
+}
+
+div.workout-table > div.workout-thead-section {
+  width: 100%;
+  height: 60px;
+  color: #D98B22;
+  background-color: #FFFFFF;
+}
+
+
+div.workout-thead-section > div.workout-thead-row {
+  display: flex;
+  position: relative;
+  padding: 0;
+  width: calc(105% + .5rem);
+  height: 100%;
+  right: calc(5% + .5rem);
+  border-bottom: 1px solid rgba(217, 139, 34, .5);
+}
+
+div.workout-thead-row > div.th {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+
+div.workout-thead-row > div.blank {
+  width: 5%;
+  margin: 0 .25rem;
+}
+
+div.workout-thead-row > div.exercise {
+  width: 50%;
+}
+
+div.workout-thead-row > div.focus {
+  width: 45%;
+  
+}
+
+div.workout-thead-row > button.blank-btn {
+  width: 5%;
+  border: none;
+  background-color: transparent;
+}
+
+
+div.workout-table > div.workout-table-tbody {
+  height: fit-content;
+  width: 100%;
+  border-right: 1px solid rgba(159,154,154, .125);
+}
+
+div.workout-table-tbody > Form > .edit-exercise-form, 
+div.workout-table-tbody > div.edit-exercise-form {
+  width: 100%;
+}
+
+div.workout-table-tbody > .edit-exercise-form > 
+div.workout-tbody-row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+div.workout-tbody-row > 
+div.tbody-row-exercise-container {
+  display: flex;
+  position: relative;
+  align-items: center;
+  min-width: calc(105% + .5rem);
+  height: 35px;
+  padding: 0;
+  margin: 0;
+  right: calc(5% + .5rem);
+  background-color: #FFFFFF;
+  border-bottom: 1px solid rgba(159,154,164, .125);
+}
+
+@keyframes slideLeft {
+  from {right: calc(5% + .5rem);}
+  to {right: 0;}
+}
+
+.edit-exercise-form > div.workout-tbody-row >
+div.tbody-row-exercise-container.delete {
+  right: 0;
+  animation: slideLeft 0.5s ease-in forwards;
+  -webkit-animation: slideLeft 0.5s ease-in forwards;
+  -moz-animation: slideLeft 0.5s ease-in forwards;
+  -o-animation: slideLeft 0.5s ease-in forwards;
+}
+
+div.tbody-row-exercise-container > input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+}
+
+div.tbody-row-exercise-container > input.workout-rows {
+  height: 100%;
+  border: none;
+}
+
+div.tbody-row-exercise-container > 
+input.workout-rows:focus {
+  outline: none;
+}
+
+div.tbody-row-exercise-container > input.exercise-row {
+  width: 50%;
+  background-color: rgba(217, 139, 34, 1);
+}
+
+div.tbody-row-exercise-container > input.focus-row {
+  width: 45%;
+  color: #D98B22;
+}
+
+div.tbody-row-exercise-container > 
+button.dropSetsButton {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  width: 5%;
+  padding: 0;
+  cursor: pointer;
+}
+
+div.tbody-row-exercise-container > 
+button.dropSetsButton {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  width: 5%;
+  padding: 0;
+  cursor: pointer;
+}
+
+
+
+div.tbody-row-exercise-container > 
+button.dropSets {
+  display: flex;
+}
+
+div.tbody-row-exercise-container > 
+button.dropSets.inactive {
+  display: none;
+}
+
+div.tbody-row-exercise-container > 
+button.liftSets {
+  display: none;
+}
+
+div.tbody-row-exercise-container > 
+button.liftSets.active {
+  display: flex;
+}
+
+/* div.workout-tbody-row > input.sets-row {
+  width: 17.5%;
+}
+
+div.workout-tbody-row > input.reps-row {
+  width: 17.5%;
+} */
+
+div.tbody-row-exercise-container > input.checkboxes {
+  width: 5%;
+  accent-color: #c05b5b;
+  margin: 0 .25rem;
+}
+
+div.tbody-row-exercise-container > 
+input.workout-rows.active-edit {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(255,250,240, 1);
+  border-radius: 6px;
+}
+
+div.tbody-row-exercise-container > 
+input.workout-rows.active-edit:focus {
+  outline: auto #D98B22;
+}
+
+div.tbody-row-exercise-container > 
+input.workout-rows.active-delete {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(255,250,240, 1);
+}
+
+div.tbody-row-exercise-container > 
+input.exercise-row.active-delete {
+  background-color: rgba(217, 139, 34, 1);
+}
+
+/* div.workout-tbody-row > input {
+  padding: 20px 0px;
+  } */
+  
+/* Schedule Edit button */
+.edit-exercise-form > #submit-edit-exercise {
+  display: none;
+}
+
+.edit-exercise-form > #submit-edit-exercise.active {
+  display: block;
+  margin-top: 2rem;
+  height: 50px;
+  width: 100%;
+  max-width: 500px;
+  background-color: #D98B22;
+  border: none;
+  color: #FFFFFF;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-exercise-form > 
+#submit-edit-exercise.active:hover {
+  cursor: pointer;
+}
+
+.edit-exercise-form > 
+#submit-edit-exercise.active:disabled {
+  background-color: #FFFFFF;
+  color: #D98B22;
+  color: rgba(217,139,34, 1);
+  border: 1px solid #D98B22;
+  cursor: wait;
+}
+
+/* Schedule Delete button */
+.edit-exercise-form > #delete-all-exercises {
+  display: none;
+}
+
+.edit-exercise-form > #delete-all-exercises.active {
+  display: block;
+  margin-top: 2rem;
+  height: 50px;
+  width: 100%;
+  max-width: 500px;
+  background-color: #c05b5b;
+  border: none;
+  color: #FFFFFF;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-exercise-form > 
+#delete-all-exercises.active:hover {
+  cursor: pointer;
+}
+
+.edit-exercise-form > 
+#delete-all-exercises.active:disabled {
+  background-color: #FFFFFF;
+  color: #c05b5b;
+  color: rgba(192,91,91 .5);
+  border: 1px solid #c05b5b;
+  cursor: wait;
+}
+
+/* Set Form */
+.setsForm {
+  display: none;
+}
+
+div.sets-thead-section > div.sets-thead-row.delete,
+div.plannedSetsForm.delete {
+  right: 0;
+  animation: slideLeft 0.5s ease-in forwards;
+  -webkit-animation: slideLeft 0.5s ease-in forwards;
+  -moz-animation: slideLeft 0.5s ease-in forwards;
+  -o-animation: slideLeft 0.5s ease-in forwards;
+}
+
+div.sets-thead-section {
+  width: 100%;
+  background-color: #FFFFFF;
+}
+
+div.sets-thead-section > div.sets-thead-row {
+  display: flex;
+  position: relative;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  min-width: calc(105% + 1rem);
+  padding: .5rem 0;
+  border-bottom: 1px solid rgba(159,154,164, .125);
+  right: calc(5% + 1rem);
+}
+
+div.sets-thead-row > div.th {
+  text-align: center;
+}
+
+div.sets-thead-row > img.theadSpaceHolder {
+  display: flex;
+  align-self: center;
+  border: none;
+  width: 5%;
+  margin: 0 .5rem;
+  height: 1rem;
+}
+
+div.sets-thead-row > div.set {
+  width: 10%;
+}
+
+div.sets-thead-row > div.weight {
+  width: 35%;
+}
+
+div.sets-thead-row > div.reps {
+  width: 35%;
+}
+
+div.sets-thead-row > div.checkbox {
+  width: 5%;
+}
+
+div.sets-thead-row > button.edit-setsButton,
+div.sets-thead-row > button.cancel-setsButton.active {
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  background-color: transparent;
+  width: 5%;
+  cursor: pointer;
+}
+
+div.sets-thead-row > button.edit-setsButton.inactive {
+  display: none;
+}
+
+div.sets-thead-row > button.cancel-setsButton {
+  display: none;
+}
+
+div.setsDropMenu {
+  display: none;
+}
+
+div.setsDropMenu.active {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  z-index: 5;
+  width: fit-content;
+  right: 0;
+  border: 1px solid rgba(217, 139, 34, .5);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+div.setsDropMenu > button {
+  border: none;
+  background-color: #FFFAF0;
+  padding: .5rem 0;
+  width: 100%;
+  cursor: pointer;
+}
+
+div.setsDropMenu > button:hover {
+  background-color: #D98B22;
+}
+
+div.setsDropMenu > button.setsDropMenu-edit {
+  border-bottom: 1px solid rgba(159,154,154, .5);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+div.setsDropMenu > button.setsDropMenu-delete {
+  border-bottom: 1px solid rgba(159,154,154, .5);
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+div.setsDropMenu > button.setsDropMenu-noSets,
+div.setsDropMenu > button.setsDropMenu-noSets:hover {
+  padding: .5rem .25rem;
+  border-radius: 4px;
+  background-color: #FFFAF0;
+  color: #1f1f1f;
+}
+
+div.setBoxes, div.plannedSetsForm {
+  position: relative;
+  display: flex;
+  min-width: calc(105% + 1rem);
+  justify-content: space-between;
+  /* border: 2px solid rgba(159,154,164, .25);
+  border-radius: 4px; */
+  padding: .5rem 0;
+  background-color: #FFFFFF;
+  right: calc(5% + 1rem);
+}
+
+div.setBoxes > input,
+div.plannedSetsForm > input {
+  display: flex;
+  text-align: center;
+  background-color: transparent;
+  border: none;
+}
+
+div.setBoxes > input.setNumDisplay,
+div.plannedSetsForm > input.plannedSetNumber {
+  width: 10%;
+  border: none;
+}
+
+div.plannedSetsForm > input.plannedSetNumber {
+  border-right: 1px solid #D98B22;
+}
+
+div.setBoxes > input.weightInput,
+div.plannedSetsForm > input.plannedWeight {
+  width: 35%;
+}
+
+div.setBoxes > input.weightInput {
+  border: 1px solid rgba(217, 139, 34, .35);
+  border-radius: 4px;
+}
+
+div.setBoxes > input.repInput,
+div.plannedSetsForm > input.plannedReps {
+  width: 35%;
+}
+
+div.setBoxes > input.repInput {
+  border: 1px solid rgba(217, 139, 34, .35);
+  border-radius: 4px;
+}
+
+div.setBoxes > input.setCheckbox,
+div.plannedSetsForm > input.plannedCheckboxes {
+  display: flex;
+  width: 5%;
+  height: 1rem;
+  margin: auto 0;
+  accent-color: green;
+  cursor: pointer;
+}
+
+/* div.plannedSetsForm  > button.edit-setButton {
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  background-color: transparent;
+  width: 5%;
+} */
+
+div.plannedSetsForm > button.plannedSpaceHolder,
+div.setBoxes > button.setBoxesSpaceHolder {
+  background: none;
+  border: none;
+  width: 5%;
+  /* margin-left: .5rem; */
+}
+
+div.plannedSetsForm > input.deleteSetCheckboxes, 
+div.setBoxes > input.setBoxDeletePlaceholder {
+  display: flex;
+  width: 5%;
+  height: 1rem;
+  margin: auto 0;
+  margin: 0 .5rem;
+  accent-color: #c05b5b;
+  cursor: pointer;
+}
+
+div.setBoxes > input.setBoxDeletePlaceholder {
+  border: none;
+  background-color: transparent;
+}
+
+hr {
+  width: 100%;
+  margin: 0;
+  border: 1px solid rgba(159,154,164, .125);
+}
+
+div.sets-btn-container {
+  display: flex;
+  justify-content: space-around;
+  align-self: center;
+  width: 100%;
+  padding: 1.25rem .5rem 1.25rem;
+  margin: auto;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid rgba(159,154,164, .5);
+}
+
+div.sets-btn-container > div#add-set, 
+div.sets-btn-container > div#remove-set,
+div.sets-btn-container > button.add-sets-btn  {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  padding: .125rem 0;
+  color: #D98B22;
+  background-color: #FFFAF0;
+  border: 1px solid #D98B22;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+div.sets-btn-container > div#add-set, 
+div.sets-btn-container > div#remove-set {
+  width: 25%;
+}
+
+div.sets-btn-container > button.add-sets-btn {
+  /* display: flex;
+  justify-self: center;
+  justify-content: center;
+  margin: .5rem auto;
+  width: 90%; */
+  color: #FFFAF0;
+  background-color: #D98B22;
+}
+
+div.sets-btn-container.inactive {
+  display: none;
+}
+
+div.editButtons-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+button.submit-edit-sets,
+button.submit-delete-sets, 
+button.big-cancel-setsButton {
+  display: none;
+}
+
+button.submit-edit-sets.active,
+button.submit-delete-sets.active, 
+button.big-cancel-setsButton.active {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  width: 100%;
+  padding: .5rem 0;
+  background-color: #D98B22;
+  border: none;
+  border-radius: 4px;
+  margin: .5rem 0;
+  cursor: pointer;
+}
+
+button.big-cancel-setsButton.active {
+  background-color: #FFFFFF;
+  color: #D98B22;
+  width: 40%;
+  border: 1px solid #D98B22;
+}
+
+button.submit-delete-sets.active {
+  background-color: #c05b5b;
+  color: #FFFFFF;
+  width: 57.5%;
+}
+
+/* For screens that have pointers, mouses, etc.. */
+@media screen and (pointer: fine ) {
+  div.sets-thead-row > div.weight {
+    padding-right: 1rem;
+  }
+
+  div.sets-thead-row > div.reps {
+    padding-right: 1rem;
+  }
+}

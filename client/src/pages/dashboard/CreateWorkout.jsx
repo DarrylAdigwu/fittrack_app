@@ -9,13 +9,14 @@ export default function CreateWorkout(props) {
 
   // Display for days without scheduled workouts
   const noSchedule = props.plannedWorkout === null ?
-  <div className="no-schedule" id="no-schedule">
-    <h1>No workout schedule for today</h1>
-    <button id="add-workout" onClick={props.newExerciseForm} type="button">Add Workout</button>
-  </div> : null;
+    <div className="no-schedule" id="no-schedule">
+      <h1>No workout schedule for today</h1>
+      <button id="add-workout" onClick={props.newExerciseForm} type="button">Add Workout</button>
+    </div> : null;
 
   // Create inputs for add workouts form
   function newExercise() {
+    // Exercise limit warning key for more than 6 workouts
     const warningKey = document.getElementById("warning-key");
 
     if(props.exerciseCount > 6) {
@@ -26,42 +27,28 @@ export default function CreateWorkout(props) {
       return warningKey.classList.add("inactive")
     }
 
+    // Get previous input elements and check if they have inputs, give warning if no input
     const prevWorkoutInput = document.getElementById(`workoutInput${props.exerciseCount - 1}`);
     const prevMuscleGroupInput = document.getElementById(`muscleGroupInput${props.exerciseCount - 1}`);
-    const prevSetInput = document.getElementById(`setInput${props.exerciseCount - 1}`);
-    const prevRepInput = document.getElementById(`repInput${props.exerciseCount - 1}`);
     
     if(!prevWorkoutInput.value) {
       return prevWorkoutInput.style.backgroundColor = "#d56d6a";
     } else {
       prevWorkoutInput.style.backgroundColor = "transparent";
-    }
+    };
 
     if(!prevMuscleGroupInput.value) {
       return prevMuscleGroupInput.style.backgroundColor = "#d56d6a";
     } else {
       prevMuscleGroupInput.style.backgroundColor = "transparent";
-    }
-    
-    if(!prevSetInput.value || isNaN(prevSetInput.value)) {
-      return prevSetInput.style.backgroundColor = "#d56d6a";
-    }else {
-      prevSetInput.style.backgroundColor = "transparent";
-    }
-
-    if(!prevRepInput.value || isNaN(prevRepInput.value)) {
-      return prevRepInput.style.backgroundColor = "#d56d6a";
-    }else {
-      prevRepInput.style.backgroundColor = "transparent";
-    }
+    };
 
     // Creating new inputs for exercise form
     if(document.getElementById(`workoutInput${props.exerciseCount - 1}`).value && 
-    document.getElementById(`muscleGroupInput${props.exerciseCount - 1}`).value &&
-    document.getElementById(`setInput${props.exerciseCount - 1}`).value &&
-    document.getElementById(`repInput${props.exerciseCount - 1}`).value) {
+    document.getElementById(`muscleGroupInput${props.exerciseCount - 1}`).value) {
       
-      if(props.exerciseCount <= 6) {
+      // Remove warnings if exercise count is less than 7
+      if(props.exerciseCount < 7) {
         warningKey.classList.remove("inactive")
       } 
       
@@ -71,13 +58,11 @@ export default function CreateWorkout(props) {
 
       prevWorkoutInput.style.backgroundColor = "transparent";
       prevMuscleGroupInput.style.backgroundColor = "transparent";
-      prevSetInput.style.backgroundColor = "transparent";
-      prevRepInput.style.backgroundColor = "transparent";
     
-      // Chaging state of exercise count
+      // Add 1 to exercise count state
       props.setExerciseCount(prevCount => prevCount + 1);
 
-      // Previous input box
+      // Get previous input box
       const prevInputBox = document.getElementById(`inputBoxes${props.exerciseCount - 1}`)
       
       // create div
@@ -108,39 +93,12 @@ export default function CreateWorkout(props) {
       newMuscleGroupInput.setAttribute("name", `muscleGroupInput${props.exerciseCount}`);
       newMuscleGroupInput.setAttribute("placeholder", "Focus");
       newMuscleGroupInput.setAttribute("aria-label", `Input muscle group for exercise number ${props.exerciseCount}`);
-      
-      // Sets input
-      const newSetLabel = document.createElement("label");
-      newSetLabel.setAttribute("for", `setInput${props.exerciseCount}` );
-      
-      const newSetInput = document.createElement("input");
-      newSetInput.setAttribute("class", "setInput");
-      newSetInput.setAttribute("id", `setInput${props.exerciseCount}`);
-      newSetInput.setAttribute("name", `setInput${props.exerciseCount}`);
-      newSetInput.setAttribute("placeholder", "Sets");
-      newExerciseInput.setAttribute("aria-label", `Input sets for exercise number ${props.exerciseCount}`);
-
-      // Reps input
-      const newRepLabel = document.createElement("label");
-      newRepLabel.setAttribute("for", `repInput${props.exerciseCount}` );
-      
-      const newRepInput = document.createElement("input");
-      newRepInput.setAttribute("class", "repInput");
-      newRepInput.setAttribute("id", `repInput${props.exerciseCount}`);
-      newRepInput.setAttribute("name", `repInput${props.exerciseCount}`);
-      newRepInput.setAttribute("placeholder", "Reps");
-      newExerciseInput.setAttribute("aria-label", `Input reps for exercise number ${props.exerciseCount}`);
 
       // append child nodes
       inputBoxes.appendChild(newExerciseLabel);
       inputBoxes.appendChild(newExerciseInput);
       inputBoxes.appendChild(newMuscleGroupLabel);
       inputBoxes.appendChild(newMuscleGroupInput);
-      inputBoxes.appendChild(newSetLabel);
-      inputBoxes.appendChild(newSetInput);
-      inputBoxes.appendChild(newRepLabel);
-      inputBoxes.appendChild(newRepInput);
-      //inputBoxes.appendChild(removeButton)
       
       // append div
       prevInputBox.after(inputBoxes);
@@ -149,8 +107,11 @@ export default function CreateWorkout(props) {
 
   // Remove latest new exercise input
   function removeExercise() {
+    // Get first exercise input element
     const firstInputBox = document.getElementById(`inputBoxes1`);
+    // Get last exercise input eleemnt
     const lastInputBox = document.getElementById(`inputBoxes${props.exerciseCount - 1}`);
+    // Remove last input box if it's not the first input box
     if(lastInputBox != firstInputBox) {
       lastInputBox.remove();
       props.setExerciseCount(prevCount => prevCount - 1)
@@ -169,14 +130,15 @@ export default function CreateWorkout(props) {
     const addWorkoutButton = document.getElementById("add-workout");
 
     if(event) {
+      // Toggle the display of the workout form
       if(showContainer && showContainer.classList.contains("active")) {
-      showContainer.classList.toggle("active");
+      showContainer.classList.remove("active");
       }
 
+      // Display no schedule container and add workout button
       if(noScheduleContainer && 
       noScheduleContainer.classList.contains("inactive") && 
-      !props.plannedWorkout) 
-      {
+      !props.plannedWorkout) {
         noScheduleContainer.classList.toggle("inactive")
       }
 
@@ -184,25 +146,30 @@ export default function CreateWorkout(props) {
         addWorkoutButton.classList.toggle("inactive")
       }
 
+      // Remove values from all inputs that won't be submitted
       firstInputBoxesChildren.forEach((input) => {
         input.value = ""
       });
       
+      // Remove all input rows that are not the first 
       firstInputBoxesContainers.forEach((child) => {
         if(child !== document.getElementById("inputBoxes1")) {
           firstInputBoxes.removeChild(child)
         }
       });
 
+      // Reset exercise count
       props.setExerciseCount(() => 2)
     }
   };
 
-
   return(
     <>
+      {/* Container for no scheduled workouts */}
       {noSchedule}
+      {/* Container for creating exercises form */}
       <div id="workout-form" className="workout-form">
+        {/* Button to cancel exercise form */}
         <div className="cancel-new-exercise">
           <img 
             src={cancel} 
@@ -212,6 +179,7 @@ export default function CreateWorkout(props) {
             aria-roledescription="button"
           />
         </div>
+        {/* Form to add exercises */}
         <h1>Add Workouts</h1>
         <Form method="POST" id="exercise-form">
           <div className="inputBoxes" id="inputBoxes1">
@@ -262,7 +230,9 @@ export default function CreateWorkout(props) {
               min="1"
             />
           </div>
+          {/* Container for add and remove buttons */}
           <div className="exercise-btn-container">
+            {/* Add button */}
             <div 
               id="add-exercise" 
               onClick={newExercise} 
@@ -271,6 +241,7 @@ export default function CreateWorkout(props) {
               <img src={plusIcon} alt="plus sign" />
               Add
             </div>
+            {/* Remove button */}
             <div 
               id="remove-exercise" 
               onClick={removeExercise} 
@@ -280,17 +251,19 @@ export default function CreateWorkout(props) {
               Remove
             </div>
           </div>
+          {/* Warning key for exercise limit */}
           <span id="warning-key" aria-label="workout limit message">Daily Limit Hit: 6 workouts</span>
-          {
-            props.actionData && props.errorKey.startsWith("invalid") ? 
+          {/* Error key for submitting invalid inputs */}
+          {props.actionData && props.errorKey.startsWith("invalid") ? 
             <span 
               className="invalidDash" 
               aria-label={props.actionData[props.errorKey]}
             >
               {props.actionData[props.errorKey]}
-            </span> 
-            : null
+            </span> : 
+            null
           }
+          {/* Submit exercise button */}
           <button 
             id="submit-exercise" 
             type="submit" 

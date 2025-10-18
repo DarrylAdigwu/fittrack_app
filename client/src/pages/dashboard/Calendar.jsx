@@ -90,6 +90,7 @@ export default function Calendar(props) {
   // Close calendar button
   function handleCloseCalendar(event) {
     const displayCal = document.getElementById("calendar-container");
+    
     if(event) {
       displayCal.classList.remove("active");
     }

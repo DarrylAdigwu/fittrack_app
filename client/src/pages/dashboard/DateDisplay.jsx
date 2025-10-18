@@ -12,7 +12,6 @@ export default function DateDisplay(props) {
     const showContainer = document.getElementById("workout-form");
     const noScheduleContainer = document.getElementById("no-schedule");
     const scheduleContainer = document.getElementById("schedule");
-    //const editScheduleForm = document.getElementById("edit-exercise-form-section");
     const firstInputBoxes = document.getElementById("exercise-form");
     const firstInputBoxesContainers = firstInputBoxes.querySelectorAll(".inputBoxes");
     const firstInputBoxesChildren = firstInputBoxes.querySelectorAll("input");
@@ -39,9 +38,11 @@ export default function DateDisplay(props) {
       }
     });
 
+    // Reset exercise count and ref count
     props.setExerciseCount(() => 2);
     props.refCount.current = 1;
 
+    // Set date param to be the date before current date
     if(props.dateParam) {
       props.setSearchParams((prev) => {
         const prevParam = new Date(prev.get("date"));
@@ -50,6 +51,7 @@ export default function DateDisplay(props) {
       });
     }
 
+    // Set show date to day before if no previous date param
     if(!props.dateParam) {
       props.setShowDate((prev) => {
         const currentDate = new Date(prev);
@@ -57,6 +59,7 @@ export default function DateDisplay(props) {
         return prevDate;
       });
 
+      // Set and format the date in the search param
       props.setSearchParams({"date": formatCurrentDate(showDate)});
     }
   };
@@ -71,7 +74,7 @@ export default function DateDisplay(props) {
     const firstInputBoxesContainers = firstInputBoxes.querySelectorAll(".inputBoxes");
     const firstInputBoxesChildren = firstInputBoxes.querySelectorAll("input");
 
-    
+    // Remove schedule, hide workout form, if no planne workout show no schedule container
     if(showContainer && showContainer.classList.contains("active")) {
       showContainer.classList.remove("active");
     }
@@ -79,6 +82,7 @@ export default function DateDisplay(props) {
       noScheduleContainer.classList.remove("inactive")
     }
 
+    // Clear former inputs and input containers
     firstInputBoxesChildren.forEach((input) => {
       input.value = ""
     });
@@ -89,9 +93,11 @@ export default function DateDisplay(props) {
       }
     });
 
+    // Reset exercise count and ref count
     props.setExerciseCount(() => 2);
     props.refCount.current = 1;
 
+    // Set date param to be the date before current date
     if(props.dateParam) {
       props.setSearchParams((prev) => {
         const nextParam = new Date(prev.get("date"));
@@ -100,6 +106,7 @@ export default function DateDisplay(props) {
       });
     }
 
+    // Set show date to day before if no previous date param
     if(props.dateParam === null) {
       props.setShowDate((prev) => {
         const currentDate = new Date(prev);
@@ -107,6 +114,7 @@ export default function DateDisplay(props) {
         return nextDate;
       });
 
+      // Set and format the date in the search param
       props.setSearchParams({"date": formatCurrentDate(showDate)});
     }
   };
@@ -135,8 +143,10 @@ export default function DateDisplay(props) {
       const futureDateButton = document.getElementById("future-date");
 
       if(event) {
+        // Display drop down calendar
         displayCal.classList.toggle("active");
-
+        
+        // Remove actions menu if displayed
         if(actionsMenu && actionsMenu.classList.contains("active")) {
           actionsMenu.classList.remove("active");
         }

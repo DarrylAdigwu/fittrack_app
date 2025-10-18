@@ -1,0 +1,52 @@
+/* Date Display */
+div.dash-container > div.displayDate {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #D98B22;
+  width: fit-content;
+  min-width: 200px;
+  height: 30px;
+  border-radius: 10px;
+  margin: 1.5rem 35%;
+  font-size: 1.5rem;
+  box-shadow: 2px 4px 4px 2px rgba(217,139,34, .5);
+}
+
+div.displayDate > button.calendar-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  background: none;
+  border: none;
+  gap: 10px;
+}
+
+button.calendar-button > span {
+  font-size: 1rem;
+  color: #FFFFFF;
+  min-width: fit-content;
+  font-family: "Work Sans";
+}
+
+
+div.displayDate > button {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  color: #FFFFFF;
+  height: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+div.displayDate > #past-date.inactive, 
+div.displayDate > #future-date.inactive {
+  display: none;
+}
+
+button.calendar-button > img {
+  height: 1rem;
+}

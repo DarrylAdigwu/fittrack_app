@@ -1,7 +1,8 @@
 import express from "express";
-import { registerUser, getUserByUsername, authLogin, deleteSession, 
-  getUsersExercises, storeExercise, updateUsersWorkouts, deleteWorkouts,
-  getAllDates } from "../database/db.js";
+import { registerUser, getUserByUsername, authLogin, deleteSession,
+  getUsersExercises, storeExercise, storeSets, updateUsersWorkouts, 
+  deleteWorkouts, getAllDates, getUsersSets, updateWorkoutSets, deleteWorkoutSets,
+  updateWorkoutSetNumber } from "../database/db.js";
 import { checkString, generateToken, requireAuth, formatDate, capitalizeFirstLetter } from "../server-utils.js";
 
 // Create Router
@@ -20,7 +21,7 @@ router.route("/ping")
 
 /* Register route */
 router.route("/register")
-.post( async (req, res) => {
+.post(async (req, res) => {
   const allRegisterData = req.body.allData;
   const username = allRegisterData.username;
   const password = allRegisterData.password;
@@ -229,14 +230,14 @@ router.route("/dashboard/:username")
   const user_id = req.session.user.id;
   const username = req.session.user.username;
   const numOfWorkouts = (Object.keys(allDashboardData).length - 1) / 3;
+  const numOfSets = (Object.keys(allDashboardData).length - 3) / 4;
   const date = allDashboardData.displayDate;
   const newDateFormat = formatDate(date);
-
 
   if(req.method === "POST") {
     // Server side validation
     for(const [key, value] of Object.entries(allDashboardData)) {
-      if(value === null || value === "") {
+      if((value === null || value === "" && !key.startsWith("setNumDisplay"))) {
         return res.status(400).json({
           serverError: {"invalid": "Visible fields must have an answer"}
         });
@@ -259,28 +260,58 @@ router.route("/dashboard/:username")
           serverError: {"invalid": "Inputs cannot contain special characters or spaces"}
         });
       }
+    };
+
+    // Check if form is a set form or workout form
+    const setFormCheck = Object.keys(allDashboardData).some((key) => key.startsWith("workoutIdInput"));
+
+    // If post is not a sets form 
+    if(!setFormCheck) {
+      //Send Workouts to database
+      for(let i = 0; i < numOfWorkouts; i++) {
+        const workout = allDashboardData[`workoutInput${i + 1}`];
+        const muscleGroup = allDashboardData[`muscleGroupInput${i + 1}`];
+        await storeExercise(user_id, username, workout, muscleGroup, newDateFormat);
+      }
+  
+      // Retrieve Workout from database
+      const getNewWorkout = await getUsersExercises(user_id, newDateFormat);
+      
+      // Return valid message
+      return res.status(200).json({
+        serverCheck: {"valid": "Data is valid"},
+        getNewWorkout,
+      });
+    };
+
+    // If post is a sets form
+    if(setFormCheck) {
+      const setFormWorkoutId = Object.keys(allDashboardData).find((key) => key.startsWith("workoutIdInput"));
+      const workoutName = Object.keys(allDashboardData).find((key) => key.startsWith("workoutName"));
+      const workoutId = allDashboardData[`${setFormWorkoutId}`];
+      const setWorkout = allDashboardData[`${workoutName}`];
+      
+      for(let i = 0; i < numOfSets; i++) {
+        const setNumber = allDashboardData[`setNumDisplay${workoutId}-${i + 1}`];
+        const weight = allDashboardData[`weightInput${workoutId}-${i + 1}`];
+        const reps = allDashboardData[`repInput${workoutId}-${i + 1}`];
+        const completed = allDashboardData[`setCheckbox${workoutId}-${i + 1}`];
+        
+        await storeSets(user_id, username, workoutId, setWorkout, setNumber, weight, reps, completed, newDateFormat);
+      };
+
+      // // Retrieve sets from database
+      const getNewSets = await getUsersSets(user_id, newDateFormat);
+
+      // Return valid message
+      return res.status(200).json({
+        serverCheck: {"valid": "Data is valdi"},
+        getNewSets
+      });
     }
-
-    // Send workouts to database
-    for(let i = 0; i < numOfWorkouts; i++) {
-      const workout = capitalizeFirstLetter(allDashboardData[`workoutInput${i + 1}`]);
-      const muscleGroup = capitalizeFirstLetter(allDashboardData[`muscleGroupInput${i + 1}`]);
-      const set = allDashboardData[`setInput${i + 1}`];
-      const rep = allDashboardData[`repInput${i + 1}`];
-      await storeExercise(user_id, username, workout, muscleGroup, set, rep, newDateFormat);
-    }
-
-    // Retrieve Workout from database
-    const getNewWorkout = await getUsersExercises(user_id, newDateFormat);
-
-    // Return valid message
-    return res.status(200).json({
-      serverCheck: {"valid": "Data is valid"},
-      getNewWorkout,
-    });
   }
 })
-.put(async (req, res) => {
+.put(requireAuth, async (req, res) => {
   if(!req.session) {
     return res.status(401).json({
         invalid: "Unauthorized", 
@@ -290,11 +321,12 @@ router.route("/dashboard/:username")
   const allUpdatedData = req.body.allData;
   const username = req.session.user.username;
   const user_id = req.session.user.id;
-  const numOfWorkouts = (Object.entries(allUpdatedData).length - 1) / 5;
+  const numOfWorkouts = (Object.entries(allUpdatedData).length - 1) / 3;
+  const numOfSets = (Object.entries(allUpdatedData).length) / 4;
   const date = allUpdatedData.displayDate;
   const newDateFormat = formatDate(date);
   const firstExercise_id = Number(Object.entries(allUpdatedData)[1][0].split("_")[1]);
-  
+ 
   if(req.method === "PUT") {
     // Server side validation
     for(const [key, value] of Object.entries(allUpdatedData)) {
@@ -321,56 +353,142 @@ router.route("/dashboard/:username")
           serverError: {"invalid": "Inputs cannot contain special characters or spaces"}
         });
       }
+    };
+
+    // Check if form is a set form or workout form
+    const checkForSetForm = Object.keys(allUpdatedData).some((key) => key.startsWith("setIdInput"));
+    
+    if(!checkForSetForm) {
+      for(let i = firstExercise_id; i < numOfWorkouts + firstExercise_id; i++) {
+        const exercise_id = allUpdatedData[`idInput_${i}`];
+        const updatedWorkout = allUpdatedData[`workoutInput${i}`];
+        const updatedMuscleGroup = allUpdatedData[`muscleGroupInput${i}`];
+        
+        // Send updated workout from database
+        await updateUsersWorkouts(updatedWorkout, updatedMuscleGroup, exercise_id, username);
+      }
+      
+      // Retrieve new workout from database
+      const getUpdatedWorkout = await getUsersExercises(user_id, newDateFormat)
+      
+      //Return valid message
+      return res.status(200).json({
+        serverCheck: {"valid": "Data is valid"},
+        getUpdatedWorkout
+      });
     }
 
-    for(let i = firstExercise_id; i < numOfWorkouts + firstExercise_id; i++) {
-      const exercise_id = allUpdatedData[`idInput_${i}`];
-      const updatedWorkout = allUpdatedData[`workoutInput${i}`];
-      const updatedMuscleGroup = allUpdatedData[`muscleGroupInput${i}`];
-      const updatedSets = allUpdatedData[`setInput${i}`];
-      const updatedReps = allUpdatedData[`repInput${i}`];
+    if(checkForSetForm) {
+      let setNumber = 0;
+      const workoutId = Object.keys(allUpdatedData).find((key) => key.startsWith("setIdInput")).split("-")[1];
+      
+      for(let i = 0; i < numOfSets; i++) {
+        const setId = allUpdatedData[`setIdInput-${workoutId}-${i + 1}`];
+        const weight = allUpdatedData[`plannedWeight${workoutId}-${i + 1}`];
+        const reps = allUpdatedData[`plannedReps${workoutId}-${i + 1}`];
+        const completed = allUpdatedData[`plannedCheckboxes${workoutId}-${i + 1}`];
+        
+        // Update set number to avoid gaps in order
+        if(setId === undefined || setId === null) {
+          setNumber = setNumber;
+        } else {
+          setNumber += 1;
+        }
 
-      // Send updated workout from database
-      await updateUsersWorkouts(updatedWorkout, updatedMuscleGroup, updatedSets, updatedReps, exercise_id, username);
+        await updateWorkoutSets(setNumber, weight, reps, completed, setId, user_id);
+      }
+
+      // Retrive users workout sets
+      const getUpdatedWorkoutSets = await getUsersSets(user_id, newDateFormat);
+
+      //Return valid message
+      return res.status(200).json({
+        serverCheck: {"valid": "Data is valid"},
+        getUpdatedWorkoutSets
+      });
     }
-
-    // Retrieve new workout from database
-    const getUpdatedWorkout = await getUsersExercises(user_id, newDateFormat)
-
-    // Return valid message
-    return res.status(200).json({
-      serverCheck: {"valid": "Data is valid"},
-      getUpdatedWorkout
-    });
   }
-
 })
-.delete(async (req, res) => {
+.delete(requireAuth, async (req, res) => {
   if(!req.session) {
     return res.status(401).json({
         invalid: "Unauthorized", 
     });
   }
 
-  const allDeleteData = req.body.allData;
+  const allData = req.body.allData;
+  const allDeleteData = allData.dataDelete;
+  const allUpdateData = allData.dataUpdate;
   const username = req.session.user.username;
   const user_id = req.session.user.id;
-  const numOfWorkouts = Object.entries(allDeleteData).length - 1;
-  const date = allDeleteData.displayDate;
+  const date = allData.displayDate;
   const newDateFormat = formatDate(date);
 
   if(req.method === "DELETE") {
-    for(let i = 0; i < numOfWorkouts; i++) {
-      const workoutId = Number(Object.entries(allDeleteData)[i + 1][1]);
-      await deleteWorkouts(user_id, newDateFormat, workoutId)
-    }
+    // Check type of form
+    const checkForDeleteSetForm = Object.keys(allData).some((key) => key.startsWith("dataDelete"));
+    
+    // Delete data from workouts
+    if(!checkForDeleteSetForm) {
+      // Delete workouts using thier id and user id
+      for(const [key, value] of Object.entries(allData)) {
+        if(key.startsWith("checkbox")) {
+          const workoutId = allData[`${key}`];
 
-    // Return valid message
-    return res.status(200).json({
-      serverCheck: {"valid": "Data is valid"},
-    });
+          await deleteWorkouts(user_id, newDateFormat, workoutId)
+        }
+      }
+      
+      // Return valid message
+      return res.status(200).json({
+        serverCheck: {"valid": "Data is valid"},
+      });
+    }
+    
+    // Delete data from workout sets and update set numbers
+    if(checkForDeleteSetForm) {
+        // Array to hold deleted sets id's
+        let deletedIds = [];
+
+        // Delete sets using thier id and user id
+        for(const [key, value] of Object.entries(allDeleteData)) {
+          if(key.startsWith("deleteSetCheckbox")) {
+            const setId = allDeleteData[`${key}`];
+            deletedIds.push(setId);
+
+            await deleteWorkoutSets(user_id, setId);
+          }
+        }
+        
+      const numOfUpdateSets = Object.entries(allUpdateData).length;
+      const workoutId = Object.keys(allUpdateData).find((key) => key.startsWith("setIdInput")).split("-")[1];
+      let setNumber = 0;
+
+      for(let i = 0; i < numOfUpdateSets; i++) {
+        // Get id for each set
+        let setId = allUpdateData[`setIdInput-${workoutId}-${i + 1}`];
+        
+        // Check if id was apart of deleted batch
+        if(deletedIds.includes(setId)) {
+          setId = null;
+        } 
+
+        // Update set number to avoid gaps in storage order
+        if(setId === undefined || setId === null) {
+          setNumber = setNumber;
+        } else {
+          setNumber += 1;
+          await updateWorkoutSetNumber(setNumber, setId, user_id);
+        }
+      }
+
+      // Return valid message
+      return res.status(200).json({
+        serverCheck: {"valid": "Data is valid"},
+      });
+    }
   }
-})
+});
 
 
 // Calendar component api
