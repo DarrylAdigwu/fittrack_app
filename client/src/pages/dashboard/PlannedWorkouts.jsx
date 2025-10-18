@@ -55,11 +55,9 @@ export default function PlannedWorkouts(props) {
     }
 
     const prevSetNumDisplay = document.getElementById(`setNumDisplay${currentWorkoutId}-${props.setsCount - 1}`);
-    const prevSetNumber = document.getElementById(`setNumber${currentWorkoutId}-${props.setsCount - 1}`);
     const prevWeightInput = document.getElementById(`weightInput${currentWorkoutId}-${props.setsCount - 1}`);
     const prevRepInput = document.getElementById(`repInput${currentWorkoutId}-${props.setsCount - 1}`);
-    const checkcase = currentExerciseDiv.querySelector(`#setNumber${currentWorkoutId}-${props.setsCount - 1}`);
-    
+
     
     // Check to see if previous inputs have values
     if(!prevSetNumDisplay.value) {
@@ -216,7 +214,6 @@ export default function PlannedWorkouts(props) {
       props.setSetsCount(prevCount => prevCount - 1)
     };
   };
-
 
   // Display form for planned workout
   const todaysSchedule = props.plannedWorkout ? 

@@ -214,8 +214,12 @@ router.route("/dashboard/:username")
     // Get Stored workout and return to dashboard
     const getWorkout = await getUsersExercises(user_id, formattedDate);
 
+    // Get stored sets and return to dashboard
+    const getSets = await getUsersSets(user_id, formattedDate);
+
     return res.status(200).json({
-      getWorkout,
+        getWorkout,
+        getSets,
     });
   }
 })
