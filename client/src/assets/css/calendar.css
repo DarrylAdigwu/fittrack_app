@@ -157,7 +157,7 @@ a > div.gold-background {
     height: 500px;
     width: 400px;
     min-width: 240px;
-    margin-top: 2rem;
+    margin: 2rem;
   }
   
   div.calendar-container.active {

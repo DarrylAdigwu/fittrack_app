@@ -5,6 +5,7 @@ div.all-scheduling > div.schedule {
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
+  height: fit-content;
 }
 
 div.schedule.inactive {
