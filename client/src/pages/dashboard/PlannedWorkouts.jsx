@@ -384,7 +384,6 @@ export default function PlannedWorkouts(props) {
           {/* Display sets for planned workouts */}
           {!props.isActive &&
             <Form method="post" id={`setsForm-${workouts.id}`} className={`setsForm`} action={`/dashboard/:${usersUsername}`}>
-              {/* Planned sets Header */}
               <div className="sets-thead-section" role="rowgroup">
                 <div className="sets-thead-row" id={`sets-thead-row-${workouts.id}`} role="row">
                   <img src={trash} alt="" className="theadSpaceHolder" />
@@ -392,7 +391,6 @@ export default function PlannedWorkouts(props) {
                   <div className="th weight"role="cell">Weight</div>
                   <div className="th reps"role="cell">Reps</div>
                   <div className="th checkbox"role="cell">&#10003;</div>
-                  {/* Menu and cancel buttons for sets */}
                   <button
                     className="edit-setsButton"
                     id={`edit-set-${workouts.id}`}
@@ -480,7 +478,6 @@ export default function PlannedWorkouts(props) {
                     type="hidden"
                   />
                   
-                  {/* Placeholder to match planned sets delete checkbox */}
                   <input
                     type="checkbox"
                     className="setBoxDeletePlaceholder"
@@ -520,7 +517,6 @@ export default function PlannedWorkouts(props) {
                     min="1" 
                   />
 
-                  {/* Checkboxes to check if set is complete or not */}
                   <input
                     type="hidden" 
                     className="setCheckbox"
@@ -539,7 +535,6 @@ export default function PlannedWorkouts(props) {
                     value={1}
                   />
 
-                  {/* Placeholder to match header row menu button  */}
                   <button className="setBoxesSpaceHolder" type="button"> 
                   </button>
                 </div> : null
