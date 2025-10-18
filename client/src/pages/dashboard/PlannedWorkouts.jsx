@@ -221,12 +221,13 @@ export default function PlannedWorkouts(props) {
   // Display form for planned workout
   const todaysSchedule = props.plannedWorkout ? 
   props.plannedWorkout.map((workouts) => {
-    
-    let counter = 0;
     const amountOfSets = props.plannedSets && props.plannedSets.filter((sets) => sets.workout_id === workouts.id);
     const currentSetNumber = props.plannedSets && amountOfSets.length + (props.setsCount - 1);
     const checkWorkoutHasSets =  props.plannedSets && props.plannedSets.some((set) => set.workout_id === workouts.id);
-
+    console.log(currentSetNumber);
+    console.log(props.isActive);
+    console.log(checkWorkoutHasSets);
+    console.log(props.plannedSets);
     const createPlannedSets = props.plannedSets && props.plannedSets.map((sets) => {
       if(sets.workout_id === workouts.id) {
         return(
