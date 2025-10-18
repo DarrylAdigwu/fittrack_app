@@ -11,7 +11,6 @@ html, body {
   min-width: 300px;
 }
 
-
 h1 {
   font-size: 2rem;
 }
@@ -64,6 +63,10 @@ div.header-container > a {
   gap: 6px;
 }
 
+div.header-container > a:hover {
+  cursor: pointer;
+}
+
 div.header-container > a > .img-logo {
   height: 1.75rem;
 }
@@ -86,7 +89,7 @@ div.header-container > img.profile:hover {
 }
 
 /* Logout profile */
-nav.off-screen  {
+nav.off-screen {
   display: none;
   justify-content: center;
   align-content: flex-start;
@@ -104,8 +107,6 @@ nav.off-screen.active {
   background-color: #D98B22;
   height: fit-content;
   width: 12rem;
-  /* max-width: 300px;
-  min-width: 200px; */
   right: 0;
   color: white;
   z-index: 5;
@@ -138,7 +139,6 @@ nav.off-screen.active a:hover {
   min-height: calc(100vh - 14rem);
   width: 100%;
 }
-
 
 section.main {
   width: 90%;
