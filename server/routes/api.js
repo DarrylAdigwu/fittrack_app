@@ -273,8 +273,11 @@ router.route("/dashboard/:username")
     if(!setFormCheck) {
       //Send Workouts to database
       for(let i = 0; i < numOfWorkouts; i++) {
-        const workout = allDashboardData[`workoutInput${i + 1}`];
-        const muscleGroup = allDashboardData[`muscleGroupInput${i + 1}`];
+        let workout = allDashboardData[`workoutInput${i + 1}`];
+        let muscleGroup = allDashboardData[`muscleGroupInput${i + 1}`];
+        workout = capitalizeFirstLetter(workout);
+        muscleGroup = capitalizeFirstLetter(muscleGroup);
+
         await storeExercise(user_id, username, workout, muscleGroup, newDateFormat);
       }
   
@@ -365,8 +368,10 @@ router.route("/dashboard/:username")
     if(!checkForSetForm) {
       for(let i = firstExercise_id; i < numOfWorkouts + firstExercise_id; i++) {
         const exercise_id = allUpdatedData[`idInput_${i}`];
-        const updatedWorkout = allUpdatedData[`workoutInput${i}`];
-        const updatedMuscleGroup = allUpdatedData[`muscleGroupInput${i}`];
+        let updatedWorkout = allUpdatedData[`workoutInput${i}`];
+        let updatedMuscleGroup = allUpdatedData[`muscleGroupInput${i}`];
+        updatedWorkout = capitalizeFirstLetter(updatedWorkout);
+        updatedMuscleGroup = capitalizeFirstLetter(updatedMuscleGroup);
         
         // Send updated workout from database
         await updateUsersWorkouts(updatedWorkout, updatedMuscleGroup, exercise_id, username);
