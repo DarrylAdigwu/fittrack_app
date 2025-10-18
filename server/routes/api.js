@@ -1,4 +1,4 @@
-import express, { json } from "express";
+import express from "express";
 import { registerUser, getUserByUsername, authLogin, deleteSession,
   getUsersExercises, storeExercise, storeSets, updateUsersWorkouts, 
   deleteWorkouts, getAllDates, getUsersSets, updateWorkoutSets, deleteWorkoutSets,
@@ -18,15 +18,17 @@ router.route("/ping")
   })
 });
 
+
 /* Register route */
 router.route("/register")
-.post( async (req, res) => {
+.post(async (req, res) => {
   const allRegisterData = req.body.allData;
   const username = allRegisterData.username;
   const password = allRegisterData.password;
   const confirmPass = allRegisterData["confirm-password"];
  
   if(req.method === "POST") {
+
     // Validate register form
     if(!username) {
       return res.json({
@@ -70,9 +72,10 @@ router.route("/register")
       serverCheck: {"valid": "Registration is valid"}
     });
   }
-})
+});
 
-/* Login Route / Start Session */
+
+/* Login Route & Start Session */
 router.route("/login")
 .post(async (req, res) => {
   const allLoginData = req.body.allData;
@@ -95,7 +98,7 @@ router.route("/login")
   const currentLocalTime = formatUsersLocalTime.format(new Date());
 
   if(req.method === "POST") {
-    
+
     // Validate login form
     if(!username) {
       return res.status(400).json({
@@ -134,31 +137,33 @@ router.route("/login")
         id: user_id,
         username: username
       }
-    };
+    }
 
     // Create auth tokens
-    const authToken = await generateToken({username: req.session.user.username})
+    const authToken = await generateToken({username: req.session.user.username});
     const tokenUser = await generateToken({username: req.session.user.username});
     const tokenID = await generateToken({id: req.session.user.id});
 
     res.cookie("user-token", `${tokenUser}`, {
       maxAge: 1000 * 60 * 60,
       httpOnly: false,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
+      domain: ".fittracker.us",
     });
 
     res.cookie("id-token", `${tokenID}`, {
       maxAge: 1000 * 60 * 60,
       httpOnly: false,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
+      domain: ".fittracker.us",
     });
 
     // Send URL data based on redirectParam value
     if(prevParam) {
       return res.status(200).json({
-        message: "Login Successfull",
+        message: "Login Successful",
         redirectUrl: `${urlOrigin}${prevParam}/${username}?date=${currentLocalTime}`,
         authToken: authToken
       });
@@ -170,7 +175,7 @@ router.route("/login")
       });
     }
   }
-})
+});
 
 
 /* Logout Route */
@@ -194,7 +199,7 @@ router.route("/logout")
   } else {
     return;
   }
-})
+});
 
 
 /* Dashboard Route */
@@ -202,19 +207,15 @@ router.route("/dashboard/:username")
 .get(requireAuth, async (req, res) => {
   if(req.session.user) {
     const user_id = req.session.user.id;
-    const url = new URL(`${process.env.EXPRESS_DOMAIN}/api${req.url}`)
+    const url = new URL(`${process.env.SERVER_DOMAIN}/api${req.url}`)
     const date = url.searchParams.get("date");
     const formattedDate = formatDate(date);
-    
+
     // Get Stored workout and return to dashboard
     const getWorkout = await getUsersExercises(user_id, formattedDate);
 
-    // Get stored sets and return to dashboard
-    const getSets = await getUsersSets(user_id, formattedDate);
-
     return res.status(200).json({
-        getWorkout,
-        getSets,
+      getWorkout,
     });
   }
 })
@@ -260,7 +261,7 @@ router.route("/dashboard/:username")
         });
       }
     };
-    
+
     // Check if form is a set form or workout form
     const setFormCheck = Object.keys(allDashboardData).some((key) => key.startsWith("workoutIdInput"));
 
@@ -325,7 +326,7 @@ router.route("/dashboard/:username")
   const date = allUpdatedData.displayDate;
   const newDateFormat = formatDate(date);
   const firstExercise_id = Number(Object.entries(allUpdatedData)[1][0].split("_")[1]);
-
+ 
   if(req.method === "PUT") {
     // Server side validation
     for(const [key, value] of Object.entries(allUpdatedData)) {
@@ -380,7 +381,7 @@ router.route("/dashboard/:username")
     if(checkForSetForm) {
       let setNumber = 0;
       const workoutId = Object.keys(allUpdatedData).find((key) => key.startsWith("setIdInput")).split("-")[1];
-
+      
       for(let i = 0; i < numOfSets; i++) {
         const setId = allUpdatedData[`setIdInput-${workoutId}-${i + 1}`];
         const weight = allUpdatedData[`plannedWeight${workoutId}-${i + 1}`];
@@ -505,17 +506,21 @@ router.route("/calendar")
   // Get all dates where there is a workout
   const getDates = await getAllDates(username);
 
+  // Array for formatted dates
   const allDates = [];
 
+  // Store formatted dates in allDates array
   getDates.map((date) => {
     const formatAllDates = formatDate(new Date(date.date));
-    allDates.push(formatAllDates)
+    allDates.push(formatAllDates);
   })
 
   // Return valid message
   return res.status(200).json({
     allDates,
   });
+
 });
+
 
 export default router;
