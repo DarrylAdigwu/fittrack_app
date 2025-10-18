@@ -4,8 +4,8 @@ import "../../assets/css/dashboard.css";
 import "../../assets/css/plannedWorkouts.css";
 import "../../assets/css/dateDisplay.css";
 import "../../assets/css/createWorkout.css";
-import { sendUserData, getTodaysWorkout, formatCurrentDate,
-   usersUsername, getAllDates } from "../../../client-utils.js";
+import { sendUserData, getTodaysWorkout, 
+  formatCurrentDate, usersUsername, getAllDates } from "../../../client-utils.js";
 import Calendar from "./Calendar.jsx";
 import DateDisplay from "./DateDisplay.jsx";
 import PlannedWorkouts from "./PlannedWorkouts.jsx";
@@ -21,8 +21,8 @@ export async function action({ request }) {
   const formData = await request.formData();
   const allData = Object.fromEntries(formData);
   
-  // Send new data to server
   if(request.method === "POST") {
+    // // Send Data to server
     const sendFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "POST");
     
     if(sendFormData.serverError) {
@@ -34,7 +34,7 @@ export async function action({ request }) {
     }
   }
 
-  // Send Updated data to server
+  //Send updated workout data to server
   if(request.method === "PUT") {
     // Send data to server
     const updatedExerciseFormData = await sendUserData(`dashboard/${usersUsername}`, allData, "PUT");
@@ -104,10 +104,10 @@ export default function Dashboard() {
 
   // Get value for date search param state
   const dateParam = searchParams.get("date");
-
+  
   // Get key and make it string if error in form 
   let errorKey = actionData ? Object.keys(actionData).toString() : null;
-
+  
   // Get all workout dates
   const allUserDates = dashLoader.allDates;
 
@@ -173,11 +173,11 @@ export default function Dashboard() {
       }
     }
   };
-
+  
   // Run scree sizing function with window event listener
   checkScreenSize();
   window.addEventListener("resize", checkScreenSize);
-
+  
   return(
     <div className="container dash-container">
       <DateDisplay 

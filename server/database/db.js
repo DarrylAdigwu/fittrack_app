@@ -21,6 +21,7 @@ export const db = mysql.createPool({
   keepAliveInitialDelay: 0
 });
 
+
 /* Register user to database */
 export async function registerUser(username, password) {
   const connection = await db.getConnection();
@@ -35,7 +36,7 @@ export async function registerUser(username, password) {
   } finally {
     connection.release();
   }
-}
+};
 
 
 // Get user by username
@@ -93,7 +94,6 @@ export async function authLogin(username, password) {
       console.error("Error:" , err)
     }
   
-    
     if(!findUser[0]) {
       return "Invalid username";
     } 
@@ -108,7 +108,7 @@ export async function authLogin(username, password) {
     } catch(err) {
       console.error('Error:', err)
     }
-  
+  console.log(findUser)
     // Return boolean based on information
     if(capitalizeAllLetters(findUser[0].username) === capitalizeAllLetters(username) 
       && hashResult) {
@@ -145,15 +145,15 @@ export async function deleteSession(username) {
 /* Get all user workouts for the day */
 export async function getUsersExercises(user_id, date) {
   const connection = await db.getConnection();
-
+ 
   try {
     // Check if date is valid
-    if(date === "NaN-NaN-NaN" || date === null || date === NaN) {
+    if(date === `NaN-NaN-NaN` || date === null || date === NaN) {
       return null;
     }
 
     // Get stored workouts
-    let getWorkoutsQuery = `SELECT id, exercise, muscle_group, sets, reps, date FROM workouts
+    let getWorkoutsQuery = `SELECT id, exercise, muscle_group, date FROM workouts
             WHERE user_id = ?
             AND date = ?`;
     
@@ -238,7 +238,7 @@ export async function checkWorkouts(user_id, username, workout, date) {
 
 
 /* Store workout */
-export async function storeExercise(user_id, username, workout, muscleGroup, sets, reps, date) {
+export async function storeExercise(user_id, username, workout, muscleGroup, date) {
   const connection = await db.getConnection();
 
   try {
@@ -249,10 +249,10 @@ export async function storeExercise(user_id, username, workout, muscleGroup, set
   
     // Store new workouts
     let storeExerciseQuery = `INSERT INTO workouts 
-            (user_id, user_name, exercise, muscle_group, sets, reps, date)
-            VALUES(?, ?, ?, ?, ?, ?, ?)`;
+            (user_id, user_name, exercise, muscle_group, date)
+            VALUES(?, ?, ?, ?, ?)`;
     
-    let storeExerciseInsert = [user_id, username, workout, muscleGroup, sets, reps, date];
+    let storeExerciseInsert = [user_id, username, workout, muscleGroup, date];
   
     storeExerciseQuery = mysql.format(storeExerciseQuery, storeExerciseInsert);
   
@@ -265,7 +265,6 @@ export async function storeExercise(user_id, username, workout, muscleGroup, set
     connection.release();
   }
 };
-
 
 /* Check for duplicate sets */
 export async function checkSets(user_id, username, workout_id, workout, set_number, date) {
@@ -297,7 +296,6 @@ export async function checkSets(user_id, username, workout_id, workout, set_numb
     connection.release();
   }
 };
-
 
 /* Store Sets */
 export async function storeSets(user_id, username, workout_id, workout, set_number, weight, reps, completed, date) {
@@ -358,7 +356,8 @@ export async function updateUsersWorkouts(workout, muscleGroup, exercise_id, use
 /* Update sets */
 export async function updateWorkoutSets(set_number, weight, reps, completed, set_id, user_id) {
   const connection = await db.getConnection();
-
+  // console.log(set_number);
+  // console.log(weight)
   try {
     // Update existing workout
     let updateSetQuery = `UPDATE sets
@@ -378,7 +377,7 @@ export async function updateWorkoutSets(set_number, weight, reps, completed, set
   } finally {
     connection.release();
   }
-};
+}
 
 
 /* Update set numbers */
@@ -404,7 +403,8 @@ export async function updateWorkoutSetNumber(set_number, set_id, user_id) {
   } finally {
     connection.release();
   }
-};
+}
+
 
 /* Delete workouts */
 export async function deleteWorkouts(user_id, date, exercise_id = null) {
@@ -446,7 +446,7 @@ export async function deleteWorkouts(user_id, date, exercise_id = null) {
   } finally {
     connection.release();
   }
-};
+}
 
 
 /* Delete sets */

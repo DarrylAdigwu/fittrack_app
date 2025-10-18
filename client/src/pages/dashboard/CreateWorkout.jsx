@@ -7,12 +7,12 @@ import { formatCurrentDate } from "../../../client-utils";
 
 export default function CreateWorkout(props) {
 
-  // Display for days without scheduled workouts
+  // Display for no schedule workout
   const noSchedule = props.plannedWorkout === null ?
-    <div className="no-schedule" id="no-schedule">
-      <h1>No workout schedule for today</h1>
-      <button id="add-workout" onClick={props.newExerciseForm} type="button">Add Workout</button>
-    </div> : null;
+  <div className="no-schedule" id="no-schedule">
+    <h1>No workout schedule for today</h1>
+    <button id="add-workout" onClick={props.newExerciseForm} type="button">Add Workout</button>
+  </div> : null;
 
   // Create inputs for add workouts form
   function newExercise() {
@@ -27,7 +27,7 @@ export default function CreateWorkout(props) {
       return warningKey.classList.add("inactive")
     }
 
-    // Get previous input elements and check if they have inputs, give warning if no input
+        // Get previous input elements and check if they have inputs, give warning if no input
     const prevWorkoutInput = document.getElementById(`workoutInput${props.exerciseCount - 1}`);
     const prevMuscleGroupInput = document.getElementById(`muscleGroupInput${props.exerciseCount - 1}`);
     
@@ -61,7 +61,7 @@ export default function CreateWorkout(props) {
     
       // Add 1 to exercise count state
       props.setExerciseCount(prevCount => prevCount + 1);
-
+      
       // Get previous input box
       const prevInputBox = document.getElementById(`inputBoxes${props.exerciseCount - 1}`)
       
@@ -137,13 +137,13 @@ export default function CreateWorkout(props) {
 
       // Display no schedule container and add workout button
       if(noScheduleContainer && 
-      noScheduleContainer.classList.contains("inactive") && 
-      !props.plannedWorkout) {
-        noScheduleContainer.classList.toggle("inactive")
+        noScheduleContainer.classList.contains("inactive") &&
+        !props.plannedWorkout) {
+          noScheduleContainer.classList.remove("inactive")
       }
 
       if(scheduleContainer) {
-        addWorkoutButton.classList.toggle("inactive")
+        addWorkoutButton.classList.remove("inactive")
       }
 
       // Remove values from all inputs that won't be submitted

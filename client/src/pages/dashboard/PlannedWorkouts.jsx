@@ -28,8 +28,7 @@ export default function PlannedWorkouts(props) {
   function newSets(event) {
     const currentExerciseDivId = event.target.parentElement.parentElement.id;
     const currentWorkoutId = currentExerciseDivId.split("-")[1];
-    const currentSetsForm = document.getElementById(`setsForm-${currentWorkoutId}`)
-    const currentExerciseDiv = document.getElementById(`${currentExerciseDivId}`);
+    const currentSetsForm = document.getElementById(`setsForm-${currentWorkoutId}`);
     
     // Get the number of already saved sets for this exercise
     let numberOfPlannedSets = 0;
@@ -42,7 +41,6 @@ export default function PlannedWorkouts(props) {
     
     // Error key element
     const setsWarningKey = document.getElementById(`sets-warning-key-${currentWorkoutId}`);
-    console.log(setsWarningKey);
 
     // Check if there are more than 6 sets created
     if(props.setsCount > 6) {
