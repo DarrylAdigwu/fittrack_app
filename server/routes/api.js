@@ -508,8 +508,7 @@ router.route("/calendar")
         invalid: "Unauthorized", 
     });
   }
-
-  const user_id = req.session.user.id;
+  
   const username = req.session.user.username;
 
   // Get all dates where there is a workout

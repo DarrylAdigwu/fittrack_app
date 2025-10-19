@@ -50,3 +50,9 @@ div.displayDate > #future-date.inactive {
 button.calendar-button > img {
   height: 1rem;
 }
+
+@media only screen and (min-width: 1080px) {
+  button.calendar-button > img {
+    display: none;
+  }
+}
