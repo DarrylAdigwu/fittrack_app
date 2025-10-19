@@ -308,8 +308,6 @@ button.dropSetsButton {
   cursor: pointer;
 }
 
-
-
 div.tbody-row-exercise-container > 
 button.dropSets {
   display: flex;
@@ -329,14 +327,6 @@ div.tbody-row-exercise-container >
 button.liftSets.active {
   display: flex;
 }
-
-/* div.workout-tbody-row > input.sets-row {
-  width: 17.5%;
-}
-
-div.workout-tbody-row > input.reps-row {
-  width: 17.5%;
-} */
 
 div.tbody-row-exercise-container > input.checkboxes {
   width: 5%;
@@ -366,10 +356,6 @@ div.tbody-row-exercise-container >
 input.exercise-row.active-delete {
   background-color: rgba(217, 139, 34, 1);
 }
-
-/* div.workout-tbody-row > input {
-  padding: 20px 0px;
-  } */
   
 /* Schedule Edit button */
 .edit-exercise-form > #submit-edit-exercise {
@@ -438,6 +424,11 @@ input.exercise-row.active-delete {
 /* Set Form */
 .setsForm {
   display: none;
+}
+
+.setsForm.active {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 div.sets-thead-section > div.sets-thead-row.delete,

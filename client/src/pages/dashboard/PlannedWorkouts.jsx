@@ -794,7 +794,7 @@ export default function PlannedWorkouts(props) {
     const workoutId = event.target.id.split("-")[1];
     const setsFormId = event.target.offsetParent.nextSibling.id;
     const currentSetsFormButtonId = event.target.parentElement.id;
-    const formDrop = document.getElementById(`setsForm-${workoutId}`);
+    const formDrop = document.getElementById(`${setsFormId}`);
     const currentSetsFormButton = document.getElementById(`${currentSetsFormButtonId}`);
     const allRepInputs = document.querySelectorAll("input.repInput");
     const allWeightInputs = document.querySelectorAll("input.weightInput");
@@ -859,7 +859,7 @@ export default function PlannedWorkouts(props) {
             currentDropSetButton.classList.remove("inactive");
 
             // Close all setForm divs that are not currently target
-            newSetFormId.style.display = "none";
+            newSetFormId.classList.remove("active");
           }
         });
         // Reset setCount to 2
@@ -868,8 +868,7 @@ export default function PlannedWorkouts(props) {
 
       currentSetsFormButton.classList.add("inactive");
       setsFormLiftButton.classList.add("active");
-      formDrop.style.display = "flex";
-      formDrop.style.flexWrap = "wrap";
+      formDrop.classList.add("active");
     }
     
     // Actions if caret up button is pressed
