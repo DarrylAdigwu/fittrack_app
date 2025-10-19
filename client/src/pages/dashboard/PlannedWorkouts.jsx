@@ -877,7 +877,7 @@ export default function PlannedWorkouts(props) {
       const setsFormDropButton = document.getElementById(`${setsFormDropButtonId}`);
       currentSetsFormButton.classList.remove("active");
       setsFormDropButton.classList.remove("inactive");
-      formDrop.style.display = "none";
+      formDrop.classList.remove("active");
     }
   };
 
