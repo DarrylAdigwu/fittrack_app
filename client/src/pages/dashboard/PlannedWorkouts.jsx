@@ -618,30 +618,6 @@ export default function PlannedWorkouts(props) {
   // Show no schedule or schedule depending on loaderData
   const showSchedule = todaysSchedule ? 
   <div id="schedule" className="schedule">
-    {/* Buttons for workouts menu */}
-    <div className="table-actions">
-      {/* Drop down menu button */}
-      <button 
-        className="threeDotImg" 
-        onClick={handleDropDown} 
-        aria-label="drop down menu with options for current schedule"
-      >
-        <div id="burger" className="threeDotImg-img">
-          <li id="line1"></li>
-          <li id="line2"></li>
-          <li id="line3"></li>
-        </div>
-      </button>
-      <button className="cancel-edit-button" onClick={handleEditCancel} aria-label="button to exit out of edit or delete form options">
-        <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(props.showDate)}`} className="cancel-edit-img" id="cancel-edit-img" />
-      </button>
-    </div>
-    {/* Menu drop down for planned workouts */}
-    <div className="table-actions-menu">
-      {props.plannedWorkout.length < 6 ? <button id="add-workout" onClick={props.newExerciseForm} type="button">Add</button> : null}
-      <button onClick={handleEditSchedule} className="action-edit" type="button">Edit</button>
-      <button onClick={handleDeleteSchedule} className="action-delete" type="button">Delete</button>
-    </div>
     {/* Table for displaying planned workouts */}
     <div className="workout-table" role="table" aria-label={`Workouts planned for ${props.showDate}`}>
       {/* Header for planned workouts table */}
@@ -650,8 +626,32 @@ export default function PlannedWorkouts(props) {
           <div className="th blank"role="cell"></div>
           <div className="th exercise"role="cell">Exercise</div>
           <div className="th focus"role="cell">Focus</div>
-          <button className="blank-btn"></button>
+          {/* Buttons for workouts menu */}
+          <div className="table-actions">
+            {/* Drop down menu button */}
+            <button 
+              className="threeDotImg" 
+              onClick={handleDropDown} 
+              aria-label="drop down menu with options for current schedule"
+            >
+              <div id="burger" className="threeDotImg-img">
+                <li id="line1"></li>
+                <li id="line2"></li>
+                <li id="line3"></li>
+              </div>
+            </button>
+            {/* Drop down cancel menu button */}
+            <button className="cancel-edit-button" onClick={handleEditCancel} aria-label="button to exit out of edit or delete form options">
+              <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(props.showDate)}`} className="cancel-edit-img" id="cancel-edit-img" />
+            </button>
+          </div>
         </div>
+      </div>
+      {/* Menu drop down for planned workouts */}
+      <div className="table-actions-menu">
+        {props.plannedWorkout.length < 6 ? <button id="add-workout" onClick={props.newExerciseForm} type="button">Add</button> : null}
+        <button onClick={handleEditSchedule} className="action-edit" type="button">Edit</button>
+        <button onClick={handleDeleteSchedule} className="action-delete" type="button">Delete</button>
       </div>
       {/* Table body for planned workouts */}
       <div className="workout-table-tbody">
