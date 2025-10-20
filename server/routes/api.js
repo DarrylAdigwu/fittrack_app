@@ -233,7 +233,7 @@ router.route("/dashboard/:username")
   const allDashboardData = req.body.allData;
   const user_id = req.session.user.id;
   const username = req.session.user.username;
-  const numOfWorkouts = (Object.keys(allDashboardData).length - 1) / 3;
+  const numOfWorkouts = (Object.keys(allDashboardData).length - 1) / 2;
   const numOfSets = (Object.keys(allDashboardData).length - 3) / 4;
   const date = allDashboardData.displayDate;
   const newDateFormat = formatDate(date);
@@ -428,7 +428,6 @@ router.route("/dashboard/:username")
   const allData = req.body.allData;
   const allDeleteData = allData.dataDelete;
   const allUpdateData = allData.dataUpdate;
-  const username = req.session.user.username;
   const user_id = req.session.user.id;
   const date = allData.displayDate;
   const newDateFormat = formatDate(date);
