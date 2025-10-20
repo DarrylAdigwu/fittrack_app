@@ -432,6 +432,7 @@ input.exercise-row.active-delete {
 .setsForm.active {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 div.sets-thead-section > div.sets-thead-row.delete,
@@ -555,7 +556,46 @@ div.setsDropMenu > button.setsDropMenu-noSets:hover {
   color: #1f1f1f;
 }
 
-div.setBoxes, div.plannedSetsForm {
+/* Button to display add sets input boxes */
+div.addSets-btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  padding: .25rem 0;
+  background-color: #FFFFFF;
+}
+
+div.addSets-btn-container.inactive {
+  display: none;
+}
+
+button.addSets-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  height: 30px;
+  border: 1px solid rgba(217, 139, 34, .5);
+  color: #D98B22;
+  background-color: #FFFAF0;
+  border-radius: 4px;
+  z-index: 3;
+  cursor: pointer;
+}
+
+button.addSets-btn:active {
+  background-color: #FFFFFF;
+}
+
+button.addSets-btn > img {
+  height: 1.125rem;
+  margin: 0 .5rem;
+}
+
+/* Inputs for add sets and planned sets forms */
+div.setBoxes.active, div.plannedSetsForm {
   position: relative;
   display: flex;
   min-width: calc(105% + 1rem);
@@ -563,6 +603,10 @@ div.setBoxes, div.plannedSetsForm {
   padding: .5rem 0;
   background-color: #FFFFFF;
   right: calc(5% + 1rem);
+}
+
+div.setBoxes {
+  display: none;
 }
 
 div.setBoxes > input,
@@ -643,6 +687,10 @@ hr {
 }
 
 div.sets-btn-container {
+  display: none;
+}
+
+div.sets-btn-container.active {
   display: flex;
   justify-content: space-around;
   align-self: center;

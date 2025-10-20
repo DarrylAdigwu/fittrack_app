@@ -4,7 +4,8 @@ import cancel from "../../assets/images/cancel.svg";
 import caretDown from "../../assets/images/caret-down.svg";
 import caretUp from "../../assets/images/caret-up.svg";
 import threeDotVert from "../../assets/images/three-dot-vert.svg";
-import trash from "../../assets/images/trash.svg"
+import trash from "../../assets/images/trash.svg";
+import plusIcon from "../../assets/images/plusIcon.svg";
 import { formatCurrentDate, usersUsername } from "../../../client-utils";
 
 export default function PlannedWorkouts(props) {
@@ -104,7 +105,7 @@ export default function PlannedWorkouts(props) {
       
       // create div
       const setBoxes = document.createElement("div");
-      setBoxes.setAttribute("class", "setBoxes createdSetBox");
+      setBoxes.setAttribute("class", "setBoxes createdSetBox active");
       setBoxes.setAttribute("id", `setBoxes${currentWorkoutId}-${props.setsCount}`);
       
       /* Create labels and inputs */
@@ -205,8 +206,10 @@ export default function PlannedWorkouts(props) {
     const currentWorkoutId = currentExerciseDivId.split("-")[1];
     const firstSetBox = document.getElementById(`setBoxes${currentWorkoutId}-1`);
     const lastSetBox = document.getElementById(`setBoxes${currentWorkoutId}-${props.setsCount - 1}`);
+    const setsWarningKey = document.getElementById(`sets-warning-key-${currentWorkoutId}`);
 
     if(lastSetBox != firstSetBox) {
+      setsWarningKey.classList.remove("inactive");
       lastSetBox.remove();
       props.setSetsCount(prevCount => prevCount - 1)
     };
@@ -451,6 +454,28 @@ export default function PlannedWorkouts(props) {
               {/* Display planned sets for current exercise */}
               {createPlannedSets}
 
+              {/* Button to display form to add sets */}
+              {currentSetNumber <= 6 ? 
+                <>
+                  <hr />
+                  <div className="addSets-btn-container" id={`addSets-btn-container-${workouts.id}`}>
+                    <button 
+                      id={`addSets-btn-${workouts.id}`} 
+                      className="addSets-btn" 
+                      type="button"
+                      onClick={handleAddSetsButton}
+                      >
+                      <img 
+                        src={plusIcon} 
+                        alt="Button to display new inputs to add a set" 
+                        className="add-set-btn-img" 
+                        />
+                        Add Set
+                    </button>
+                  </div>
+                </> : null
+              }
+
               {/* Empty and fillable set form fields */}
               {currentSetNumber <= 6 ?
                 <div className="setBoxes" id={`setBoxes${workouts.id}-1`}>
@@ -680,6 +705,20 @@ export default function PlannedWorkouts(props) {
   </div> : null;
 
 
+  // Button to display sets button container 
+  function handleAddSetsButton(event) {
+    const workoutId = event.target.id.split("-")[2];
+    const addSetBtnContainer = document.getElementById(`addSets-btn-container-${workoutId}`);
+    const setBoxes = document.getElementById(`setBoxes${workoutId}-1`);
+    const setsBtnContainer = document.getElementById(`sets-btn-container${workoutId}`);
+
+    if(event) {
+      addSetBtnContainer.classList.add("inactive");
+      setBoxes.classList.add("active");
+      setsBtnContainer.classList.add("active");
+    }
+  }
+
   // Edit cancel button
   function handleEditCancel(event) {
     if(event) {
@@ -802,6 +841,8 @@ export default function PlannedWorkouts(props) {
     const allSetsForms = document.querySelectorAll("Form.setsForm");
     const editSubmitSets = document.querySelectorAll("button.submit-edit-sets");
     const setsButtonContainer = document.querySelectorAll(".sets-btn-container");
+    const setBoxes = document.querySelectorAll("div.setBoxes");
+    const addSetBtnContainer = document.querySelectorAll("div.addSets-btn-container");
 
     // Actions if caret down button is pressed
     if(event.target.parentElement.classList.contains("dropSets")) {
@@ -821,11 +862,6 @@ export default function PlannedWorkouts(props) {
         editSubmitSets.forEach((button) => {
           button.classList.remove("active");
         })
-
-        // Add sets button container if needed
-        if(setsButtonContainer) {
-          setsButtonContainer.forEach((container) => container.classList.remove("inactive"))
-        }
 
         // Set rep values to zero
         allRepInputs.forEach((repInput) => {
@@ -849,6 +885,29 @@ export default function PlannedWorkouts(props) {
 
           // Check all divs that are not current target element
           if(newSetFormId !== setsFormId) {
+            
+            // Hide each setBox that is active
+            setBoxes.forEach((set) => {
+              if(set.classList.contains("active")) {
+                set.classList.remove("active");
+                console.log(setForm.id)
+              }
+            });
+
+            // Hide each set button container that is active
+            setsButtonContainer.forEach((container) => {
+              if(container.classList.contains("active")) {
+                container.classList.remove("active");
+              }
+            });
+            
+            // Display all add sets button containers that are inactive
+            addSetBtnContainer.forEach((container) => {
+              if(container.classList.contains("inactive")) {
+                container.classList.remove("inactive");
+              }
+            });
+
             // Get sibling to current div Form and access the dropDown and liftUp buttons
             const currentSetButtonParent = newSetFormId.previousSibling;
             const currentDropSetButton = currentSetButtonParent.querySelector("button.dropSets");
@@ -918,7 +977,7 @@ export default function PlannedWorkouts(props) {
 
       // Hide add, remove, and submit buttons for sets
       if(setsButtonContainer) {
-        setsButtonContainer.classList.add("inactive");
+        setsButtonContainer.classList.remove("active");
       }
 
       // Change input style and attributes
@@ -979,6 +1038,7 @@ export default function PlannedWorkouts(props) {
     const setsButtonContainer = document.getElementById(`sets-btn-container${workoutId}`);
     const currentTheadRow = document.getElementById(`sets-thead-row-${workoutId}`);
     const plannedSetsForm = currentSetsForm.querySelectorAll(`div.plannedSetsForm`);
+    const addSetsButtonContainer = document.getElementById(`addSets-btn-container-${workoutId}`);
 
     if(event) {
       // Revert inputs back to saved state
@@ -1007,8 +1067,10 @@ export default function PlannedWorkouts(props) {
       bigCancelSetsButton.classList.remove("active")
 
       // Display add, remove, and submit buttons for sets
-      if(setsButtonContainer && setsButtonContainer.classList.contains('inactive')) {
-        setsButtonContainer.classList.remove("inactive");
+      if(setsButtonContainer && 
+        !setsButtonContainer.classList.contains("active") &&
+        addSetsButtonContainer.classList.contains("inactive")) {
+        setsButtonContainer.classList.add("active");
       }
 
       // Shift thead-row and planned sets forms back to left

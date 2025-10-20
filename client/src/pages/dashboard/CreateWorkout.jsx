@@ -111,8 +111,12 @@ export default function CreateWorkout(props) {
     const firstInputBox = document.getElementById(`inputBoxes1`);
     // Get last exercise input eleemnt
     const lastInputBox = document.getElementById(`inputBoxes${props.exerciseCount - 1}`);
+    // Exercise limit warning key for more than 6 workouts
+    const warningKey = document.getElementById("warning-key");
+
     // Remove last input box if it's not the first input box
     if(lastInputBox != firstInputBox) {
+      warningKey.classList.remove("inactive");
       lastInputBox.remove();
       props.setExerciseCount(prevCount => prevCount - 1)
     };
