@@ -843,6 +843,12 @@ export default function PlannedWorkouts(props) {
     const setsButtonContainer = document.querySelectorAll(".sets-btn-container");
     const setBoxes = document.querySelectorAll("div.setBoxes");
     const addSetBtnContainer = document.querySelectorAll("div.addSets-btn-container");
+    const currentTheadRow = document.getElementById(`sets-thead-row-${workoutId}`);
+    const submitEditSetsButton = document.getElementById(`submit-edit-sets-${workoutId}`);
+    const submitDeleteSetsButton = document.getElementById(`submit-delete-sets-${workoutId}`);
+    const bigCancelSetsButton = document.getElementById(`big-cancel-set-${workoutId}`);
+    const allCancelSetsButton = document.querySelectorAll(`button.cancel-setsButton`);
+    const allEditSetsButton = document.querySelectorAll(`button.edit-setsButton`);
 
     // Actions if caret down button is pressed
     if(event.target.parentElement.classList.contains("dropSets")) {
@@ -878,19 +884,43 @@ export default function PlannedWorkouts(props) {
           newSet.remove();
         });
 
-        // Go through all setForms
+        // Hide cancel sets button
+        allCancelSetsButton.forEach((button) => button.classList.remove("active"));
+        allEditSetsButton.forEach((button) => button.classList.remove("inactive"));
+
+        // Iterate through all setForms
         allSetsForms.forEach((setForm) => {
+          const currentSetForm = document.getElementById(`${setForm.id}`);
+          const currentSetFormInputs = currentSetForm.querySelectorAll("input");
+          const plannedSetsForms = currentSetForm.querySelectorAll("div.plannedSetsForm");
+
           // Get ID of current setForm div
           const newSetFormId = document.getElementById(`${setForm.id}`);
 
-          // Check all divs that are not current target element
+          // Iterate througth each input and return them to natural state
+          currentSetFormInputs.forEach((input) => {
+            if(input.classList.value.startsWith("planned")) {
+              input.style.border = "none";
+              input.setAttribute("readonly", "readonly");
+              input.setAttribute("disabled", "disabled");
+            }
+          });
+
+          // Iterate through input and remove delete class
+          plannedSetsForms.forEach((input) => input.classList.remove("delete"));
+
+          // Remove delete elements from all forms
+          currentTheadRow.classList.remove("delete");
+          submitEditSetsButton.classList.remove("active");
+          submitDeleteSetsButton.classList.remove("active");
+          bigCancelSetsButton.classList.remove("active");
+
+          // Iterate through divs that are not current target element
           if(newSetFormId !== setsFormId) {
-            
             // Hide each setBox that is active
             setBoxes.forEach((set) => {
               if(set.classList.contains("active")) {
                 set.classList.remove("active");
-                console.log(setForm.id)
               }
             });
 
@@ -921,6 +951,7 @@ export default function PlannedWorkouts(props) {
             newSetFormId.classList.remove("active");
           }
         });
+
         // Reset setCount to 2
         props.setSetsCount(2);
       }
@@ -965,6 +996,7 @@ export default function PlannedWorkouts(props) {
     const allCurrentFormInputs = currentSetsForm.querySelectorAll("input");
     const currentTheadRow = document.getElementById(`sets-thead-row-${workoutId}`);
     const plannedSetsForm = currentSetsForm.querySelectorAll("div.plannedSetsForm");
+    const addSetBtnContainer = document.getElementById(`addSets-btn-container-${workoutId}`);
 
     // Actions for all events
     if(event) {
@@ -987,7 +1019,10 @@ export default function PlannedWorkouts(props) {
           input.setAttribute("disabled", "disabled");
           input.setAttribute("readonly", "readonly");
         }
-      })
+      });
+
+      // Hide add sets button
+      addSetBtnContainer.classList.add("inactive");
     };
 
     // Actions for editing a workout's sets
@@ -1039,8 +1074,12 @@ export default function PlannedWorkouts(props) {
     const currentTheadRow = document.getElementById(`sets-thead-row-${workoutId}`);
     const plannedSetsForm = currentSetsForm.querySelectorAll(`div.plannedSetsForm`);
     const addSetsButtonContainer = document.getElementById(`addSets-btn-container-${workoutId}`);
+    const setBoxes = document.querySelectorAll("div.setBoxes");
 
     if(event) {
+      // Reset sets count
+      props.setSetsCount(2);
+
       // Revert inputs back to saved state
       allCurrentFormInputs.forEach((input) => {
         // Remove disable and readonly for all non planned inputs
@@ -1049,7 +1088,6 @@ export default function PlannedWorkouts(props) {
           input.removeAttribute("readonly");
         }
 
-        // console.log(input.classList.value.startsWith("planned"));
         if(input.classList.value.startsWith("planned")) {
           input.style.border = "none";
           input.setAttribute("readonly", "readonly");
@@ -1064,14 +1102,7 @@ export default function PlannedWorkouts(props) {
       // Remove submit button for editing sets
       submitEditSetsButton.classList.remove("active");
       submitDeleteSetsButton.classList.remove("active");
-      bigCancelSetsButton.classList.remove("active")
-
-      // Display add, remove, and submit buttons for sets
-      if(setsButtonContainer && 
-        !setsButtonContainer.classList.contains("active") &&
-        addSetsButtonContainer.classList.contains("inactive")) {
-        setsButtonContainer.classList.add("active");
-      }
+      bigCancelSetsButton.classList.remove("active");
 
       // Shift thead-row and planned sets forms back to left
       plannedSetsForm.forEach((input) => {
@@ -1079,6 +1110,15 @@ export default function PlannedWorkouts(props) {
       });
 
       currentTheadRow.classList.remove("delete");
+      
+      // Hide active setBoxes and display add sets button container
+      setBoxes.forEach((set) => {
+        if(set.classList.contains("active")) {
+          set.classList.remove("active");
+        }
+      });
+      
+      addSetsButtonContainer.classList.remove("inactive");
     }
   }
 
