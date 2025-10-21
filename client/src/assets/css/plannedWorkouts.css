@@ -343,12 +343,14 @@ input.workout-rows.active-edit {
 div.tbody-row-exercise-container > 
 input.exercise-row.active-edit {
   width: 50%;
+  border: 1px solid rgba(217, 139, 34, .5);
 }
 
 div.tbody-row-exercise-container > 
 input.focus-row.active-edit {
   width: 45%;
   margin-right: 1.5rem;
+  border: 1px solid rgba(217, 139, 34, .5);
 }
 
 div.tbody-row-exercise-container > 
