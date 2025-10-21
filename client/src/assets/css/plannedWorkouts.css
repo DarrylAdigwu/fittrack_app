@@ -153,7 +153,7 @@ div.schedule > div.workout-table {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
   height: fit-content;
   margin-bottom: 2rem;
@@ -166,6 +166,10 @@ div.workout-table > div.workout-thead-section {
   height: 60px;
   color: #D98B22;
   background-color: #FFFFFF;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border: 1px solid rgba(159,154,154, .125);
+  border-bottom: none;
 }
 
 div.workout-thead-section > div.workout-thead-row {
