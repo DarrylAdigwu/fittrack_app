@@ -106,7 +106,7 @@ img.cancel-edit-img.active:hover {
   font-family: "Work Sans";
   background-color: #FFFAF0;
   border: none;
-  padding-block: 1rem;
+  padding-block: .5rem;
   padding-inline: 0;
 }
 
@@ -157,6 +157,8 @@ div.schedule > div.workout-table {
   overflow: hidden;
   height: fit-content;
   margin-bottom: 2rem;
+  border: 1px solid rgba(159,154,164, .125);
+  border-bottom: none;
 }
 
 div.workout-table > div.workout-thead-section {
