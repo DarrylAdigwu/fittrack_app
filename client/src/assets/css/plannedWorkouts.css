@@ -108,6 +108,7 @@ img.cancel-edit-img.active:hover {
   border: none;
   padding-block: .5rem;
   padding-inline: 0;
+  color: #1f1f1f;
 }
 
 .table-actions-menu > button#add-workout {
@@ -261,6 +262,7 @@ div.tbody-row-exercise-container > input {
   align-items: center;
   height: 100%;
   text-align: center;
+  color: #1f1f1f;
 }
 
 div.tbody-row-exercise-container > input.workout-rows {
@@ -629,7 +631,9 @@ div.plannedSetsForm > input.plannedSetNumber {
 }
 
 div.plannedSetsForm > input.plannedSetNumber {
+  border: none;
   border-right: 1px solid #D98B22;
+  border-radius: none;
 }
 
 div.setBoxes > input.weightInput,
