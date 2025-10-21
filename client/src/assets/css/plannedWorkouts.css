@@ -774,14 +774,3 @@ button.submit-delete-sets.active {
   color: #FFFFFF;
   width: 57.5%;
 }
-
-/* For screens that have pointers, mouses, etc.. */
-@media screen and (pointer: fine ) {
-  div.sets-thead-row > div.weight {
-    padding-right: 1rem;
-  }
-
-  div.sets-thead-row > div.reps {
-    padding-right: 1rem;
-  }
-}
