@@ -537,6 +537,7 @@ div.setsDropMenu > button {
   padding: .5rem 0;
   width: 100%;
   cursor: pointer;
+  color: #1f1f1f;
 }
 
 div.setsDropMenu > button:hover {
@@ -764,6 +765,7 @@ button.big-cancel-setsButton.active {
   border-radius: 4px;
   margin: .5rem 0;
   cursor: pointer;
+  color: #1f1f1f;
 }
 
 button.big-cancel-setsButton.active {
