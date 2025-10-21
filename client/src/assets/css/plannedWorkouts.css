@@ -203,7 +203,6 @@ div.workout-thead-row > button.blank-btn {
   background-color: transparent;
 }
 
-
 div.workout-table > div.workout-table-tbody {
   height: fit-content;
   width: 100%;
@@ -499,6 +498,10 @@ div.sets-thead-row > button.cancel-setsButton.active {
   width: 5%;
   border: 1px solid red;
   cursor: pointer;
+}
+
+div.sets-thead-row > button.cancel-setsButton.active > img {
+  border: 1px solid red;
 }
 
 div.sets-thead-row > button.edit-setsButton.inactive {
