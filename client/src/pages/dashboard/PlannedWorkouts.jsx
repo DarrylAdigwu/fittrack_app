@@ -849,7 +849,8 @@ export default function PlannedWorkouts(props) {
     const bigCancelSetsButton = document.getElementById(`big-cancel-set-${workoutId}`);
     const allCancelSetsButton = document.querySelectorAll(`button.cancel-setsButton`);
     const allEditSetsButton = document.querySelectorAll(`button.edit-setsButton`);
-
+    const setsWarningKey = document.querySelectorAll("span.sets-warning-key");
+    
     // Actions if caret down button is pressed
     if(event.target.parentElement.classList.contains("dropSets")) {
       const exerciseContainer = document.getElementById(`tbody-row-exercise-container${workoutId}`).id;
@@ -959,6 +960,13 @@ export default function PlannedWorkouts(props) {
       currentSetsFormButton.classList.add("inactive");
       setsFormLiftButton.classList.add("active");
       formDrop.classList.add("active");
+
+      // Hide warning keys if visible
+      setsWarningKey.forEach((warning) => {
+        if(warning.classList.contains("inactive")) {
+          warning.classList.remove("inactive")
+        }
+      });
     }
     
     // Actions if caret up button is pressed
