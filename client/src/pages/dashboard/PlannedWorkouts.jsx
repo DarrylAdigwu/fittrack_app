@@ -459,24 +459,21 @@ export default function PlannedWorkouts(props) {
 
               {/* Button to display form to add sets */}
               {currentSetNumber <= 6 ? 
-                <>
-                  <hr />
-                  <div className="addSets-btn-container" id={`addSets-btn-container-${workouts.id}`}>
-                    <button 
-                      id={`addSets-btn-${workouts.id}`} 
-                      className="addSets-btn" 
-                      type="button"
-                      onClick={handleAddSetsButton}
-                      >
-                      <img 
-                        src={plusIcon} 
-                        alt="Button to display new inputs to add a set" 
-                        className="add-set-btn-img" 
-                        />
-                        Add Set
-                    </button>
-                  </div>
-                </> : null
+                <div className="addSets-btn-container" id={`addSets-btn-container-${workouts.id}`}>
+                  <button 
+                    id={`addSets-btn-${workouts.id}`} 
+                    className="addSets-btn" 
+                    type="button"
+                    onClick={handleAddSetsButton}
+                    >
+                    <img 
+                      src={plusIcon} 
+                      alt="Button to display new inputs to add a set" 
+                      className="add-set-btn-img" 
+                      />
+                      Add Set
+                  </button>
+                </div> : null
               }
 
               {/* Empty and fillable set form fields */}
@@ -579,37 +576,39 @@ export default function PlannedWorkouts(props) {
                 className="sets-warning-key" 
                 aria-label="workout limit message">Exercise Limit Hit: 6 sets
               </span>
-              
-              {/* Visible line separator */}
-              <hr />
 
               {/* Container for remove and add sets buttons */}
               { currentSetNumber <= 6 &&
-                <div 
-                  className="sets-btn-container" 
-                  id={`sets-btn-container${workouts.id}`}
-                >
+                <>
+                  {/* Visible line separator */}
+                  <hr />
+                  
                   <div 
-                    id="add-set" 
-                    onClick={newSets} 
-                    aria-label="add new set input"
-                  >
-                    Add
+                    className="sets-btn-container" 
+                    id={`sets-btn-container${workouts.id}`}
+                    >
+                    <div 
+                      id="add-set" 
+                      onClick={newSets} 
+                      aria-label="add new set input"
+                      >
+                      Add
+                    </div>
+                    <div 
+                      id="remove-set" 
+                      onClick={removeSet} 
+                      aria-label="remove previously set input"
+                      >
+                      Remove
+                    </div>
+                    <button
+                      className="add-sets-btn"
+                      type="submit"
+                      >
+                      Submit
+                    </button>
                   </div>
-                  <div 
-                    id="remove-set" 
-                    onClick={removeSet} 
-                    aria-label="remove previously set input"
-                  >
-                    Remove
-                  </div>
-                  <button
-                    className="add-sets-btn"
-                    type="submit"
-                  >
-                    Submit
-                  </button>
-                </div>
+                </>
               }
               {/* Button for submiting edit and delete forms */}
               <div className="editButtons-container" id={`editButtons-container-${workouts.id}`}>
