@@ -743,7 +743,10 @@ div.sets-btn-container.inactive {
 div.editButtons-container {
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  justify-content: space-around;
+  background-color: #FFFFFF;
+  border: none;
+  border-bottom: 1px solid rgba(159,154,164, .125);
 }
 
 button.submit-edit-sets,
@@ -758,7 +761,7 @@ button.big-cancel-setsButton.active {
   display: flex;
   flex-wrap: nowrap;
   justify-content: center;
-  width: 100%;
+  width: 90%;
   padding: .5rem 0;
   background-color: #D98B22;
   border: none;
@@ -778,5 +781,5 @@ button.big-cancel-setsButton.active {
 button.submit-delete-sets.active {
   background-color: #c05b5b;
   color: #FFFFFF;
-  width: 57.5%;
+  width: 55%;
 }
