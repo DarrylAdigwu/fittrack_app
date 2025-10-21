@@ -496,12 +496,7 @@ div.sets-thead-row > button.cancel-setsButton.active {
   align-self: center;
   background-color: transparent;
   width: 5%;
-  border: 1px solid red;
   cursor: pointer;
-}
-
-div.sets-thead-row > button.cancel-setsButton.active > img {
-  border: 1px solid red;
 }
 
 div.sets-thead-row > button.edit-setsButton.inactive {
