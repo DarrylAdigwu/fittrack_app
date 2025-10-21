@@ -633,8 +633,6 @@ div.plannedSetsForm > input.plannedSetNumber {
 
 div.plannedSetsForm > input.plannedSetNumber {
   border: none;
-  border-right: 1px solid #D98B22;
-  border-radius: none;
 }
 
 div.setBoxes > input.weightInput,
