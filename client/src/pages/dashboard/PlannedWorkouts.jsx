@@ -17,6 +17,9 @@ export default function PlannedWorkouts(props) {
     const actionsMenu = document.querySelector("div.table-actions-menu")
     
     if(event) {
+      // Reset set count
+      props.setSetsCount(2);
+
       // Toggle isActive state / toggle sets forms
       props.setIsActive(prevActivity => !prevActivity ? true : false);
 
@@ -713,7 +716,10 @@ export default function PlannedWorkouts(props) {
     const setsBtnContainer = document.getElementById(`sets-btn-container${workoutId}`);
 
     if(event) {
-      addSetBtnContainer.classList.add("inactive");
+      if(addSetBtnContainer) {
+        addSetBtnContainer.classList.add("inactive");
+      }
+      
       setBoxes.classList.add("active");
       setsBtnContainer.classList.add("active");
     }
