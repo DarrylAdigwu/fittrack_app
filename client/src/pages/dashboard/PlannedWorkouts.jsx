@@ -1022,7 +1022,10 @@ export default function PlannedWorkouts(props) {
       });
 
       // Hide add sets button
-      addSetBtnContainer.classList.add("inactive");
+      if(addSetBtnContainer &&
+         !addSetBtnContainer.classList.contains("inactive")) {
+        addSetBtnContainer.classList.add("inactive");
+      }
     };
 
     // Actions for editing a workout's sets
