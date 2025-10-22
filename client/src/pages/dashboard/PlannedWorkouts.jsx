@@ -698,7 +698,7 @@ export default function PlannedWorkouts(props) {
               {props.isSubmitting ? "Submitting..." : "Submit Edit"}
             </button>
             <button id="delete-all-exercises" type="submit" disabled={props.isSubmitting} formMethod="DELETE" >
-              {props.isSubmitting ? "Deleting..." : "Delete All Workouts"}
+              {props.isSubmitting ? "Deleting..." : "Delete Selected Workouts"}
             </button>
           </div>
         }
