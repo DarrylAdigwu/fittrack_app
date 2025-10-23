@@ -10,6 +10,7 @@ import { formatCurrentDate, usersUsername } from "../../../client-utils";
 
 export default function PlannedWorkouts(props) {
   const [dropDownCheck, setDropDownCheck] = React.useState(null); 
+  const dashRef = React.useRef();
 
   // Toggle drop down nav
   function handleDropDown(event) {
@@ -27,6 +28,24 @@ export default function PlannedWorkouts(props) {
       actionsMenu.classList.toggle("active");
     }
   }
+
+  // Remove schedule menu drop down when clicking anywhere on screen
+  React.useEffect(() => {
+    function hideScheduleMenuDropDown(event) {
+      const tableActionsMenu = document.querySelector(".table-actions-menu");
+      props.setIsActive(false);
+      
+      if(dashRef.current && !dashRef.current.contains(event.target)) {
+          tableActionsMenu.classList.remove("active");
+      }
+    }
+
+    document.body.addEventListener("click", hideScheduleMenuDropDown);
+
+    return () => {
+      document.body.removeEventListener("click", hideScheduleMenuDropDown);
+    }
+  }, [])
 
   // Create inputs for add sets form
   function newSets(event) {
@@ -214,7 +233,7 @@ export default function PlannedWorkouts(props) {
     if(lastSetBox != firstSetBox) {
       setsWarningKey.classList.remove("inactive");
       lastSetBox.remove();
-      props.setSetsCount(prevCount => prevCount - 1)
+      props.setSetsCount(prevCount => prevCount - 1);
     };
   };
 
@@ -290,8 +309,8 @@ export default function PlannedWorkouts(props) {
                 name={`plannedCheckboxes${sets.workout_id}-${sets.set_number}`}
                 value={1}
                 aria-label={`Show completion for set ${sets.set_number} on exercise number ${sets.workout_id}`}
-                disabled
-                defaultChecked={sets.completed === 1 && true}
+                onClick={handleSetsMenu}
+                defaultChecked={sets.completed === 1 ? true : false}
               />
 
               {/* Placeholder to match header row menu button */}
@@ -671,14 +690,14 @@ export default function PlannedWorkouts(props) {
             <button className="cancel-edit-button" onClick={handleEditCancel} aria-label="button to exit out of edit or delete form options">
               <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(props.showDate)}`} className="cancel-edit-img" id="cancel-edit-img" />
             </button>
+            {/* Menu drop down for planned workouts */}
+            <div className="table-actions-menu">
+              {props.plannedWorkout.length < 6 ? <button id="add-workout" onClick={props.newExerciseForm} type="button">Add</button> : null}
+              <button onClick={handleEditSchedule} className="action-edit" type="button">Edit</button>
+              <button onClick={handleDeleteSchedule} className="action-delete" type="button">Delete</button>
+            </div>
           </div>
         </div>
-      </div>
-      {/* Menu drop down for planned workouts */}
-      <div className="table-actions-menu">
-        {props.plannedWorkout.length < 6 ? <button id="add-workout" onClick={props.newExerciseForm} type="button">Add</button> : null}
-        <button onClick={handleEditSchedule} className="action-edit" type="button">Edit</button>
-        <button onClick={handleDeleteSchedule} className="action-delete" type="button">Delete</button>
       </div>
       {/* Table body for planned workouts */}
       <div className="workout-table-tbody">
@@ -905,11 +924,23 @@ export default function PlannedWorkouts(props) {
 
           // Iterate througth each input and return them to natural state
           currentSetFormInputs.forEach((input) => {
-            if(input.classList.value.startsWith("planned")) {
-              input.style.border = "none";
-              input.setAttribute("readonly", "readonly");
-              input.setAttribute("disabled", "disabled");
-            }
+            // Remove disable and readonly for all non planned inputs
+            if(!input.classList.contains("planned")) {
+              input.removeAttribute("disabled");
+              input.removeAttribute("readonly");
+            };
+
+            if(input.classList.value.startsWith("planned") &&
+              !input.classList.contains("plannedCheckboxes")) {
+                input.style.border = "none";
+                input.setAttribute("readonly", "readonly");
+                input.setAttribute("disabled", "disabled");
+            };
+
+            // Reset checkboxes to original state
+            if(input.classList.contains("plannedCheckboxes")) {
+              input.checked = input.defaultChecked;
+            };
           });
 
           // Iterate through input and remove delete class
@@ -996,7 +1027,11 @@ export default function PlannedWorkouts(props) {
 
   // Actions and events for editing and deleting sets
   function handleSetsMenu(event) {
-    const workoutId = event.target.id.split("-")[2];
+    const targetEvent = document.getElementById(`${event.target.id}`);
+    
+    const workoutId = targetEvent.classList.contains("setsDropMenu-edit") ? 
+      event.target.id.split("-")[2] : event.target.id.split("s")[1].split("-")[0];
+
     const currentEditSetsButton = document.getElementById(`edit-set-${workoutId}`);
     const currentCancelSetsButton = document.getElementById(`cancel-set-${workoutId}`);
     const currentSetDropMenu = document.getElementById(`setsDropMenu-${workoutId}`);
@@ -1014,11 +1049,20 @@ export default function PlannedWorkouts(props) {
     // Actions for all events
     if(event) {
       // Remove menu from screen
-      currentSetDropMenu.classList.remove("active")
+      if(currentSetDropMenu && currentSetDropMenu.classList.contains("active")) {
+        currentSetDropMenu.classList.remove("active");
+      };
 
       // Remove menu button and add cancel button
-      currentEditSetsButton.classList.add("inactive");
-      currentCancelSetsButton.classList.add("active");
+      if(currentEditSetsButton && 
+        !currentEditSetsButton.classList.contains("inactive")) {
+          currentEditSetsButton.classList.add("inactive");
+      };
+
+      if(currentCancelSetsButton && 
+        !currentCancelSetsButton.classList.contains("active")) {
+          currentCancelSetsButton.classList.add("active");
+      };
 
       // Hide add, remove, and submit buttons for sets
       if(setsButtonContainer) {
@@ -1042,7 +1086,8 @@ export default function PlannedWorkouts(props) {
     };
 
     // Actions for editing a workout's sets
-    if(event.target.classList.contains("setsDropMenu-edit")) {
+    if(event.target.classList.contains("setsDropMenu-edit") ||
+        event.target.classList.contains("plannedCheckboxes")) {
       // Display submit button
       submitEditSetsButton.classList.add("active");
       
@@ -1102,13 +1147,19 @@ export default function PlannedWorkouts(props) {
         if(!input.classList.contains("planned")) {
           input.removeAttribute("disabled");
           input.removeAttribute("readonly");
-        }
+        };
 
-        if(input.classList.value.startsWith("planned")) {
-          input.style.border = "none";
-          input.setAttribute("readonly", "readonly");
-          input.setAttribute("disabled", "disabled");
-        }
+        if(input.classList.value.startsWith("planned") &&
+          !input.classList.contains("plannedCheckboxes")) {
+            input.style.border = "none";
+            input.setAttribute("readonly", "readonly");
+            input.setAttribute("disabled", "disabled");
+        };
+        
+        // Reset checkboxes to original state
+        if(input.classList.contains("plannedCheckboxes")) {
+          input.checked = input.defaultChecked;
+        };
       });
 
       // Hide cancel button and add edit button
