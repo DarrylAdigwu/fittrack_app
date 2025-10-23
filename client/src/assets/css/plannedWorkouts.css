@@ -158,7 +158,7 @@ div.schedule > div.workout-table {
   overflow: hidden;
   border-radius: 4px;
   height: fit-content;
-  min-height: 12rem;
+  min-height: 10rem;
   margin-bottom: 2rem;
   border: 1px solid rgba(120, 120, 120, .25);
   background-color: #FFFFFF;
