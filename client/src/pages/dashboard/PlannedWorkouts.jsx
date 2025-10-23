@@ -874,7 +874,10 @@ export default function PlannedWorkouts(props) {
   // Actions and events when showing sets for workouts
   function handleSetsFormDropDown(event) {
     const workoutId = event.target.id.split("-")[1];
-    const setsFormId = event.target.offsetParent.nextSibling.id;
+
+    const setsFormId = event.target.offsetParent.nextSibling && 
+      event.target.offsetParent.nextSibling.id;
+      
     const currentSetsFormButtonId = event.target.parentElement.id;
     const formDrop = document.getElementById(`${setsFormId}`);
     const currentSetsFormButton = document.getElementById(`${currentSetsFormButtonId}`);

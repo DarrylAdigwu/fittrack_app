@@ -187,7 +187,6 @@ export default function CreateWorkout(props) {
         <h1>Add Workouts</h1>
         <Form method="POST" id="exercise-form">
           <div className="inputBoxes" id="inputBoxes1">
-            <label htmlFor="displayDate"/>
             <input id="displayDate" className="displayDate" 
               name="displayDate" 
               placeholder="" 
