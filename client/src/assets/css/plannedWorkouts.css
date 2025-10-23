@@ -153,13 +153,15 @@ img.cancel-edit-img.active:hover {
 div.schedule > div.workout-table {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   width: 100%;
-  border-radius: 4px;
   overflow: hidden;
+  border-radius: 4px;
   height: fit-content;
+  min-height: 12rem;
   margin-bottom: 2rem;
   border: 1px solid rgba(120, 120, 120, .25);
-  border-bottom: none;
+  background-color: #FFFFFF;
 }
 
 div.workout-table > div.workout-thead-section {
