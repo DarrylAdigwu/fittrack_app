@@ -33,10 +33,13 @@ export default function PlannedWorkouts(props) {
   React.useEffect(() => {
     function hideScheduleMenuDropDown(event) {
       const tableActionsMenu = document.querySelector(".table-actions-menu");
-
+      
       if(dashRef.current && !dashRef.current.contains(event.target) && 
       !event.target.classList.contains("active-edit") && 
       !event.target.classList.contains("checkboxes") &&
+      !event.target.classList.contains("active-delete") &&
+      !event.target.classList.contains("th") &&
+      !event.target.classList.contains("edit-exercise-form") &&
       event.target.id !== "submit-edit-exercise" && 
       event.target.id !== "delete-all-exercises") {
         props.setIsActive(false);
