@@ -33,19 +33,23 @@ export default function PlannedWorkouts(props) {
   React.useEffect(() => {
     function hideScheduleMenuDropDown(event) {
       const tableActionsMenu = document.querySelector(".table-actions-menu");
-      props.setIsActive(false);
-      
-      if(dashRef.current && !dashRef.current.contains(event.target)) {
-          tableActionsMenu.classList.remove("active");
+
+      if(dashRef.current && !dashRef.current.contains(event.target) && 
+      !event.target.classList.contains("active-edit") && 
+      !event.target.classList.contains("checkboxes") &&
+      event.target.id !== "submit-edit-exercise" && 
+      event.target.id !== "delete-all-exercises") {
+        props.setIsActive(false);
+        tableActionsMenu.classList.remove("active");
       }
-    }
+    };
 
     document.body.addEventListener("click", hideScheduleMenuDropDown);
 
     return () => {
       document.body.removeEventListener("click", hideScheduleMenuDropDown);
     }
-  }, [])
+  }, []);
 
   // Create inputs for add sets form
   function newSets(event) {
@@ -89,13 +93,13 @@ export default function PlannedWorkouts(props) {
     
     if(!prevWeightInput.value || isNaN(prevWeightInput.value)) {
       return prevWeightInput.style.backgroundColor = "#d56d6a";
-    }else {
+    } else {
       prevWeightInput.style.backgroundColor = "transparent";
     }
 
     if(!prevRepInput.value || isNaN(prevRepInput.value)) {
       return prevRepInput.style.backgroundColor = "#d56d6a";
-    }else {
+    } else {
       prevRepInput.style.backgroundColor = "transparent";
     }
 
@@ -334,7 +338,6 @@ export default function PlannedWorkouts(props) {
         >
           {/* Container for for the current exercise */}
           <div className={`tbody-row-exercise-container`} id={`tbody-row-exercise-container${workouts.id}`}>
-            <label htmlFor="displayDate"/>
             <input
               id="displayDate"
               name="displayDate"
@@ -353,7 +356,6 @@ export default function PlannedWorkouts(props) {
               className="checkboxes"
             />
 
-            <label htmlFor="exerciseId"/>
             <input
               id="exerciseId"
               className="exerciseId"
@@ -541,7 +543,7 @@ export default function PlannedWorkouts(props) {
                     defaultValue={props.plannedSets ? currentSetNumber : props.setsCount - 1}
                     readOnly
                     aria-label="Set number"
-                    />
+                  />
 
                   <input 
                     className="weightInput"
@@ -551,7 +553,7 @@ export default function PlannedWorkouts(props) {
                     placeholder="0" 
                     autoFocus
                     aria-label="Input weight for set one on exercise number one"
-                    />
+                  />
 
                   <input 
                     className="repInput"
@@ -687,12 +689,29 @@ export default function PlannedWorkouts(props) {
               </div>
             </button>
             {/* Drop down cancel menu button */}
-            <button className="cancel-edit-button" onClick={handleEditCancel} aria-label="button to exit out of edit or delete form options">
-              <img src={cancel} alt={`exit edit workout schedule button for ${formatCurrentDate(props.showDate)}`} className="cancel-edit-img" id="cancel-edit-img" />
+            <button 
+              className="cancel-edit-button" 
+              onClick={handleEditCancel} 
+              aria-label="button to exit out of edit or delete form options"
+            >
+              <img 
+                src={cancel} 
+                alt={`exit edit workout schedule button for ${formatCurrentDate(props.showDate)}`} 
+                className="cancel-edit-img" 
+                id="cancel-edit-img" 
+              />
             </button>
             {/* Menu drop down for planned workouts */}
             <div className="table-actions-menu">
-              {props.plannedWorkout.length < 6 ? <button id="add-workout" onClick={props.newExerciseForm} type="button">Add</button> : null}
+              {props.plannedWorkout.length < 6 ? 
+                <button 
+                  id="add-workout" 
+                  onClick={props.newExerciseForm} 
+                  type="button"
+                >
+                  Add
+                </button> : null
+              }
               <button onClick={handleEditSchedule} className="action-edit" type="button">Edit</button>
               <button onClick={handleDeleteSchedule} className="action-delete" type="button">Delete</button>
             </div>
@@ -995,7 +1014,10 @@ export default function PlannedWorkouts(props) {
 
       currentSetsFormButton.classList.add("inactive");
       setsFormLiftButton.classList.add("active");
-      formDrop.classList.add("active");
+
+      if(formDrop) {
+        formDrop.classList.add("active");
+      };
 
       // Hide warning keys if visible
       setsWarningKey.forEach((warning) => {
@@ -1003,7 +1025,7 @@ export default function PlannedWorkouts(props) {
           warning.classList.remove("inactive")
         }
       });
-    }
+    };
     
     // Actions if caret up button is pressed
     if(event.target.parentElement.classList.contains("liftSets")) {
@@ -1023,7 +1045,7 @@ export default function PlannedWorkouts(props) {
     if(event){
       currentSetDropMenu.classList.toggle("active");
     }
-  }
+  };
 
   // Actions and events for editing and deleting sets
   function handleSetsMenu(event) {
@@ -1088,6 +1110,7 @@ export default function PlannedWorkouts(props) {
     // Actions for editing a workout's sets
     if(event.target.classList.contains("setsDropMenu-edit") ||
         event.target.classList.contains("plannedCheckboxes")) {
+
       // Display submit button
       submitEditSetsButton.classList.add("active");
       
@@ -1131,7 +1154,6 @@ export default function PlannedWorkouts(props) {
     const submitEditSetsButton = document.getElementById(`submit-edit-sets-${workoutId}`);
     const submitDeleteSetsButton = document.getElementById(`submit-delete-sets-${workoutId}`);
     const bigCancelSetsButton = document.getElementById(`big-cancel-set-${workoutId}`);
-    const setsButtonContainer = document.getElementById(`sets-btn-container${workoutId}`);
     const currentTheadRow = document.getElementById(`sets-thead-row-${workoutId}`);
     const plannedSetsForm = currentSetsForm.querySelectorAll(`div.plannedSetsForm`);
     const addSetsButtonContainer = document.getElementById(`addSets-btn-container-${workoutId}`);
