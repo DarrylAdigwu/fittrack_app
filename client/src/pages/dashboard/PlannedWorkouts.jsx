@@ -673,7 +673,7 @@ export default function PlannedWorkouts(props) {
           <div className="th exercise"role="cell">Exercise</div>
           <div className="th focus"role="cell">Focus</div>
           {/* Buttons for workouts menu */}
-          <div className="table-actions">
+          <div className="table-actions" ref={dashRef}>
             {/* Drop down menu button */}
             <button 
               className="threeDotImg" 
@@ -737,7 +737,7 @@ export default function PlannedWorkouts(props) {
       if(addSetBtnContainer) {
         addSetBtnContainer.classList.add("inactive");
       }
-      
+
       setBoxes.classList.add("active");
       setsBtnContainer.classList.add("active");
     }
