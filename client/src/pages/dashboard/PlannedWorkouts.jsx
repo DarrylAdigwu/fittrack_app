@@ -33,7 +33,10 @@ export default function PlannedWorkouts(props) {
   React.useEffect(() => {
     function hideScheduleMenuDropDown(event) {
       const tableActionsMenu = document.querySelector(".table-actions-menu");
-      
+      const cancelEditButton = document.querySelector("button.cancel-edit-button");
+      const threeDotImage = document.querySelector("button.threeDotImg");
+      const addWorkout = document.querySelector("button#add-workout")
+
       if(dashRef.current && !dashRef.current.contains(event.target) && 
       !event.target.classList.contains("active-edit") && 
       !event.target.classList.contains("checkboxes") &&
@@ -43,6 +46,9 @@ export default function PlannedWorkouts(props) {
       event.target.id !== "submit-edit-exercise" && 
       event.target.id !== "delete-all-exercises") {
         props.setIsActive(false);
+        props.plannedWorkout.length < 6 ? addWorkout.style.display = "block" : null;
+        cancelEditButton.classList.remove("active");
+        threeDotImage.classList.remove("inactive");
         tableActionsMenu.classList.remove("active");
       }
     };
@@ -52,7 +58,8 @@ export default function PlannedWorkouts(props) {
     return () => {
       document.body.removeEventListener("click", hideScheduleMenuDropDown);
     }
-  }, []);
+  }, [props.plannedWorkout]);
+  
 
   // Create inputs for add sets form
   function newSets(event) {
@@ -708,7 +715,8 @@ export default function PlannedWorkouts(props) {
             <div className="table-actions-menu">
               {props.plannedWorkout.length < 6 ? 
                 <button 
-                  id="add-workout" 
+                  id="add-workout"
+                  className="add-workout" 
                   onClick={props.newExerciseForm} 
                   type="button"
                 >
