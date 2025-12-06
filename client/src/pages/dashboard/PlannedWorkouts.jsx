@@ -1065,8 +1065,8 @@ export default function PlannedWorkouts(props) {
   function handleSetsMenu(event) {
     const targetEvent = document.getElementById(`${event.target.id}`);
     
-    const workoutId = targetEvent.classList.contains("setsDropMenu-edit") ? 
-      event.target.id.split("-")[2] : event.target.id.split("s")[1].split("-")[0];
+    const workoutId = targetEvent.classList.contains("setsDropMenu-edit") || 
+      targetEvent.classList.contains("setsDropMenu-delete") && event.target.id.split("-")[2];
 
     const currentEditSetsButton = document.getElementById(`edit-set-${workoutId}`);
     const currentCancelSetsButton = document.getElementById(`cancel-set-${workoutId}`);
