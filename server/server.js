@@ -43,7 +43,7 @@ const SQLStore = MySQLStore(session);
 const sessionStore = new SQLStore({
   createDatabaseTable: true,
   schema: {
-      tableName: 'sessions'
+    tableName: 'sessions'
   }
 }, db);
 
