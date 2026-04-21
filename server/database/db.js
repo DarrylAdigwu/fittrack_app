@@ -108,7 +108,7 @@ export async function authLogin(username, password) {
     } catch(err) {
       console.error('Error:', err)
     }
-  console.log(findUser)
+ 
     // Return boolean based on information
     if(capitalizeAllLetters(findUser[0].username) === capitalizeAllLetters(username) 
       && hashResult) {

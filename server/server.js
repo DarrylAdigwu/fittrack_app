@@ -40,7 +40,12 @@ server.use(express.urlencoded({extended:true}));
 const SQLStore = MySQLStore(session);
 
 // Create MySQLStore 
-const sessionStore = new SQLStore({}, db);
+const sessionStore = new SQLStore({
+  createDatabaseTable: true,
+  schema: {
+      tableName: 'sessions'
+  }
+}, db);
 
 // Create Session
 server.use(session({
