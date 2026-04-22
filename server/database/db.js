@@ -186,7 +186,7 @@ export async function getUsersSets(user_id, date) {
     }
 
     // Get stored workouts
-    let getSetsQuery = `SELECT id, workout_id, set_number, weight, reps, completed, date FROM sets
+    let getSetsQuery = `SELECT id, workout_id, set_number, weight, reps, completed, date FROM workout_sets
             WHERE user_id = ?
             AND date = ?`;
     
@@ -271,7 +271,7 @@ export async function checkSets(user_id, username, workout_id, workout, set_numb
   const connection = await db.getConnection();
 
   try {
-    let checkSetsQuery = `SELECT * FROM sets
+    let checkSetsQuery = `SELECT * FROM workout_sets
             WHERE user_id = ?
             AND user_name = ?
             AND workout_id = ?
@@ -308,7 +308,7 @@ export async function storeSets(user_id, username, workout_id, workout, set_numb
     }
 
     // Store new sets
-    let storeSetsQuery = `INSERT INTO sets
+    let storeSetsQuery = `INSERT INTO workout_sets
             (user_id, user_name, workout_id, exercise, set_number, weight, reps, completed, date)
             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
@@ -356,11 +356,10 @@ export async function updateUsersWorkouts(workout, muscleGroup, exercise_id, use
 /* Update sets */
 export async function updateWorkoutSets(set_number, weight, reps, completed, set_id, user_id) {
   const connection = await db.getConnection();
-  // console.log(set_number);
-  // console.log(weight)
+
   try {
     // Update existing workout
-    let updateSetQuery = `UPDATE sets
+    let updateSetQuery = `UPDATE workout_sets
             SET set_number = ?, weight = ?, reps = ?, completed = ?
             WHERE user_id = ? AND id = ?`;
 
@@ -386,7 +385,7 @@ export async function updateWorkoutSetNumber(set_number, set_id, user_id) {
 
   try {
     // Update existing workout
-    let updateSetNumberQuery = `UPDATE sets
+    let updateSetNumberQuery = `UPDATE workout_sets
             SET set_number = ?
             WHERE user_id = ? AND id = ?`;
 
@@ -455,7 +454,7 @@ export async function deleteWorkoutSets(user_id, set_id) {
 
   try {
     // Deleting all workouts
-    let deleteSingleSetQuery = `DELETE FROM sets
+    let deleteSingleSetQuery = `DELETE FROM workout_sets
             WHERE user_id = ?
             AND id = ?`;
 
