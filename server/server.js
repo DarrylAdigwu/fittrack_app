@@ -67,9 +67,9 @@ server.use(session({
 }));
 
 // API routes
-// server.use("/api/auth", authRouter);
-// server.use("/api/dashboard", dashRouter);
-// server.use("/api/calendar", calendarRouter);
+server.use("/api/auth", authRouter);
+server.use("/api/dashboard", dashRouter);
+server.use("/api/calendar", calendarRouter);
 
 // Schedule cron job
 cron.schedule("*/14 * * * *", async () => {
