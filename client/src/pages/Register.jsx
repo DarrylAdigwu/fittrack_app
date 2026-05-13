@@ -10,7 +10,7 @@ export async function action({ request }) {
   const allData = Object.fromEntries(formData);
 
   // Send Form data to server
-  const sendFormData = await sendData("register", allData);
+  const sendFormData = await sendData("auth/register", allData);
 
   // All server side error validation responses
   if(sendFormData.serverError) {
@@ -36,14 +36,6 @@ export default function Register () {
       <section className="reg-main">
         <h1>Create your account</h1>
         <Form method="post" action="/register" className="register-form">
-          {/* 
-          <label htmlFor="reg-email">Email:</label>
-          <input name="email" type="email" id="reg-email" placeholder="Email" autoComplete="on" autoFocus />
-          <label htmlFor="firstName">First Name:</label>
-          <input name="firstName" type="text" id="firstName" placeholder="First Name" autoComplete="on"/>
-          <label htmlFor="lastName">Last Name:</label>
-          <input name="lastName" type="text" id="lastName" placeholder="Last Name" autoComplete="on"/> 
-          */}
           <label htmlFor="username"/>
           <input name="username" type="text" id="username" placeholder="Username" autoComplete="on" aria-label="Create a username" aria-required="true" autoFocus  />
           {actionData && actionKey == "invalidUsername" || actionKey == "invalidChar" ? <span className="invalid" aria-label={actionData[actionKey]}>{actionData[actionKey]}</span> : null}
