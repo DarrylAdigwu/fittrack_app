@@ -10,7 +10,7 @@ export async function action({ request }) {
   const url = new URL(request.url);
   
   // Send form data to server
-  const sendFormData = await sendData("login", allData, url);
+  const sendFormData = await sendData("auth/login", allData, url);
 
   // All server side error validation responses
   if(sendFormData && sendFormData.serverError) {
