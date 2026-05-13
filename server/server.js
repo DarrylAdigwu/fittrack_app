@@ -5,6 +5,9 @@ import cors from "cors";
 import helmet from "helmet";
 import session from "express-session";
 import MySQLStore from "express-mysql-session";
+import { authRouter } from "./routes/auth.js";
+import { dashRouter } from "./routes/dash.js";
+import { calendarRouter } from "./routes/calendar.js";
 import cron from "node-cron";
 import apiRouter from "./routes/api.js";
 import { db } from "./database/db.js";
@@ -63,6 +66,11 @@ server.use(session({
   },
 }));
 
+// API routes
+// server.use("/api/auth", authRouter);
+// server.use("/api/dashboard", dashRouter);
+// server.use("/api/calendar", calendarRouter);
+
 // Schedule cron job
 cron.schedule("*/14 * * * *", async () => {
   try {
@@ -86,7 +94,7 @@ cron.schedule("*/14 * * * *", async () => {
 });
 
 // API routes
-server.use("/api", apiRouter);
+// server.use("/api", apiRouter);
 
 // Run server
 server.listen(process.env.PORT, () => {
