@@ -2,7 +2,8 @@ import { formatDate, checkString, capitalizeFirstLetter,
   requireAuth } from "../server-utils.js";
 import { getUsersExercises, getUsersSets, 
   updateUsersWorkouts, updateWorkoutSets, storeExercise, 
-  storeSets, deleteWorkouts, deleteWorkoutSets } from "../database/db.js";
+  storeSets, deleteWorkouts, deleteWorkoutSets, 
+  updateWorkoutSetNumber } from "../database/db.js";
 
 
 /****
