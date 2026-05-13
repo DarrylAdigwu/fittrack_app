@@ -35,7 +35,7 @@ export default function Header(props) {
 
   // Logout User
   async function handleLogout() {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/logout`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/auth/logout`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
