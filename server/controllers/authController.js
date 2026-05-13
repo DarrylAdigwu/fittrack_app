@@ -64,7 +64,6 @@ export async function loginUserController(req, res) {
   const allLoginData = req.body.allData;
   const redirectParam = req.body.redirectParam;
   const username = allLoginData.username;
-  const capUsername = capitalizeFirstLetter(username);
   const password = allLoginData.password;
   const loginUser = await authLogin(username, password);
 
@@ -79,12 +78,10 @@ export async function loginUserController(req, res) {
     month: "short",
     day: "numeric",
   });
-  const currentLocalTime = formatUsersLocalTime.format(new Date())
-  console.log(currentLocalTime)
-  
+  const currentLocalTime = formatUsersLocalTime.format(new Date());
 
   if(req.method === "POST") {
-    
+
     // Validate login form
     if(!username) {
       return res.status(400).json({
@@ -123,33 +120,33 @@ export async function loginUserController(req, res) {
         id: user_id,
         username: username
       }
-    };
+    }
 
     // Create auth tokens
-    const authToken = await generateToken({username: req.session.user.username})
+    const authToken = await generateToken({username: req.session.user.username});
     const tokenUser = await generateToken({username: req.session.user.username});
     const tokenID = await generateToken({id: req.session.user.id});
 
     res.cookie("user-token", `${tokenUser}`, {
       maxAge: 1000 * 60 * 60,
       httpOnly: false,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
+      domain: ".fittracker.us",
     });
 
     res.cookie("id-token", `${tokenID}`, {
       maxAge: 1000 * 60 * 60,
       httpOnly: false,
-      secure: false,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "none",
+      domain: ".fittracker.us",
     });
-
-    console.log(req.session)
 
     // Send URL data based on redirectParam value
     if(prevParam) {
       return res.status(200).json({
-        message: "Login Successfull",
+        message: "Login Successful",
         redirectUrl: `${urlOrigin}${prevParam}/${username}?date=${currentLocalTime}`,
         authToken: authToken
       });

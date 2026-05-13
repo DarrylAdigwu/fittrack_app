@@ -8,13 +8,13 @@ import { getUsersExercises, getUsersSets,
 /****
   Get Workouts Stored 
 ****/
-export async function getWorkoutsController( req, res) {
+export async function getWorkoutsController(req, res) {
   if(req.session.user) {
     const user_id = req.session.user.id;
-    const url = new URL(`${process.env.EXPRESS_DOMAIN}/api${req.url}`)
+    const url = new URL(`${process.env.SERVER_DOMAIN}/api${req.url}`)
     const date = url.searchParams.get("date");
     const formattedDate = formatDate(date);
-    
+
     // Get Stored workout and return to dashboard
     const getWorkout = await getUsersExercises(user_id, formattedDate);
 
@@ -74,7 +74,7 @@ export async function postWorkoutsController(req, res) {
         });
       }
     };
-    
+
     // Check if form is a set form or workout form
     const setFormCheck = Object.keys(allDashboardData).some((key) => key.startsWith("workoutIdInput"));
 
@@ -147,7 +147,7 @@ export async function updateWorkoutsController(req, res) {
   const date = allUpdatedData.displayDate;
   const newDateFormat = formatDate(date);
   const firstExercise_id = Number(Object.entries(allUpdatedData)[1][0].split("_")[1]);
-
+ 
   if(req.method === "PUT") {
     // Server side validation
     for(const [key, value] of Object.entries(allUpdatedData)) {
@@ -186,7 +186,7 @@ export async function updateWorkoutsController(req, res) {
         let updatedMuscleGroup = allUpdatedData[`muscleGroupInput${i}`];
         updatedWorkout = capitalizeFirstLetter(updatedWorkout);
         updatedMuscleGroup = capitalizeFirstLetter(updatedMuscleGroup);
-
+        
         // Send updated workout from database
         await updateUsersWorkouts(updatedWorkout, updatedMuscleGroup, exercise_id, username);
       }
@@ -204,7 +204,7 @@ export async function updateWorkoutsController(req, res) {
     if(checkForSetForm) {
       let setNumber = 0;
       const workoutId = Object.keys(allUpdatedData).find((key) => key.startsWith("setIdInput")).split("-")[1];
-
+      
       for(let i = 0; i < numOfSets; i++) {
         const setId = allUpdatedData[`setIdInput-${workoutId}-${i + 1}`];
         const weight = allUpdatedData[`plannedWeight${workoutId}-${i + 1}`];
@@ -250,16 +250,10 @@ export async function deleteWorkoutsController(req, res) {
   const user_id = req.session.user.id;
   const date = allData.displayDate;
   const newDateFormat = formatDate(date);
-  // const firstExercise_id = Number(Object.entries(allDeleteData)[1][0].split("-")[1]);
-  // console.log(allData)
-  // console.log(date);
-  // console.log(newDateFormat);
-  // console.log(firstExercise_id);
-  // console.log(Object.entries(allData))
+
   if(req.method === "DELETE") {
     // Check type of form
     const checkForDeleteSetForm = Object.keys(allData).some((key) => key.startsWith("dataDelete"));
-    // console.log(checkForDeleteSetForm)
     
     // Delete data from workouts
     if(!checkForDeleteSetForm) {
@@ -267,7 +261,7 @@ export async function deleteWorkoutsController(req, res) {
       for(const [key, value] of Object.entries(allData)) {
         if(key.startsWith("checkbox")) {
           const workoutId = allData[`${key}`];
-          // console.log(workoutId)
+
           await deleteWorkouts(user_id, newDateFormat, workoutId)
         }
       }
@@ -288,7 +282,7 @@ export async function deleteWorkoutsController(req, res) {
           if(key.startsWith("deleteSetCheckbox")) {
             const setId = allDeleteData[`${key}`];
             deletedIds.push(setId);
-            // console.log(`set id after push: ${setId}`)
+
             await deleteWorkoutSets(user_id, setId);
           }
         }
