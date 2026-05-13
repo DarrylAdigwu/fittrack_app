@@ -9,7 +9,6 @@ import { authRouter } from "./routes/auth.js";
 import { dashRouter } from "./routes/dash.js";
 import { calendarRouter } from "./routes/calendar.js";
 import cron from "node-cron";
-import apiRouter from "./routes/api.js";
 import { db } from "./database/db.js";
 
 // Create Web App
@@ -92,9 +91,6 @@ cron.schedule("*/14 * * * *", async () => {
     console.error("Error pingin server:", err)
   }
 });
-
-// API routes
-// server.use("/api", apiRouter);
 
 // Run server
 server.listen(process.env.PORT, () => {
