@@ -65,7 +65,7 @@ export default function Header(props) {
             FitTrack
           </Link>
           <div className="users-profile-container">
-            <span className="greet-user">Hi, {props.user_name}</span>
+            <span className="greet-user">{props.user_name ? `Hi, ${props.user_name}` : ""}</span>
             <img src={profileIcon} alt="icon of person and button for drop down menu" aria-roledescription="button" className="profile" onClick={handleProfile}/>
           </div>
         </div>
