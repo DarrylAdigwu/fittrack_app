@@ -64,7 +64,10 @@ export default function Header(props) {
             <img src={logo} alt="Fit track logo and link to homepage" className="img-logo" />
             FitTrack
           </Link>
-          <img src={profileIcon} alt="icon of person and button for drop down menu" className="profile" aria-roledescription="button" onClick={handleProfile}/>
+          <div className="users-profile-container">
+            <span className="greet-user">Hi, {props.user_name}</span>
+            <img src={profileIcon} alt="icon of person and button for drop down menu" aria-roledescription="button" className="profile" onClick={handleProfile}/>
+          </div>
         </div>
       </header>
       <nav className="off-screen" ref={headerRef}>

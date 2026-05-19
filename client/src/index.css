@@ -78,10 +78,15 @@ div.header-container > a.logo {
   text-decoration: none;
 }
 
-div.header-container > img.profile {
-  position: absolute;
-  right: 1rem;
+div.users-profile-container {
+  display: flex;
+  color: #FAEBD7;
+  gap: 1rem;
+}
+
+img.profile {
   height: 1.5rem;
+  cursor: pointer;
 }
 
 div.header-container > img.profile:hover {
