@@ -39,7 +39,6 @@ header {
   height: 7rem;
   width: 100vw;
   min-width: 300px;
-  padding: 0 1rem;
   z-index: 100;
   border-bottom: 1px solid #D98B22;
 }
@@ -47,11 +46,12 @@ header {
 header > div.header-container {
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   height: 100%;
   width: 100%;
   min-width: inherit;
+  padding: 0 1rem;
 }
 
 div.header-container > a {
@@ -80,8 +80,10 @@ div.header-container > a.logo {
 
 div.users-profile-container {
   display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   color: #D98B22;
-  gap: 1rem;
+  gap: .5rem;
 }
 
 img.profile {
@@ -222,10 +224,16 @@ footer a {
   header > div.header-container {
     justify-content: space-between;
     max-width: none;
+    padding: 0;
   }
 
   div.header-container > a > img.img-logo {
     height: 2.25rem;
+  }
+
+  div.users-profile-container {
+    flex-direction: row;
+    gap: 1rem;
   }
 
   div.header-container > img.profile {
