@@ -231,11 +231,6 @@ footer a {
     height: 2.25rem;
   }
 
-  div.users-profile-container {
-    flex-direction: row;
-    gap: 1rem;
-  }
-
   div.header-container > img.profile {
     position: relative;
   }
